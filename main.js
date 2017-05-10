@@ -1,6 +1,7 @@
 const electron = require("electron");
 const path = require("path");
 const url = require("url");
+const createTray = require("./built/tray").create;
 
 const hasFlag = (x) => typeof x === "string" && process.argv.indexOf(x) !== -1;
 
@@ -13,6 +14,7 @@ const BrowserWindow = electron.BrowserWindow;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let tray;
 
 function createWindow() {
     // Create the browser window.
@@ -38,32 +40,26 @@ function createWindow() {
         mainWindow.webContents.openDevTools();
     }
     // Emitted when the window is closed.
-    mainWindow.on("closed", () => {
+    mainWindow.on("closed", () => {        
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
+        // when you should delete the corresponding element.        
         mainWindow = null;
     });
-    mainWindow.on("ready-to-show", () => {
+    mainWindow.on("ready-to-show", () => {        
         mainWindow.show();
         if(hasFlag("--maximize")){
             mainWindow.maximize();
         };
+        tray = createTray({window: mainWindow});
     });
 }
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", () => {
-    //  let userDataPath = path.join(app.getPath("home") , getPkg().name) ;
-    //  console.log(`userData: ${userDataPath}`);
-    //     mkdir(userDataPath)
-    //         .then(() => {
-    //             app.setPath("userData", userDataPath);
-    //             createWindow();
-    //         })
-    //         .catch(e => { throw e; });
+app.on("ready", () => {       
     createWindow();
+    
 });
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {

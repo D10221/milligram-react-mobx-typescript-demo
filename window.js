@@ -1,1 +1,1 @@
-require("./built/demo/index");
+require("./built/index");
