@@ -1,0 +1,7 @@
+**/node_modules/*
+**/.vscode/*
+**/out/*
+**/built/*
+*.log
+audio/**
+**/.secrets/*
