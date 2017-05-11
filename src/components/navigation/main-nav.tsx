@@ -27,14 +27,13 @@ export const MainNav = observer((props: { stores: AllStores }) => {
     return (
         <Nav>
             <Container>
-                <NavTitle target="blank" href="https://milligram.github.io/">
+                <NavTitle href="#/home">
                     <NavLogo /> &nbsp;
                     <Title1>Milligram</Title1>
                 </NavTitle>
                 <NavigationList>
                     <NavItem>
                         <NavLink
-                            href="#popover-grid"
                             onClick={stores.popovers.toggleOpen("popover-grid")}>
                             Docs
                             </NavLink>
@@ -42,7 +41,6 @@ export const MainNav = observer((props: { stores: AllStores }) => {
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            href="#popover-support"
                             onClick={stores.popovers.toggleOpen("popover-support")}
                         >Support
                             </NavLink>
