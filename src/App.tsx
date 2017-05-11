@@ -1,22 +1,28 @@
 import * as React from "react";
 import { observer } from "mobx-react";
+
 import {
     Container,
     Footer,
     LinkItem,
     Main,
+    Title1,
+    Title5
+} from "./elements/index";
+
+// Navigation
+import {
     Nav,
     NavTitle,
     NavigationList,
     NavItem,
     NavLink,
-    Title1,
-    Title5
-} from "./elements/index";
+} from "./elements/navigation";
 
 // Components:
-import { PopoverGrid } from "./components/popover-grid";
-import { PopoverSupport } from "./components/popover-support";
+import { PopoverGrid } from "./components/popover/popover-grid";
+import { PopoverSupport } from "./components/popover/popover-support";
+
 import { Octocat } from "./components/octocat";
 
 import { miligramLogo } from "./resources/miligram-logo";

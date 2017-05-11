@@ -5,6 +5,7 @@
   "main": "main.js",
   "private": true,
   "scripts": {
+    "link": "npm link electron",
     "test": "mocha test.js",
     "build": "tsc -p .",
     "format": "tsfmt -r",

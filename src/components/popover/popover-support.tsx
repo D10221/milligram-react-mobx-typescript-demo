@@ -7,9 +7,9 @@ import {
     PopOverList,
     PopOverItem,
     PopOverLink,
-} from "../elements/popover";
+} from "../../elements/popover";
 
-import { Stores } from "../stores/stores";
+import { Stores } from "../../stores/stores";
 
 export const PopoverSupport = observer(
     // ...
