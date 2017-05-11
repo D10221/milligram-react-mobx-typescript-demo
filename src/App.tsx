@@ -2,13 +2,12 @@ import * as React from "react";
 import { observer } from "mobx-react";
 
 import {
-    Container,
-    Footer,
     Main,
 } from "./elements/index";
 
 // Components:
 import { MainNav } from "./components/navigation";
+import { Footer } from "./components/footer";
 
 // Pages/Route's View:
 import { Home } from "./pages/home";
@@ -82,16 +81,7 @@ export const App = observer((props: { stores: AllStores }) => {
                 </Switch>
             </Router>
 
-            <Footer>
-                <Container>
-                    <p>Designed with ♥ by
-                        <a target="_blank" href="http://cjpatoilo.com" title="CJ Patoilo">CJ Patoilo</a>. Licensed
-                    under the
-                        <a target="_blank" href="https://github.com/milligram/milligram#license" title="MIT License">
-                            MIT License</a>
-                        .</p>
-                </Container>
-            </Footer>
+            <Footer {...{ stores }} />
         </Main>
     );
 }
