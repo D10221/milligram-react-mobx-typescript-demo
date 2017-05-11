@@ -6,6 +6,7 @@ import {
     Container,
     Footer as FooterElement,
 } from "../../elements/index";
+
 export const Footer = observer((props: { stores: AllStores }) => {
     if (!props.stores) {
         throw new Error("Where are the stores?");
