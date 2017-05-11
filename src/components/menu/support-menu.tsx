@@ -11,13 +11,13 @@ import {
 
 import { AllStores } from "../../stores/all-stores";
 
-export const PopoverSupport = observer(
+export const SupportMenu = observer(
     // ...
-    (props: { stores: AllStores }) => {
+    (props: { stores: AllStores, id?: string }) => {
         const PopOver = PopOverFty(props.stores.popovers);
         // ...
         return (
-            <PopOver id="popover-support" >
+            <PopOver id={props.id || "support-menu"} >
                 <PopOverList>
                     <PopOverItem>
                         <PopOverLink target="blank" href="https://github.com/milligram/milligram" title="On Github">

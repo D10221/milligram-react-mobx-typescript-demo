@@ -11,13 +11,13 @@ import {
 
 import { AllStores } from "../../stores/all-stores";
 
-export const PopoverGrid = observer(
+export const DocumentationMenu = observer(
     // ...
-    (props: { stores: AllStores }) => {
+    (props: { stores: AllStores, id?: string }) => {
         // ...
         const PopOver = PopOverFty(props.stores.popovers);
         return (
-            <PopOver id="popover-grid" >
+            <PopOver id={props.id || "documentation-menu"} >
                 <PopOverList>
                     <PopOverItem>
                         <PopOverLink

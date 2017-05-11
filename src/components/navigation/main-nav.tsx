@@ -1,5 +1,5 @@
 import * as React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 
 // Elements
 import {
@@ -15,15 +15,17 @@ import {
     NavLink,
 } from "../../elements/navigation";
 
-import { PopoverGrid } from "../../components/popover/popover-grid";
-import { PopoverSupport } from "../../components/popover/popover-support";
+import { DocumentationMenu } from "../menu/documentation-menu";
+import { SupportMenu } from "../menu/support-menu";
 import { Octocat } from "../../components/octocat";
 
-import {NavLogo} from "./nav-logo";
+import { NavLogo } from "./nav-logo";
 
 import { AllStores } from "../../stores/all-stores";
 export const MainNav = observer((props: { stores: AllStores }) => {
     const stores = props.stores;
+    const documentationMenuId = "documentation-menu";
+    const supportMenuId = "support-menu";
     return (
         <Nav>
             <Container>
@@ -33,18 +35,18 @@ export const MainNav = observer((props: { stores: AllStores }) => {
                 </NavTitle>
                 <NavigationList>
                     <NavItem>
-                        <NavLink
-                            onClick={stores.popovers.toggleOpen("popover-grid")}>
+                        <NavLink onClick={stores.popovers.toggleOpen(documentationMenuId)}>
                             Docs
-                            </NavLink>
-                        <PopoverGrid stores={stores} />
+                        </NavLink>
+                        <DocumentationMenu
+                            id={documentationMenuId}
+                            stores={stores} />
                     </NavItem>
                     <NavItem>
-                        <NavLink
-                            onClick={stores.popovers.toggleOpen("popover-support")}
-                        >Support
-                            </NavLink>
-                        <PopoverSupport stores={stores} />
+                        <NavLink onClick={stores.popovers.toggleOpen(supportMenuId)}>
+                            Support
+                        </NavLink>
+                        <SupportMenu stores={stores} id={supportMenuId} />
                     </NavItem>
                 </NavigationList>
                 <Octocat />
