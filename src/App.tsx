@@ -1,123 +1,87 @@
 import * as React from "react";
 import { observer } from "mobx-react";
+
 import {
-    Container,
-    Footer,
-    LinkItem,
     Main,
-    Nav,
-    NavTitle,
-    NavigationList,
-    NavItem,
-    NavLink,
-    Title1,
-    Title5
 } from "./elements/index";
 
 // Components:
-import { PopoverGrid } from "./components/popover-grid";
-import { PopoverSupport } from "./components/popover-support";
-import { Octocat } from "./components/octocat";
+import { MainNav } from "./components/navigation";
+import { Footer } from "./components/footer";
 
-import { miligramLogo } from "./resources/miligram-logo";
-import { stores } from "./stores";
+// Pages/Route's View:
+import { Home } from "./pages/home";
+import { Todo } from "./pages/todo";
+import { Contributing } from "./pages/contributing";
 
-export const App = observer(() => {
+
+// Stores/Vm's
+import { AllStores } from "./stores/all-stores";
+
+// Routing
+import { Router, Route, Switch } from "react-router";
+import { history } from "./history";
+
+export const App = observer((props: { stores: AllStores }) => {
+    const stores = props.stores;
     // ...
     return (
         <Main>
-            <Nav>
-                <Container>
-                    <NavTitle target="blank" href="https://milligram.github.io/">
-                        <svg className="img" version="1.1" viewBox="0 0 463 669" >
-                            <g transform="translate(0.000000,669.000000) scale(0.100000,-0.100000)">
-                                <path d={miligramLogo}></path>
-                            </g>
-                        </svg >
-                        &nbsp;
-                <Title1>Milligram</Title1>
-                    </NavTitle>
-                    <NavigationList>
-                        <NavItem>
-                            <NavLink
-                                href="#popover-grid"
-                                onClick={stores.popovers.toggleOpen("popover-grid")}
-                            >Docs
-                            </NavLink>
-                            <PopoverGrid stores={stores} />
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                href="#popover-support"
-                                onClick={stores.popovers.toggleOpen("popover-support")}
-                            >Support
-                            </NavLink>
-                            <PopoverSupport stores={stores} />
-                        </NavItem>
-                    </NavigationList>
-                    <Octocat />
-                </Container>
-            </Nav>
-            <Container id="examples">
-                <Title5>Examples</Title5>
-                <p>You can view more examples of using Milligram.</p>
-                <ul>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#getting-started"
-                        title="Getting Started">Getting Started</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#typography"
-                        title="Typography">Typography</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#blockquotes"
-                        title="Blockquotes">Blockquotes</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#buttons"
-                        title="Buttons">Buttons</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#lists"
-                        title="Lists">Lists</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#forms"
-                        title="Forms">Forms</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#tables"
-                        title="Tables">Tables</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#grids"
-                        title="Grids">Grids</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#codes"
-                        title="Codes">Codes</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#utilities"
-                        title="Utilities">Utilities</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#tips"
-                        title="Tips">Tips</LinkItem>
-                    <LinkItem target="blank"
-                        href="https://milligram.github.io/#browser-support"
-                        title="Browser Support">Browser Support</LinkItem>
-                </ul>
-            </Container >
+            <MainNav stores={stores} />
 
-            <Container id="contributing">
-                <Title5>Contributing</Title5>
-                <p>Want to contribute? Follow these
-                    <a href="https://github.com/milligram/milligram/blob/master/.github/contributing.md"
-                        title="Contributing">recommendations</a>.</p>
-            </Container>
+            <Router history={history}>
+                <Switch>
+                    <Route exact path="/" component={() =>
+                        <Home {...{ stores }} />} />
+                    <Route path="/Home" component={() =>
+                        <Home {...{ stores }} />} />
+                    <Route path="/getting-started" component={() =>
+                        <Todo {...{ stores, what: "getting-started" }} />
+                    } />
+                    <Route path="/typography" component={() =>
+                        <Todo {...{ stores, what: "typography" }} />
+                    } />
+                    <Route path="/blockquotes" component={() =>
+                        <Todo {...{ stores, what: "blockquotes" }} />
+                    } />
+                    <Route path="/buttons" component={() =>
+                        <Todo {...{ stores, what: "buttons" }} />
+                    } />
+                    <Route path="/lists" component={() =>
+                        <Todo {...{ stores, what: "lists" }} />
+                    } />
+                    <Route path="/forms" component={() =>
+                        <Todo {...{ stores, what: "forms" }} />
+                    } />
+                    <Route path="/tables" component={() =>
+                        <Todo {...{ stores, what: "tables" }} />
+                    } />
+                    <Route path="/grids" component={() =>
+                        <Todo {...{ stores, what: "grids" }} />
+                    } />
+                    <Route path="/codes" component={() =>
+                        <Todo {...{ stores, what: "codes" }} />
+                    } />
+                    <Route path="/utilities" component={() =>
+                        <Todo {...{ stores, what: "utilities" }} />
+                    } />
+                    <Route path="/tips" component={() =>
+                        <Todo {...{ stores, what: "tips" }} />
+                    } />
+                    <Route path="/browser-support" component={() =>
+                        <Todo {...{ stores, what: "browser-support" }} />
+                    } />
+                    <Route path="/examples" component={() =>
+                        <Todo {...{ stores, what: "examples" }} />
+                    } />
+                    <Route path="/contributing" component={() =>
+                        <Contributing {...{ stores }} />
+                    } />
+                    <Route component={() => <div> Not Found</div>}></Route>
+                </Switch>
+            </Router>
 
-            <Footer>
-                <Container>
-                    <p>Designed with ♥ by
-                        <a target="_blank" href="http://cjpatoilo.com" title="CJ Patoilo">CJ Patoilo</a>. Licensed
-                    under the
-                        <a target="_blank" href="https://github.com/milligram/milligram#license" title="MIT License">
-                            MIT License</a>
-                        .</p>
-                </Container>
-            </Footer>
+            <Footer {...{ stores }} />
         </Main>
     );
 }

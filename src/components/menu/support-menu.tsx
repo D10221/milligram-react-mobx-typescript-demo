@@ -3,21 +3,21 @@ import { observer } from "mobx-react";
 
 // Popovers:
 import {
-    PopOver as PopOverFty,
+    PopOverFty as PopOverFty,
     PopOverList,
     PopOverItem,
     PopOverLink,
-} from "../elements/popover";
+} from "../../elements/popover";
 
-import { Stores } from "../stores/stores";
+import { AllStores } from "../../stores/all-stores";
 
-export const PopoverSupport = observer(
+export const SupportMenu = observer(
     // ...
-    (props: { stores: Stores }) => {
+    (props: { stores: AllStores, id?: string }) => {
         const PopOver = PopOverFty(props.stores.popovers);
         // ...
         return (
-            <PopOver id="popover-support" >
+            <PopOver id={props.id || "support-menu"} >
                 <PopOverList>
                     <PopOverItem>
                         <PopOverLink target="blank" href="https://github.com/milligram/milligram" title="On Github">
