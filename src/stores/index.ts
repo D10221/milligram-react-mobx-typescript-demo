@@ -1,1 +1,2 @@
-export { stores } from "./stores";
+import { AllStores } from "./all-stores";
+export const stores = new AllStores();

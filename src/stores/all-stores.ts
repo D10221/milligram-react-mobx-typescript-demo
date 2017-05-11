@@ -1,5 +1,4 @@
 import { PopoverStore } from "./popover-store";
-export class Stores {
+export class AllStores {
     popovers = new PopoverStore();
 }
-export const stores = new Stores();

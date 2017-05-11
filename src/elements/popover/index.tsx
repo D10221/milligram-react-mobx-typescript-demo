@@ -2,7 +2,12 @@ import * as React from "react";
 import { observer } from "mobx-react";
 
 import {PopoverStore} from "../../stores/popover-store";
-export const PopOver = (popovers?: PopoverStore) => observer (
+
+/**
+ * @description PopOver factory
+ * @returns {PopOver}
+ */
+export const PopOverFty = (popovers?: PopoverStore) => observer (
     (props: React.HTMLProps<HTMLDivElement>) => {
         const open = popovers.isOpen(props.id);
         // console.log(`open: ${open}`);

@@ -3,17 +3,17 @@ import { observer } from "mobx-react";
 
 // Popovers:
 import {
-    PopOver as PopOverFty,
+    PopOverFty as PopOverFty,
     PopOverList,
     PopOverItem,
     PopOverLink,
 } from "../../elements/popover";
 
-import { Stores } from "../../stores/stores";
+import { AllStores } from "../../stores/all-stores";
 
 export const PopoverSupport = observer(
     // ...
-    (props: { stores: Stores }) => {
+    (props: { stores: AllStores }) => {
         const PopOver = PopOverFty(props.stores.popovers);
         // ...
         return (

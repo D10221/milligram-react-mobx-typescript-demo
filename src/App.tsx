@@ -6,64 +6,21 @@ import {
     Footer,
     LinkItem,
     Main,
-    Title1,
     Title5
 } from "./elements/index";
 
-// Navigation
-import {
-    Nav,
-    NavTitle,
-    NavigationList,
-    NavItem,
-    NavLink,
-} from "./elements/navigation";
-
 // Components:
-import { PopoverGrid } from "./components/popover/popover-grid";
-import { PopoverSupport } from "./components/popover/popover-support";
+import { MainNav } from "./components/navigation";
 
-import { Octocat } from "./components/octocat";
+// Stores/Vm's
+import { AllStores } from "./stores/all-stores";
 
-import { miligramLogo } from "./resources/miligram-logo";
-import { stores } from "./stores";
-
-export const App = observer(() => {
+export const App = observer((props: { stores: AllStores }) => {
+    const stores = props.stores;
     // ...
     return (
         <Main>
-            <Nav>
-                <Container>
-                    <NavTitle target="blank" href="https://milligram.github.io/">
-                        <svg className="img" version="1.1" viewBox="0 0 463 669" >
-                            <g transform="translate(0.000000,669.000000) scale(0.100000,-0.100000)">
-                                <path d={miligramLogo}></path>
-                            </g>
-                        </svg >
-                        &nbsp;
-                <Title1>Milligram</Title1>
-                    </NavTitle>
-                    <NavigationList>
-                        <NavItem>
-                            <NavLink
-                                href="#popover-grid"
-                                onClick={stores.popovers.toggleOpen("popover-grid")}
-                            >Docs
-                            </NavLink>
-                            <PopoverGrid stores={stores} />
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                href="#popover-support"
-                                onClick={stores.popovers.toggleOpen("popover-support")}
-                            >Support
-                            </NavLink>
-                            <PopoverSupport stores={stores} />
-                        </NavItem>
-                    </NavigationList>
-                    <Octocat />
-                </Container>
-            </Nav>
+            <MainNav stores={stores} />
             <Container id="examples">
                 <Title5>Examples</Title5>
                 <p>You can view more examples of using Milligram.</p>
