@@ -1,22 +1,20 @@
 import * as electron from "electron";
-import * as path from "path";
-import * as fs from "fs";
-const Tray = electron.Tray;
+import { getPath } from "./util/local-path";
 
 export interface TrayOptions {
     icon?: string;
-    window?: Electron.BrowserWindow;
+    dontQuit?: boolean;
+    // window?: Electron.BrowserWindow;
 }
-export function create(options?: TrayOptions): Electron.Tray {
-    let { icon, window } = options;
-    icon = icon || path.join(__dirname, "../resources/icon-16x16.png");
-    window = window || {} as any;
+export function create(options: TrayOptions): Electron.Tray {
 
-    if (!fs.statSync(icon)) {
-        throw new Error(`Icon Not found: ${icon}`);
-    }
-    const tray = new Tray(icon);
-    const contextMenu = electron.Menu.buildFromTemplate([
+    const icon = getPath(options.icon || "resources/icon-16x16.png");
+    const tray = new electron.Tray(icon);
+    const menuOptions: Electron.MenuItemOptions[] = [];
+
+    let contextMenu: Electron.Menu;
+
+    menuOptions.push(
         {
             label: "Milligram",
             type: "normal",
@@ -30,32 +28,41 @@ export function create(options?: TrayOptions): Electron.Tray {
             label: "Restart",
             type: "normal",
             // checked: true,
-            click: () => {
-                if (window.reload) {
-                    window.reload();
-                }
-            }
-        }, {
-            label: "Dev Tools",
-            type: "normal",
-            click: () => {
-                if (window.webContents) {
-                    if (!window.webContents.isDevToolsOpened()) {
-                        window.webContents.openDevTools();
-                    } else {
-                        window.webContents.closeDevTools();
-                    }
-                }
-            }
+            click: () => tray.emit("restart")
         },
+        {
+            label: "Stay in tray",
+            type: "checkbox",
+            click: () => {
+                tray.setContextMenu(contextMenu);
+                tray.emit("dont-quit");
+            },
+            checked: options.dontQuit === true
+        }
+    );
+    menuOptions.push({
+        label: "Dev Tools",
+        type: "normal",
+        click: () => tray.emit("dev-tools"),
+        // checked: options.canQuit
+    });
+
+    if (process.platform === "darwin") {
+        menuOptions.push([
+            { role: "hide" },
+            { role: "hideothers" }
+        ]);
+    }
+    menuOptions.push(
+        { type: "separator" },
         {
             label: "Quit",
             type: "normal",
-            click: () => {
-                process.exit();
-            }
+            click: electron.app.quit
         }
-    ]);
+    );
+
+    contextMenu = electron.Menu.buildFromTemplate(menuOptions);
     tray.setToolTip("X-App");
     tray.setContextMenu(contextMenu);
     return tray;
