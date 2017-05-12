@@ -1,7 +1,8 @@
 {
   "name": "milligram-react-mobx-typescript-demo",
+  "displayName": "Milligram Demo",
   "version": "1.0.0",
-  "description": "milligram mobx react typescript demo",
+  "description": "Milligram, React, Typescript, Electron ...demo",
   "main": "main.js",
   "private": true,
   "scripts": {

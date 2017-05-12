@@ -9,6 +9,7 @@ import { isWindowAlive } from "./util/is-window-alive";
 import { toggleDevTools } from "./util/toggle-dev-tools";
 import { orDefault } from "./util/or-default";
 import { windowConfig } from "./util/window-config";
+import { requireJson } from "./util/require-json";
 
 // Initial State
 const hasFlag = (flag: string) => typeof flag === "string" && process.argv.indexOf(flag) !== -1;
@@ -24,9 +25,12 @@ let tray: Electron.Tray;
 const mainState = Persist("main");
 const debug = createDebug("app:main");
 
+const pkg = requireJson("package");
+const { displayName, description } = pkg;
+
 const createTray = async () => {
     dontQuit = (await (mainState.get<boolean>("dont-quit")));
-    const _tray = _createTray({ dontQuit });
+    const _tray = _createTray({ dontQuit, label: displayName, toolTip: description });
     _tray.on("restart", () => {
         if (!isWindowAlive(mainWindow)) {
             createWindow();
