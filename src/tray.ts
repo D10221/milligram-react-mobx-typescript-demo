@@ -9,7 +9,7 @@ export interface TrayOptions {
 }
 export function create(options?: TrayOptions): Electron.Tray {
     let { icon, window } = options;
-    icon = icon || path.join(__dirname, "../resources/icon-32x32.png");
+    icon = icon || path.join(__dirname, "../resources/icon-16x16.png");
     window = window || {} as any;
 
     if (!fs.statSync(icon)) {

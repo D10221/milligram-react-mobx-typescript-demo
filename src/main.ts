@@ -3,6 +3,7 @@ import * as path from "path";
 import * as url from "url";
 import * as util from "util";
 import * as fs from "fs";
+import { warn } from "./warnings";
 
 import { create as createTray } from "./tray";
 
@@ -19,7 +20,10 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow: Electron.BrowserWindow;
 let tray: Electron.Tray;
 
-const orDefault = <T>(value: T, defaultValue: T) => !util.isNullOrUndefined(value) ? value : defaultValue;
+const orDefault = <T>(value: T, defaultValue?: T, pred?: (x: T) => boolean) =>
+    (util.isFunction(pred)) ?
+        pred(value) ? value : defaultValue :
+        !util.isNullOrUndefined(value) ? value : defaultValue;
 
 const tryGet = <T>(getter: () => T, defaultValue: T) => {
     try {
@@ -35,18 +39,20 @@ function createWindow() {
     // window.config: orDefault
     const config = tryGet<Electron.BrowserWindowOptions>(
         () => JSON.parse(
-                fs.readFileSync(
-                    path.join(process.cwd(), "window.config.json"),
-                    "utf-8")),
+            fs.readFileSync(
+                path.join(process.cwd(), "window.config.json"),
+                "utf-8")),
         /* or */ {}
     );
 
     config.autoHideMenuBar = orDefault(config.autoHideMenuBar, true);
     config.width = orDefault(config.width, 600);
     config.height = orDefault(config.height, 600);
-    config.titleBarStyle = orDefault(config.titleBarStyle, "hidden");
     config.icon = orDefault(config.icon, path.join(process.cwd(), "resources", "favicon.ico"));
     config.show = false;
+    if (config.titleBarStyle && config.frame) {
+        warn("titleBarStyle & frame should not be used together");
+    }
 
     // Create the browser window.
     mainWindow = new BrowserWindow(
@@ -69,6 +75,7 @@ function createWindow() {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
+        tray = null;
         mainWindow = null;
     });
     mainWindow.on("ready-to-show", () => {
