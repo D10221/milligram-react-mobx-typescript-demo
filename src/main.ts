@@ -1,8 +1,7 @@
 import * as electron from "electron";
 import * as path from "path";
 import * as url from "url";
-// TODO: use 'debug'
-import { warn } from "./warnings";
+import * as createDebug from "debug";
 import { create as _createTray } from "./tray";
 import { WindowState } from "./util/window-state";
 import { Persist } from "./util/persists";
@@ -23,6 +22,7 @@ const app = electron.app;
 let mainWindow: Electron.BrowserWindow;
 let tray: Electron.Tray;
 const mainState = Persist("main");
+const debug = createDebug("app:main");
 
 const createTray = async () => {
     dontQuit = (await (mainState.get<boolean>("dont-quit")));
@@ -55,7 +55,7 @@ function createWindow() {
     windowConfig.show = false;
 
     if (windowConfig.titleBarStyle && windowConfig.frame) {
-        warn("titleBarStyle & frame should not be used together");
+        debug("titleBarStyle & frame should not be used together");
     }
 
     // Create the browser window.
