@@ -1,63 +1,65 @@
 import * as electron from "electron";
 import * as path from "path";
 import * as url from "url";
-import * as util from "util";
-import * as fs from "fs";
+// TODO: use 'debug'
 import { warn } from "./warnings";
+import { create as _createTray } from "./tray";
+import { WindowState } from "./util/window-state";
+import { isWindowAlive } from "./util/is-window-alive";
+import { toggleDevTools } from "./util/toggle-dev-tools";
+import { orDefault } from "./util/or-default";
+import { windowConfig } from "./util/window-config";
 
-import { create as createTray } from "./tray";
-
+// Initial State
 const hasFlag = (flag: string) => typeof flag === "string" && process.argv.indexOf(flag) !== -1;
+const openDevTools = process.env.OPEN_DEV_TOOLS || hasFlag("--dev-tools");
+const maximize = hasFlag("--maximize");
+let createWindowCount = 0;
+let dontQuit = true;
 
-// Module to control application life.
+const windowState = WindowState("main-window");
+
 const app = electron.app;
-
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow: Electron.BrowserWindow;
 let tray: Electron.Tray;
 
-const orDefault = <T>(value: T, defaultValue?: T, pred?: (x: T) => boolean) =>
-    (util.isFunction(pred)) ?
-        pred(value) ? value : defaultValue :
-        !util.isNullOrUndefined(value) ? value : defaultValue;
-
-const tryGet = <T>(getter: () => T, defaultValue: T) => {
-    try {
-        return getter();
-    } catch (e) {
-        console.log(e);
-        return defaultValue;
-    }
+const createTray = () => {
+    const _tray = _createTray({ dontQuit });
+    _tray.on("restart", () => {
+        if (!isWindowAlive(mainWindow)) {
+            createWindow();
+        } else {
+            mainWindow.reload();
+        }
+    });
+    _tray.on("dev-tools", () => {
+        toggleDevTools(mainWindow);
+    });
+    _tray.on("dont-quit", () => {
+        dontQuit = !dontQuit;
+    });
+    return _tray;
 };
 
 function createWindow() {
+    // window.config:
 
-    // window.config: orDefault
-    const config = tryGet<Electron.BrowserWindowOptions>(
-        () => JSON.parse(
-            fs.readFileSync(
-                path.join(process.cwd(), "window.config.json"),
-                "utf-8")),
-        /* or */ {}
-    );
+    windowConfig.width = orDefault(windowConfig.width, 600);
+    windowConfig.height = orDefault(windowConfig.height, 600);
 
-    config.autoHideMenuBar = orDefault(config.autoHideMenuBar, true);
-    config.width = orDefault(config.width, 600);
-    config.height = orDefault(config.height, 600);
-    config.icon = orDefault(config.icon, path.join(process.cwd(), "resources", "favicon.ico"));
-    config.show = false;
-    if (config.titleBarStyle && config.frame) {
+    windowConfig.autoHideMenuBar = orDefault(windowConfig.autoHideMenuBar, true);
+    windowConfig.icon = orDefault(windowConfig.icon, path.join(process.cwd(), "resources", "favicon.ico"));
+    windowConfig.show = false;
+
+    if (windowConfig.titleBarStyle && windowConfig.frame) {
         warn("titleBarStyle & frame should not be used together");
     }
 
     // Create the browser window.
-    mainWindow = new BrowserWindow(
-        config
+    mainWindow = new electron.BrowserWindow(
+        windowConfig
     );
+
     // and load the index.html of the app.
     mainWindow.loadURL(
         url.format({
@@ -66,41 +68,64 @@ function createWindow() {
             slashes: true
         })
     );
-    // Open the DevTools.
-    if (process.env.OPEN_DEV_TOOLS || hasFlag("--dev-tools")) {
-        mainWindow.webContents.openDevTools();
-    }
+
     // Emitted when the window is closed.
-    mainWindow.on("closed", () => {
+    mainWindow.on("closed", (e: Event) => {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        tray = null;
         mainWindow = null;
+        e.preventDefault();
     });
+
     mainWindow.on("ready-to-show", () => {
         mainWindow.show();
-        if (hasFlag("--maximize")) {
+        if (createWindowCount === 0 && maximize) {
             mainWindow.maximize();
         }
-        tray = createTray({ window: mainWindow });
+        createWindowCount++;
     });
+
+    mainWindow.on("resize", () => {
+        windowState.set(mainWindow);
+    });
+    mainWindow.on("move", () => {
+        windowState.set(mainWindow);
+    });
+    mainWindow.webContents.on("devtools-opened", () => {
+        windowState.set(mainWindow);
+    });
+    mainWindow.webContents.on("devtools-closed", () => {
+        windowState.set(mainWindow);
+    });
+
+    // Restore Last State
+    windowState.restore(mainWindow);
+
+    // Open the DevTools. on Start
+    if (openDevTools && createWindowCount === 0) {
+        mainWindow.webContents.openDevTools();
+    }
 }
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
     createWindow();
-
+    if (!tray) {
+        tray = createTray();
+    }
 });
+
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== "darwin") {
+    if (process.platform !== "darwin" && !dontQuit) {
         app.quit();
     }
 });
+
 app.on("activate", () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
