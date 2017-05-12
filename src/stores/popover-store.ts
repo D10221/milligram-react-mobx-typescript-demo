@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action} from "mobx";
 export class PopoverStore {
     @observable open = "";
     isOpen = (id: string) => {

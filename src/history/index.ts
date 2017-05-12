@@ -13,6 +13,6 @@ export const history = syncHistoryWithStore(_history, ruterStore);
 //     console.log("history-changed", location, action);
 // });
 
-export const navigate = (url: string) => {
+export const push = (url: string) => {
     history.push(url);
 };
