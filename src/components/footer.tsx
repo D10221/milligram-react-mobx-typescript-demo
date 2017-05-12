@@ -1,11 +1,11 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { AllStores } from "../../stores/all-stores";
+import { AllStores } from "../stores/all-stores";
 
 import {
     Container,
     Footer as FooterElement,
-} from "../../elements/index";
+} from "../elements/index";
 
 export const Footer = observer((props: { stores: AllStores }) => {
     if (!props.stores) {
