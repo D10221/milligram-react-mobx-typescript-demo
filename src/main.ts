@@ -5,6 +5,7 @@ import * as url from "url";
 import { warn } from "./warnings";
 import { create as _createTray } from "./tray";
 import { WindowState } from "./util/window-state";
+import { Persist } from "./util/persists";
 import { isWindowAlive } from "./util/is-window-alive";
 import { toggleDevTools } from "./util/toggle-dev-tools";
 import { orDefault } from "./util/or-default";
@@ -15,15 +16,16 @@ const hasFlag = (flag: string) => typeof flag === "string" && process.argv.index
 const openDevTools = process.env.OPEN_DEV_TOOLS || hasFlag("--dev-tools");
 const maximize = hasFlag("--maximize");
 let createWindowCount = 0;
-let dontQuit = true;
+let dontQuit = false;
 
 const windowState = WindowState("main-window");
-
 const app = electron.app;
 let mainWindow: Electron.BrowserWindow;
 let tray: Electron.Tray;
+const mainState = Persist("main");
 
-const createTray = () => {
+const createTray = async () => {
+    dontQuit = (await (mainState.get<boolean>("dont-quit")));
     const _tray = _createTray({ dontQuit });
     _tray.on("restart", () => {
         if (!isWindowAlive(mainWindow)) {
@@ -37,6 +39,7 @@ const createTray = () => {
     });
     _tray.on("dont-quit", () => {
         dontQuit = !dontQuit;
+        mainState.set("dont-quit", dontQuit);
     });
     return _tray;
 };
@@ -110,10 +113,10 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", () => {
+app.on("ready", async () => {
     createWindow();
     if (!tray) {
-        tray = createTray();
+        tray = await createTray();
     }
 });
 
