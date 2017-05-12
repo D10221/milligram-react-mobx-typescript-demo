@@ -1,7 +1,8 @@
 {
   "name": "milligram-react-mobx-typescript-demo",
+  "displayName": "Milligram Demo",
   "version": "1.0.0",
-  "description": "milligram mobx react typescript demo",
+  "description": "Milligram, React, Typescript, Electron ...demo",
   "main": "main.js",
   "private": true,
   "scripts": {
@@ -35,6 +36,7 @@
     "typescript": "^2.3.2"
   },
   "dependencies": {
+    "debug": "^2.6.6",
     "electron-json-storage": "^3.0.5",
     "milligram": "^1.3.0",
     "milligram-themes-clone": "git+https://github.com/D10221/milligram-themes.git#_dev_000_",

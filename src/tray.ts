@@ -4,7 +4,8 @@ import { getPath } from "./util/local-path";
 export interface TrayOptions {
     icon?: string;
     dontQuit?: boolean;
-    // window?: Electron.BrowserWindow;
+    label: string;
+    toolTip: string;
 }
 export function create(options: TrayOptions): Electron.Tray {
 
@@ -16,7 +17,7 @@ export function create(options: TrayOptions): Electron.Tray {
 
     menuOptions.push(
         {
-            label: "Milligram",
+            label: options.label,
             type: "normal",
             icon
         },
@@ -63,7 +64,7 @@ export function create(options: TrayOptions): Electron.Tray {
     );
 
     contextMenu = electron.Menu.buildFromTemplate(menuOptions);
-    tray.setToolTip("X-App");
+    tray.setToolTip(options.toolTip);
     tray.setContextMenu(contextMenu);
     return tray;
 }

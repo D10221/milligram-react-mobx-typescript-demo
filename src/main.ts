@@ -1,8 +1,7 @@
 import * as electron from "electron";
 import * as path from "path";
 import * as url from "url";
-// TODO: use 'debug'
-import { warn } from "./warnings";
+import * as createDebug from "debug";
 import { create as _createTray } from "./tray";
 import { WindowState } from "./util/window-state";
 import { Persist } from "./util/persists";
@@ -10,6 +9,7 @@ import { isWindowAlive } from "./util/is-window-alive";
 import { toggleDevTools } from "./util/toggle-dev-tools";
 import { orDefault } from "./util/or-default";
 import { windowConfig } from "./util/window-config";
+import { requireJson } from "./util/require-json";
 
 // Initial State
 const hasFlag = (flag: string) => typeof flag === "string" && process.argv.indexOf(flag) !== -1;
@@ -23,10 +23,14 @@ const app = electron.app;
 let mainWindow: Electron.BrowserWindow;
 let tray: Electron.Tray;
 const mainState = Persist("main");
+const debug = createDebug("app:main");
+
+const pkg = requireJson("package");
+const { displayName, description } = pkg;
 
 const createTray = async () => {
     dontQuit = (await (mainState.get<boolean>("dont-quit")));
-    const _tray = _createTray({ dontQuit });
+    const _tray = _createTray({ dontQuit, label: displayName, toolTip: description });
     _tray.on("restart", () => {
         if (!isWindowAlive(mainWindow)) {
             createWindow();
@@ -55,7 +59,7 @@ function createWindow() {
     windowConfig.show = false;
 
     if (windowConfig.titleBarStyle && windowConfig.frame) {
-        warn("titleBarStyle & frame should not be used together");
+        debug("titleBarStyle & frame should not be used together");
     }
 
     // Create the browser window.
