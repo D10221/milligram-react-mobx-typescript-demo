@@ -19,7 +19,10 @@ export const NavigationItem = observer(
         const Child = props.child;
         return (
             <li className="navigation-item" >
-                <a className="navigation-link" data-popover onClick={() => props.toggleOpen(props.id)}>
+                <a className="navigation-link"
+                    style={{cursor: "pointer"}}
+                    data-popover
+                    onClick={() => props.toggleOpen(props.id)}>
                     {props.title}
                 </a>
                 <Child
