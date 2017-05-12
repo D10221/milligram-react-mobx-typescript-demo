@@ -1,12 +1,11 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 
-import {
-    Main,Container
-} from "./elements/index";
+import { Main, } from "./elements/index";
+import { Container } from "./elements/index";
 
 // Components:
-import { MainNav } from "./components/navigation";
+import { NavMain } from "./components/nav-main";
 import { Footer } from "./components/footer";
 
 // Pages/Route's View:
@@ -27,9 +26,9 @@ export const App = observer((props: { stores: AllStores }) => {
     // ...
     return (
         <Main>
-            <MainNav stores={stores} />
+            <NavMain stores={stores} />
 
-            <Container style={{minHeight: "100em"}}>
+            <Container style={{ minHeight: "100em" }}>
 
                 <Router history={history}>
                     <Switch>
