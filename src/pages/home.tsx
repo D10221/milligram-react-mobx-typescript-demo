@@ -23,7 +23,7 @@ export const Home = observer((props: { stores: AllStores }) => {
                     alt="Milligram - A minimalist CSS framework" />
             </a>
             <Blockquote>
-            <p><em>A minimalist CSS framework.</em></p>
+                <p><em>A minimalist CSS framework.</em></p>
             </Blockquote>
         </Container >
     );

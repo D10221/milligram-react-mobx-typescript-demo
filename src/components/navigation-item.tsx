@@ -20,7 +20,7 @@ export const NavigationItem = observer(
         return (
             <li className="navigation-item" >
                 <a className="navigation-link"
-                    style={{cursor: "pointer"}}
+                    style={{ cursor: "pointer" }}
                     data-popover
                     onClick={() => props.toggleOpen(props.id)}>
                     {props.title}
