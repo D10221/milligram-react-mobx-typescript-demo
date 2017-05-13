@@ -2,9 +2,9 @@ import * as React from "react";
 import { observer } from "mobx-react";
 
 // Elements:
-import { PopOverFty,  } from "../elements/popover-fty";
+import { PopOverFty, } from "./popover-fty";
 import { PopOverList } from "../elements/popover-list";
-import { PopOverItemLinkFty } from "../elements/popover-item-link-fty";
+import { PopOverItemLinkFty } from "./popover-item-link-fty";
 
 export interface NavItemPopoverMenuLink {
     href: string;

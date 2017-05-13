@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { tryGet } from "./try-get";
 import { getPath } from "./local-path";
 import { getProcessArgs } from "./process-args";
-import {orDefault} from "./or-default";
+import { orDefault } from "./or-default";
 
 export const windowConfig = tryGet<Electron.BrowserWindowOptions>(
     () => JSON.parse(

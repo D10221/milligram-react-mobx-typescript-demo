@@ -2,10 +2,8 @@ import * as React from "react";
 import { observer } from "mobx-react";
 
 // Elements
-import {
-    Container,
-    Title1,
-} from "../elements";
+import { ContainerSection, } from "../elements/container-section";
+import { Title1, } from "../elements/headers";
 
 import {
     Nav,
@@ -31,7 +29,7 @@ export const NavMain = observer((props: { stores: AllStores }) => {
 
     return (
         <Nav>
-            <Container>
+            <ContainerSection>
                 <NavTitle href="#/home">
                     <NavLogo /> &nbsp;
                     <Title1>Milligram</Title1>
@@ -52,7 +50,7 @@ export const NavMain = observer((props: { stores: AllStores }) => {
                         child={SupportMenu} />
                 </NavigationList>
                 <Octocat />
-            </Container>
+            </ContainerSection>
         </Nav>
     );
 }
