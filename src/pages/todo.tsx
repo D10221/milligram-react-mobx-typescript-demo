@@ -2,7 +2,8 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import { AllStores } from "../stores/all-stores";
 
-import { Container, Title5 } from "../elements";
+import { ContainerSection, } from "../elements/container-section";
+import { Title5} from "../elements/headers";
 
 /**
  * Generic TODO item
@@ -15,10 +16,10 @@ export const Todo = observer(
         const what = props.what;
         console.log(`page: todo: ${what}`);
         return (
-            <Container id={`page_${what}`}>
+            <ContainerSection id={`page_${what}`}>
                 <Title5>{props.what}</Title5>
                 <p>TODO ...</p>
-            </Container>
+            </ContainerSection>
         );
     }
 );

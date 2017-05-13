@@ -3,9 +3,9 @@ import { observer } from "mobx-react";
 
 // Styled elements
 import { PopOverList, } from "../elements/popover-list";
-import { PopOverFty as PopOverFty, } from "../elements/popover-fty";
+import { PopOverFty as PopOverFty, } from "./popover-fty";
 
-import { PopOverItemLinkFty } from "../elements/popover-item-link-fty";
+import { PopOverItemLinkFty } from "./popover-item-link-fty";
 
 export const SupportMenu = observer(
     // ...

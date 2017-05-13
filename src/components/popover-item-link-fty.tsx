@@ -1,6 +1,6 @@
 import * as React from "react";
-import { PopoverLink } from "./popover-link";
-import { PopoverListItem } from "./popover-list-item";
+import { PopoverLink } from "../elements//popover-link";
+import { PopoverListItem } from "../elements/popover-list-item";
 
 export const PopOverItemLinkFty = (menuId: string, toggleOpen: (menuId: string) => void) =>
     (props: { href: string, title: string, target?: string }) => {

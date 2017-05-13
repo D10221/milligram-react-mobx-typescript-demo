@@ -1,8 +1,8 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 
-import { Main, } from "./elements/index";
-import { Container } from "./elements/index";
+import { Main, } from "./elements/main";
+import { ContainerSection, } from "./elements/container-section";
 
 // Components:
 import { NavMain } from "./components/nav-main";
@@ -12,7 +12,6 @@ import { Footer } from "./components/footer";
 import { Home } from "./pages/home";
 import { Todo } from "./pages/todo";
 import { Contributing } from "./pages/contributing";
-
 
 // Stores/Vm's
 import { AllStores } from "./stores/all-stores";
@@ -28,7 +27,7 @@ export const App = observer((props: { stores: AllStores }) => {
         <Main>
             <NavMain stores={stores} />
 
-            <Container style={{ minHeight: "100em" }}>
+            <ContainerSection style={{ minHeight: "100em" }}>
 
                 <Router history={history}>
                     <Switch>
@@ -81,7 +80,7 @@ export const App = observer((props: { stores: AllStores }) => {
                         <Route component={() => <div> Not Found</div>}></Route>
                     </Switch>
                 </Router>
-            </Container>
+            </ContainerSection>
 
             <Footer {...{ stores }} />
         </Main>

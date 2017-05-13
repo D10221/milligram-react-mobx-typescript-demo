@@ -2,10 +2,8 @@ import * as React from "react";
 import { observer } from "mobx-react";
 
 // Elements
-import {
-    Container,
-    Blockquote
-} from "../elements/index";
+import { Blockquote } from "../elements/blockquote";
+import { ContainerSection, } from "../elements/container-section";
 
 import { AllStores } from "../stores/all-stores";
 export const Home = observer((props: { stores: AllStores }) => {
@@ -14,7 +12,7 @@ export const Home = observer((props: { stores: AllStores }) => {
         throw new Error("where are the stores?");
     }
     return (
-        <Container id="examples">
+        <ContainerSection id="examples">
             <a data-align="center"
                 target="blank"
                 href="https://milligram.github.io">
@@ -25,7 +23,7 @@ export const Home = observer((props: { stores: AllStores }) => {
             <Blockquote>
                 <p><em>A minimalist CSS framework.</em></p>
             </Blockquote>
-        </Container >
+        </ContainerSection >
     );
 }
 );
