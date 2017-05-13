@@ -3,22 +3,34 @@ import * as path from "path";
 import * as url from "url";
 import * as createDebug from "debug";
 import { create as _createTray } from "./tray";
-import { WindowState } from "./util/window-state";
+import { WindowStatePersistence } from "./util/window-state-persistence";
 import { Persist } from "./util/persists";
 import { isWindowAlive } from "./util/is-window-alive";
 import { toggleDevTools } from "./util/toggle-dev-tools";
 import { orDefault } from "./util/or-default";
 import { windowConfig } from "./util/window-config";
 import { requireJson } from "./util/require-json";
-
+import { isDarwin } from "./util/platform";
 // Initial State
 const hasFlag = (flag: string) => typeof flag === "string" && process.argv.indexOf(flag) !== -1;
 const openDevTools = process.env.OPEN_DEV_TOOLS || hasFlag("--dev-tools");
 const maximize = hasFlag("--maximize");
 let createWindowCount = 0;
-let dontQuit = false;
 
-const windowState = WindowState("main-window");
+/**
+ * On OS X it is common for applications and their menu bar
+ * to stay active until the user quits explicitly with Cmd + Q
+ * default value is MAC, then overwritten on 1st 'set'
+ */
+let dontQuit = isDarwin;
+/**
+ * On OS X it is common for applications and their menu bar
+ * to stay active until the user quits explicitly with Cmd + Q
+ * default value is NOT MAC, then overwritten on 1st 'set'
+ */
+const canQuit = () => !dontQuit;
+
+const windowState = WindowStatePersistence("main-window");
 const app = electron.app;
 let mainWindow: Electron.BrowserWindow;
 let tray: Electron.Tray;
@@ -29,9 +41,12 @@ const pkg = requireJson("package");
 const { displayName, description } = pkg;
 
 const createTray = async () => {
-    dontQuit = (await (mainState.get<boolean>("dont-quit")));
+    dontQuit = orDefault(
+        (await (mainState.get<boolean>("dont-quit"))),
+        dontQuit
+    );
     const _tray = _createTray({ dontQuit, label: displayName, toolTip: description });
-    _tray.on("restart", () => {
+    _tray.on("reload", () => {
         if (!isWindowAlive(mainWindow)) {
             createWindow();
         } else {
@@ -44,6 +59,9 @@ const createTray = async () => {
     _tray.on("dont-quit", () => {
         dontQuit = !dontQuit;
         mainState.set("dont-quit", dontQuit);
+    });
+    _tray.on("focus", () => {
+        mainWindow.focus();
     });
     return _tray;
 };
@@ -128,7 +146,7 @@ app.on("ready", async () => {
 app.on("window-all-closed", () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== "darwin" && !dontQuit) {
+    if (canQuit()) {
         app.quit();
     }
 });

@@ -1,5 +1,6 @@
 import * as electron from "electron";
 import { getPath } from "./util/local-path";
+import { isDarwin } from "./util/platform";
 
 export interface TrayOptions {
     icon?: string;
@@ -19,17 +20,18 @@ export function create(options: TrayOptions): Electron.Tray {
         {
             label: options.label,
             type: "normal",
-            icon
+            icon,
+            click: () => tray.emit("focus")
         },
         {
             label: "About",
             type: "normal"
         },
         {
-            label: "Restart",
+            label: "Reload",
             type: "normal",
             // checked: true,
-            click: () => tray.emit("restart")
+            click: () => tray.emit("reload")
         },
         {
             label: "Stay in tray",
@@ -48,7 +50,7 @@ export function create(options: TrayOptions): Electron.Tray {
         // checked: options.canQuit
     });
 
-    if (process.platform === "darwin") {
+    if (isDarwin) {
         menuOptions.push([
             { role: "hide" },
             { role: "hideothers" }
@@ -57,7 +59,7 @@ export function create(options: TrayOptions): Electron.Tray {
     menuOptions.push(
         { type: "separator" },
         {
-            label: "Quit",
+            label: "Exit",
             type: "normal",
             click: electron.app.quit
         }
