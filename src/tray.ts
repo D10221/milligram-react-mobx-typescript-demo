@@ -28,10 +28,10 @@ export function create(options: TrayOptions): Electron.Tray {
             type: "normal"
         },
         {
-            label: "Restart",
+            label: "Reload",
             type: "normal",
             // checked: true,
-            click: () => tray.emit("restart")
+            click: () => tray.emit("reload")
         },
         {
             label: "Stay in tray",

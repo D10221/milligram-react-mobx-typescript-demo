@@ -46,7 +46,7 @@ const createTray = async () => {
         dontQuit
     );
     const _tray = _createTray({ dontQuit, label: displayName, toolTip: description });
-    _tray.on("restart", () => {
+    _tray.on("reload", () => {
         if (!isWindowAlive(mainWindow)) {
             createWindow();
         } else {
