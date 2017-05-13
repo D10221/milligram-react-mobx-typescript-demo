@@ -1,4 +1,4 @@
-export const isDarWin = process.platform === "darwin";
+export const isDarwin = process.platform === "darwin";
 
 export const isWindows = process.platform === "win32";
 

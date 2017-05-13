@@ -1,6 +1,6 @@
 import * as electron from "electron";
 import { getPath } from "./util/local-path";
-import { isDarWin } from "./util/platform";
+import { isDarwin } from "./util/platform";
 
 export interface TrayOptions {
     icon?: string;
@@ -50,7 +50,7 @@ export function create(options: TrayOptions): Electron.Tray {
         // checked: options.canQuit
     });
 
-    if (isDarWin) {
+    if (isDarwin) {
         menuOptions.push([
             { role: "hide" },
             { role: "hideothers" }
