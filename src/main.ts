@@ -45,6 +45,9 @@ const createTray = async () => {
         dontQuit = !dontQuit;
         mainState.set("dont-quit", dontQuit);
     });
+    _tray.on("focus", () => {
+        mainWindow.focus();
+    });
     return _tray;
 };
 
