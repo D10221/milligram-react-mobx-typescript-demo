@@ -2,11 +2,15 @@ import * as util from "util";
 import { isWindowAlive } from "./is-window-alive";
 import * as storage from "./storage";
 export type BrowserWindow = Electron.BrowserWindow;
-export type StateData = { fullScreen: boolean, devToolsOpened: boolean } & Electron.Rectangle & { [key: string]: any };
-
-let currentState: StateData = {} as any;
+export interface StateData {
+    fullScreen: boolean;
+    devToolsOpened: boolean;
+    bounds: Electron.Rectangle;
+}
 
 export const WindowStatePersistence = (windowName: string, onError?: (e: Error) => void) => {
+
+    let currentState: StateData = {} as any;
 
     const storeKey = `window_${windowName}`;
 
@@ -18,36 +22,52 @@ export const WindowStatePersistence = (windowName: string, onError?: (e: Error) 
         return storage.setItem(storeKey, currentState, onError);
     };
 
+    const update = (window: BrowserWindow, key?: keyof StateData) => {
+        switch (key) {
+            case "devToolsOpened": {
+                currentState.devToolsOpened = window.webContents.isDevToolsOpened();
+                break;
+            }
+            case "fullScreen": {
+                currentState.fullScreen = window.isFullScreen();
+                break;
+            }
+            case "bounds": {
+                currentState.bounds = window.getBounds();
+                break;
+            }
+            default: {
+                throw new Error("Key Not Found: " + key);
+            }
+        }
+
+        saveState();
+    };
+
     const set = (window: BrowserWindow) => {
 
         if (!isWindowAlive(window)) {
             return;
         }
 
-        currentState.fullScreen = window.isFullScreen();
+        const newState: StateData = {} as any;
+        newState.fullScreen = window.isFullScreen();
 
-        currentState.devToolsOpened = window.webContents.isDevToolsOpened();
-
-        if (!currentState.fullScreen) {
-            const bounds = window.getBounds();
-            Object.assign(currentState, bounds);
+        if (!newState.fullScreen) {
+            currentState.bounds = window.getBounds();
         }
-
-        return saveState(); // returning void, but could be a promise
+        saveState();
     };
 
-    const get = async (): Promise<StateData> => {
-        currentState = (await storage.getItem<StateData>(storeKey));
-        return currentState;
+    const get = (): Promise<StateData> => {
+        return storage.getItem<StateData>(storeKey);
     };
 
     const restore = (window: BrowserWindow) => {
-        console.log(window.id);
         return get().then(state => {
-            if (state && state.width && state.height) {
+            if (state && (state.bounds || !util.isNullOrUndefined(state.fullScreen))) {
                 if (!state.fullScreen) {
-                    const { x, y, width, height } = state;
-                    window.setBounds({ x, y, width, height });
+                    window.setBounds(state.bounds);
                 } else {
                     window.setFullScreen(true);
                 }
@@ -63,5 +83,5 @@ export const WindowStatePersistence = (windowName: string, onError?: (e: Error) 
         saveState();
     };
 
-    return { set, get, restore, save: saveState, reset };
+    return { set, get, restore, save: saveState, reset, update };
 };

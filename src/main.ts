@@ -15,7 +15,11 @@ import { isDarwin } from "./util/platform";
 const hasFlag = (flag: string) => typeof flag === "string" && process.argv.indexOf(flag) !== -1;
 const openDevTools = process.env.OPEN_DEV_TOOLS || hasFlag("--dev-tools");
 const maximize = hasFlag("--maximize");
+
 let createWindowCount = 0;
+const isFirstRun = () => {
+    return createWindowCount === 0;
+};
 
 /**
  * On OS X it is common for applications and their menu bar
@@ -36,15 +40,16 @@ let mainWindow: Electron.BrowserWindow;
 let tray: Electron.Tray;
 const mainState = Persist("main");
 const debug = createDebug("app:main");
-
 const pkg = requireJson("package");
 const { displayName, description } = pkg;
 
 const createTray = async () => {
+
     dontQuit = orDefault(
         (await (mainState.get<boolean>("dont-quit"))),
         dontQuit
     );
+
     const _tray = _createTray({ dontQuit, label: displayName, toolTip: description });
     _tray.on("reload", () => {
         if (!isWindowAlive(mainWindow)) {
@@ -53,28 +58,28 @@ const createTray = async () => {
             mainWindow.reload();
         }
     });
+
     _tray.on("dev-tools", () => {
         toggleDevTools(mainWindow);
     });
+
     _tray.on("dont-quit", () => {
         dontQuit = !dontQuit;
         mainState.set("dont-quit", dontQuit);
     });
+
     _tray.on("focus", () => {
-        mainWindow.focus();
+        if (isWindowAlive(mainWindow)) {
+            mainWindow.focus();
+        } else {
+            createWindow();
+        }
     });
+
     return _tray;
 };
 
 function createWindow() {
-    // window.config:
-
-    windowConfig.width = orDefault(windowConfig.width, 600);
-    windowConfig.height = orDefault(windowConfig.height, 600);
-
-    windowConfig.autoHideMenuBar = orDefault(windowConfig.autoHideMenuBar, true);
-    windowConfig.icon = orDefault(windowConfig.icon, path.join(process.cwd(), "resources", "favicon.ico"));
-    windowConfig.show = false;
 
     if (windowConfig.titleBarStyle && windowConfig.frame) {
         debug("titleBarStyle & frame should not be used together");
@@ -105,7 +110,7 @@ function createWindow() {
 
     mainWindow.on("ready-to-show", () => {
         mainWindow.show();
-        if (createWindowCount === 0 && maximize) {
+        if (isFirstRun() && maximize) {
             mainWindow.maximize();
         }
         createWindowCount++;
@@ -114,21 +119,24 @@ function createWindow() {
     mainWindow.on("resize", () => {
         windowState.set(mainWindow);
     });
+
     mainWindow.on("move", () => {
         windowState.set(mainWindow);
     });
+
     mainWindow.webContents.on("devtools-opened", () => {
-        windowState.set(mainWindow);
+        windowState.update(mainWindow, "devToolsOpened");
     });
+
     mainWindow.webContents.on("devtools-closed", () => {
-        windowState.set(mainWindow);
+        windowState.update(mainWindow, "devToolsOpened");
     });
 
     // Restore Last State
     windowState.restore(mainWindow);
 
     // Open the DevTools. on Start
-    if (openDevTools && createWindowCount === 0) {
+    if (openDevTools && isFirstRun()) {
         mainWindow.webContents.openDevTools();
     }
 }
