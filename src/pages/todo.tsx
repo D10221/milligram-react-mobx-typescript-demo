@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { AllStores } from "../stores/all-stores";
 
 import { ContainerSection, } from "../elements/container-section";
-import { Title5} from "../elements/headers";
+import { Title5 } from "../elements/headers";
 
 /**
  * Generic TODO item

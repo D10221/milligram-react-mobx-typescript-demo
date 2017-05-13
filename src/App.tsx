@@ -12,6 +12,7 @@ import { Footer } from "./components/footer";
 import { Home } from "./pages/home";
 import { Todo } from "./pages/todo";
 import { Contributing } from "./pages/contributing";
+import { Page as Typography } from "./pages/typography";
 
 // Stores/Vm's
 import { AllStores } from "./stores/all-stores";
@@ -39,7 +40,7 @@ export const App = observer((props: { stores: AllStores }) => {
                             <Todo {...{ stores, what: "getting-started" }} />
                         } />
                         <Route path="/typography" component={() =>
-                            <Todo {...{ stores, what: "typography" }} />
+                            <Typography />
                         } />
                         <Route path="/blockquotes" component={() =>
                             <Todo {...{ stores, what: "blockquotes" }} />
