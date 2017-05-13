@@ -6,6 +6,7 @@
   "main": "main.js",
   "private": true,
   "scripts": {
+    "postinstall": "goofoffline 'https://fonts.googleapis.com/css?family=Roboto'",
     "link": "npm link electron",
     "test": "mocha test.js",
     "build": "tsc -p .",
