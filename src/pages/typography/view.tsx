@@ -6,11 +6,14 @@ import { Title3 } from "../../elements/headers";
 import { Row } from "../../elements/row";
 import { Column } from "../../elements/column";
 import { Description } from "../../elements/description";
-import { CodePrettyprint } from "../../elements/code-prettyprint";
-import { CodeContent } from "../../elements/code-content";
+
+// Bug: Not working as expected
+// import { CodePrettyprint } from "../../elements/code-prettyprint";
+// import { CodeContent } from "../../elements/code-content";
+
 import { styles } from "./style";
 
-import * as code from "./code.html!text";
+const code = require("raw-loader!./code.html") as string;
 
 const HeadingFont = (props: React.HTMLProps<HTMLSpanElement>) => (
     <span style={styles.headingFontSize} {...props} />
@@ -22,7 +25,7 @@ export const Page = observer(() => {
             <Title3>Typography</Title3>
             <Description>
                 ... description
-                </Description>
+            </Description>
             <Row>
                 <Column>
                     <h1>Heading<HeadingFont> <code>h1</code> 4.6rem (46px)</HeadingFont></h1>
@@ -33,11 +36,11 @@ export const Page = observer(() => {
                     <h6>Heading<HeadingFont> <code>h6</code> 1.6rem (16px)</HeadingFont></h6>
                 </Column>
             </Row>
-            <CodePrettyprint>
-                <CodeContent>
+            <pre>
+                <code>
                     {code}
-                </CodeContent>
-            </CodePrettyprint>
+                </code>
+            </pre>
         </Container>
     );
 }
