@@ -25,6 +25,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/debug": "0.0.29",
     "@types/electron": "^1.4.37",
     "@types/electron-json-storage": "0.0.19",
     "@types/mocha": "^2.2.41",
