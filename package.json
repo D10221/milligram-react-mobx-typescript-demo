@@ -13,7 +13,10 @@
     "format": "tsfmt -r",
     "clean": "rimraf ./built",
     "rebuild": "npm run clean && npm run build",
-    "start": "electron ."
+    "start": "electron .",
+    "bundle:vendor": "webpack --config webpack/vendor.webpack.config.js",
+    "bundle": "webpack --config webpack/webpack.config.js",
+    "bundle:all": "npm run bundle:vendor && npm run bundle"
   },
   "keywords": [
     "miligram",
@@ -33,9 +36,12 @@
     "@types/react-dom": "^15.5.0",
     "@types/react-router": "^4.0.9",
     "mocha": "^3.3.0",
+    "raw-loader": "^0.5.1",
     "rimraf": "^2.6.1",
+    "ts-loader": "^2.0.3",
     "tslint": "^5.2.0",
-    "typescript": "^2.3.2"
+    "typescript": "^2.3.2",
+    "webpack": "^2.5.1"
   },
   "dependencies": {
     "debug": "^2.6.6",
