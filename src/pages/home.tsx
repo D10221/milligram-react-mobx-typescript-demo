@@ -1,16 +1,10 @@
 import * as React from "react";
-import { observer } from "mobx-react";
 
 // Elements
 import { Blockquote } from "../elements/blockquote";
 import { ContainerSection, } from "../elements/container-section";
 
-import { AllStores } from "../stores/all-stores";
-export const Home = observer((props: { stores: AllStores }) => {
-    const stores = props.stores;
-    if (!stores) {
-        throw new Error("where are the stores?");
-    }
+export const Home = () => {
     return (
         <ContainerSection id="examples">
             <a data-align="center"
@@ -25,5 +19,4 @@ export const Home = observer((props: { stores: AllStores }) => {
             </Blockquote>
         </ContainerSection >
     );
-}
-);
+};
