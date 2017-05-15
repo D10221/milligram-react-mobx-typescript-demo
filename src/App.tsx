@@ -14,6 +14,7 @@ import { Todo } from "./pages/todo";
 import { Contributing } from "./pages/contributing";
 import { Page as Typography } from "./pages/typography";
 import { Page as Bloqquotes } from "./pages/blockquote";
+import { Page as Buttons } from "./pages/buttons";
 
 // Stores/Vm's
 import { AllStores } from "./stores/all-stores";
@@ -47,7 +48,7 @@ export const App = observer((props: { stores: AllStores }) => {
                             <Bloqquotes />
                         } />
                         <Route path="/buttons" component={() =>
-                            <Todo {...{ stores, what: "buttons" }} />
+                            <Buttons />
                         } />
                         <Route path="/lists" component={() =>
                             <Todo {...{ stores, what: "lists" }} />

@@ -1,5 +1,5 @@
 import * as React from "react";
-export const ButtonClear = (props: React.HTMLProps<HTMLButtonElement>) => {
+export const ButtonInputClear = (props: React.HTMLProps<HTMLInputElement>) => {
     return (
         <input className="button button-clear" {...props} />
     );
