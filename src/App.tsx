@@ -21,6 +21,7 @@ import { Page as Tables } from "./pages/tables";
 import { Page as Grids } from "./pages/grids";
 import { Page as Codes } from "./pages/codes";
 import { Page as Utilities } from "./pages/utilities";
+import { Page as GettingStarted } from "./pages/getting-started";
 
 // Stores/Vm's
 import { AllStores } from "./stores/all-stores";
@@ -47,7 +48,7 @@ export const App = observer((props: { stores: AllStores }) => {
                             <Home />
                         } />
                         <Route path="/getting-started" component={() =>
-                            <Todo {...{ stores, what: "getting-started" }} />
+                            <GettingStarted />
                         } />
                         <Route path="/typography" component={() =>
                             <Typography />
