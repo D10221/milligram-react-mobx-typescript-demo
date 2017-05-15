@@ -8,7 +8,7 @@ import { ContainerSection, } from "./elements/container-section";
 import { NavMain } from "./components/nav-main";
 import { Footer } from "./components/footer";
 
-// Pages/Route's View:
+// Pages:
 import { Home } from "./pages/home";
 import { Todo } from "./pages/todo";
 import { Contributing } from "./pages/contributing";
@@ -18,9 +18,11 @@ import { Page as Buttons } from "./pages/buttons";
 import { Page as Lists } from "./pages/lists";
 import { Page as Forms } from "./pages/forms";
 import { Page as Tables } from "./pages/tables";
-import { Page as Grids} from "./pages/grids";
-import { Page as Codes} from "./pages/codes";
-import { Page as Utilities} from "./pages/utilities";
+import { Page as Grids } from "./pages/grids";
+import { Page as Codes } from "./pages/codes";
+import { Page as Utilities } from "./pages/utilities";
+import { Page as GettingStarted } from "./pages/getting-started";
+import {Page as Tips} from "./pages/tips";
 
 // Stores/Vm's
 import { AllStores } from "./stores/all-stores";
@@ -41,11 +43,13 @@ export const App = observer((props: { stores: AllStores }) => {
                 <Router history={history}>
                     <Switch>
                         <Route exact path="/" component={() =>
-                            <Home {...{ stores }} />} />
+                            <Home />
+                        } />
                         <Route path="/Home" component={() =>
-                            <Home {...{ stores }} />} />
+                            <Home />
+                        } />
                         <Route path="/getting-started" component={() =>
-                            <Todo {...{ stores, what: "getting-started" }} />
+                            <GettingStarted />
                         } />
                         <Route path="/typography" component={() =>
                             <Typography />
@@ -75,7 +79,7 @@ export const App = observer((props: { stores: AllStores }) => {
                             <Utilities />
                         } />
                         <Route path="/tips" component={() =>
-                            <Todo {...{ stores, what: "tips" }} />
+                            <Tips />
                         } />
                         <Route path="/browser-support" component={() =>
                             <Todo {...{ stores, what: "browser-support" }} />
