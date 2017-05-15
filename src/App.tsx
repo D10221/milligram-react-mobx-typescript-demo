@@ -16,6 +16,7 @@ import { Page as Typography } from "./pages/typography";
 import { Page as Bloqquotes } from "./pages/blockquote";
 import { Page as Buttons } from "./pages/buttons";
 import { Page as Lists } from "./pages/lists";
+import { Page as Forms } from "./pages/forms";
 
 // Stores/Vm's
 import { AllStores } from "./stores/all-stores";
@@ -55,7 +56,7 @@ export const App = observer((props: { stores: AllStores }) => {
                             <Lists />
                         } />
                         <Route path="/forms" component={() =>
-                            <Todo {...{ stores, what: "forms" }} />
+                            <Forms />
                         } />
                         <Route path="/tables" component={() =>
                             <Todo {...{ stores, what: "tables" }} />
