@@ -14,6 +14,13 @@ import { Todo } from "./pages/todo";
 import { Contributing } from "./pages/contributing";
 import { Page as Typography } from "./pages/typography";
 import { Page as Bloqquotes } from "./pages/blockquote";
+import { Page as Buttons } from "./pages/buttons";
+import { Page as Lists } from "./pages/lists";
+import { Page as Forms } from "./pages/forms";
+import { Page as Tables } from "./pages/tables";
+import { Page as Grids} from "./pages/grids";
+import { Page as Codes} from "./pages/codes";
+import { Page as Utilities} from "./pages/utilities";
 
 // Stores/Vm's
 import { AllStores } from "./stores/all-stores";
@@ -47,25 +54,25 @@ export const App = observer((props: { stores: AllStores }) => {
                             <Bloqquotes />
                         } />
                         <Route path="/buttons" component={() =>
-                            <Todo {...{ stores, what: "buttons" }} />
+                            <Buttons />
                         } />
                         <Route path="/lists" component={() =>
-                            <Todo {...{ stores, what: "lists" }} />
+                            <Lists />
                         } />
                         <Route path="/forms" component={() =>
-                            <Todo {...{ stores, what: "forms" }} />
+                            <Forms />
                         } />
                         <Route path="/tables" component={() =>
-                            <Todo {...{ stores, what: "tables" }} />
+                            <Tables />
                         } />
                         <Route path="/grids" component={() =>
-                            <Todo {...{ stores, what: "grids" }} />
+                            <Grids />
                         } />
                         <Route path="/codes" component={() =>
-                            <Todo {...{ stores, what: "codes" }} />
+                            <Codes />
                         } />
                         <Route path="/utilities" component={() =>
-                            <Todo {...{ stores, what: "utilities" }} />
+                            <Utilities />
                         } />
                         <Route path="/tips" component={() =>
                             <Todo {...{ stores, what: "tips" }} />
