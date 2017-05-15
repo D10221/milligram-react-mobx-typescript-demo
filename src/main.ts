@@ -27,11 +27,6 @@ const isFirstRun = () => {
  * default value is MAC, then overwritten on 1st 'set'
  */
 let dontQuit = isDarwin;
-/**
- * On OS X it is common for applications and their menu bar
- * to stay active until the user quits explicitly with Cmd + Q
- * default value is NOT MAC, then overwritten on 1st 'set'
- */
 const canQuit = () => !dontQuit;
 
 const windowState = WindowStatePersistence("main-window");
