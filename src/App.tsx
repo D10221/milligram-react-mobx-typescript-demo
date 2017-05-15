@@ -19,7 +19,8 @@ import { Page as Lists } from "./pages/lists";
 import { Page as Forms } from "./pages/forms";
 import { Page as Tables } from "./pages/tables";
 import { Page as Grids} from "./pages/grids";
-import {Page as Codes} from "./pages/codes";
+import { Page as Codes} from "./pages/codes";
+import { Page as Utilities} from "./pages/utilities";
 
 // Stores/Vm's
 import { AllStores } from "./stores/all-stores";
@@ -71,7 +72,7 @@ export const App = observer((props: { stores: AllStores }) => {
                             <Codes />
                         } />
                         <Route path="/utilities" component={() =>
-                            <Todo {...{ stores, what: "utilities" }} />
+                            <Utilities />
                         } />
                         <Route path="/tips" component={() =>
                             <Todo {...{ stores, what: "tips" }} />
