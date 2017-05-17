@@ -8,7 +8,12 @@ import { Column } from "../../elements/column";
 
 import { ButtonLinkFty } from "../../elements/button-link-fty";
 
+/**
+ * css extension is only relevant at design time
+ * will be imported as plain-text
+ */
 const css = require("raw-loader!./code.css");
+
 const SubHeader = (props: { text?: string } & React.HTMLProps<HTMLElement>) => (
     <p><strong>{props.text || props.children}</strong></p>
 );
