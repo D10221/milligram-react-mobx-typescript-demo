@@ -6,9 +6,6 @@
 
 ### Notes:
 
-debug:  
--    [browser-support](https://www.npmjs.com/package/debug#browser-support)
-
 fonts:  
 - see: [google-fonts-offline](https://github.com/makovich/google-fonts-offline)  
 - then: 
@@ -23,4 +20,6 @@ fonts:
 - npm tasks: 
     - 'build+bundle': create electron's main & window's index
     - 'build+bundle+vendor': above+vendor dll 
+
+
 
