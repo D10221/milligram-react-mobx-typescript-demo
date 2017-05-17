@@ -11,6 +11,7 @@
     "url": "https://github.com/D10221/milligram-react-mobx-typescript-demo"
   },
   "scripts": {
+    "release": "build",
     "postinstall": "goofoffline outDir=\"src/fonts\" \"https://fonts.googleapis.com/css?family=Roboto\"",
     "link": "npm link electron",
     "test": "mocha test.js",
