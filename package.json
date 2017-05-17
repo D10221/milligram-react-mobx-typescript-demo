@@ -1,7 +1,7 @@
 {
   "name": "milligramo",
   "displayName": "Milligram Demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Milligram, React, Typescript, Electron ...demo",
   "main": "built/main.js",
   "icon": "resources/icon-128x128.png",
