@@ -22,7 +22,7 @@ import { Page as Grids } from "./pages/grids";
 import { Page as Codes } from "./pages/codes";
 import { Page as Utilities } from "./pages/utilities";
 import { Page as GettingStarted } from "./pages/getting-started";
-import {Page as Tips} from "./pages/tips";
+import { Page as Tips } from "./pages/tips";
 
 // Stores/Vm's
 import { AllStores } from "./stores/all-stores";

@@ -41,7 +41,7 @@ const ButtonLargeOutline = ButtonLinkFty(LARGE, OUTLINE);
 const ButtonLargeOutClear = ButtonLinkFty(LARGE, CLEAR);
 
 const Example = (props: React.HTMLProps<HTMLDivElement>) => (
-    <div className="example" {...props}/>
+    <div className="example" {...props} />
 );
 
 export const Page = () => (
