@@ -3,6 +3,7 @@ import { tryGet } from "./try-get";
 import { getPath } from "./local-path";
 import { getProcessArgs } from "./process-args";
 import { orDefault } from "./or-default";
+import { isDarwin } from "./platform";
 
 export const windowConfig = tryGet<Electron.BrowserWindowOptions>(
     () => JSON.parse(
@@ -16,4 +17,5 @@ windowConfig.width = orDefault(windowConfig.width, 600);
 windowConfig.height = orDefault(windowConfig.height, 600);
 windowConfig.autoHideMenuBar = orDefault(windowConfig.autoHideMenuBar, true);
 windowConfig.icon = orDefault(windowConfig.icon, getPath("resources", "favicon.ico"));
+windowConfig.titleBarStyle = orDefault(windowConfig.titleBarStyle, !isDarwin ? "hidden" : "default");
 windowConfig.show = false;
