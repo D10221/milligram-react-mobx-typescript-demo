@@ -38,6 +38,16 @@ const debug = createDebug("app:main");
 const pkg = require(path.join(__dirname, "../", "package.json"));
 const { displayName, description } = pkg;
 
+if (app.makeSingleInstance((_commandLine: any[], _workingDirectory: string) => {
+    // someone tried to run a second instance, we should focus our window
+    if (isWindowAlive(mainWindow)) {
+        mainWindow.focus();
+    }
+    return true;
+})) {
+    app.quit();
+}
+
 const createTray = async () => {
 
     dontQuit = orDefault(
