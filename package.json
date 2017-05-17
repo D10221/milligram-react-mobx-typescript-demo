@@ -1,5 +1,5 @@
 {
-  "name": "milligram-react-mobx-typescript-demo",
+  "name": "milligramo",
   "displayName": "Milligram Demo",
   "version": "1.0.0",
   "description": "Milligram, React, Typescript, Electron ...demo",
@@ -24,7 +24,8 @@
     "bundle:vendor": "webpack --config webpack/vendor.webpack.config.js",
     "bundle:client": "webpack --config webpack/webpack.config.js",
     "bundle": "npm run bundle:vendor && npm run bundle:client",
-    "re:build": "npm run clean && npm run build"
+    "re:build": "npm run clean && npm run build",
+    "png-to-icns": "nicns --in esources/icon.png --out icon.icns"
   },
   "keywords": [
     "miligram",
@@ -73,7 +74,7 @@
     "react-router": "^4.1.1"
   },
   "build": {
-    "appId": "github.com/D10221/milligram-react-mobx-typescript-demo",
+    "appId": "milligramo",
     "files": [
       "built",
       "node_modules",
