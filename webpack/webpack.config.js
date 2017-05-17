@@ -1,6 +1,7 @@
-var path = require('path');
-var fs = require('fs');
-var webpack = require('webpack');
+const path = require('path');
+const fs = require('fs');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 // flags: debug/production
 const {
@@ -18,9 +19,9 @@ const tsLoaderOptions = isDevBuild ? {
     // dev
     configFileName: "./tsconfig.json"
 } : {
-    // prod     
-    configFileName: "./tsconfig.prod.json"
-};
+        // prod     
+        configFileName: "./tsconfig.prod.json"
+    };
 console.log("ts-loader-options", JSON.stringify(tsLoaderOptions, null, 2));
 
 // Will Trhow if Not exists
@@ -51,7 +52,19 @@ module.exports = (env) => {
             filename: outputFilenameTemplate
         },
         module: {
-            rules: [{
+            rules: [
+                {
+                    test: /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+                    loader: 'url-loader?limit=100000'
+                },
+                {
+                    test: /\.css$/,
+                    use: [
+                        'style-loader', 'css-loader'
+                    ],
+                    exclude: [/node_modules/]
+                },
+                {
                     test: /\.tsx?$/,
                     exclude: [/node_modules/],
                     use: [{
@@ -72,18 +85,24 @@ module.exports = (env) => {
                 {
                     test: /\.txt$/,
                     use: 'raw-loader'
-                }            
+                }
             ]
         },
         plugins: [
-                // ...
-                // new webpack.optimize.CommonsChunkPlugin('vendor'),
-                //Typically you'd have plenty of other plugins here as well
-                new webpack.DllReferencePlugin({
-                    context: locations.sourceDir,
-                    manifest: locations.manifest
-                }),
-            ]
+            // ...
+            // new webpack.optimize.CommonsChunkPlugin('vendor'),
+            //Typically you'd have plenty of other plugins here as well
+            new webpack.DllReferencePlugin({
+                context: locations.sourceDir,
+                manifest: locations.manifest
+            }),
+            new HtmlWebpackPlugin(
+                {
+                    template: "./src/index.html",
+                    inject: "body"
+                }
+            ),
+        ]
             .concat(isDevBuild ? [
                 // Plugins that apply in development builds only          
                 new webpack.SourceMapDevToolPlugin({
@@ -95,23 +114,23 @@ module.exports = (env) => {
                     // module: false, // true: is faster, When false loaders do not generate SourceMaps and the transformed code is used as source instead
                 }),
             ] : [
-                // Plugins that apply in production builds only,
-                new webpack.DefinePlugin({
-                    'process.env.NODE_ENV': JSON.stringify('production')
-                }),
-                new webpack.optimize.UglifyJsPlugin({
-                    beautify: false,
-                    mangle: {
-                        screw_ie8: true,
-                        keep_fnames: true
-                    },
-                    compress: {
-                        screw_ie8: true
-                    },
-                    comments: false
-                }),
-                // ... 
-                new ExtractTextPlugin('site.css')
-            ]),
+                    // Plugins that apply in production builds only,
+                    new webpack.DefinePlugin({
+                        'process.env.NODE_ENV': JSON.stringify('production')
+                    }),
+                    new webpack.optimize.UglifyJsPlugin({
+                        beautify: false,
+                        mangle: {
+                            screw_ie8: true,
+                            keep_fnames: true
+                        },
+                        compress: {
+                            screw_ie8: true
+                        },
+                        comments: false
+                    }),
+                    // ... 
+                    new ExtractTextPlugin('site.css')
+                ]),
     }]
 };

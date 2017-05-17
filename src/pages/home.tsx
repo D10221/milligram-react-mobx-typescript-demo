@@ -11,7 +11,7 @@ export const Home = () => {
                 target="blank"
                 href="https://milligram.github.io">
                 <img width="100%"
-                    src="resources/thumbnail.png"
+                    src="../resources/thumbnail.png"
                     alt="Milligram - A minimalist CSS framework" />
             </a>
             <Blockquote>

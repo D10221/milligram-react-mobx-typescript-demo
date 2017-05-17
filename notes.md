@@ -6,4 +6,4 @@ fonts:
 - then: 
 
         $npm install -g google-fonts-offline
-        $goofoffline "https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"
+        $goofoffline outDir="src/fonts" "https://fonts.googleapis.com/css?family=Roboto"
