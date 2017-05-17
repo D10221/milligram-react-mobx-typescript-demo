@@ -8,9 +8,9 @@ import { Column } from "../elements/column";
 import { Description } from "../elements/description";
 
 export const Page = observer((props: {
-    title: React.ReactElement<any>|string,
-    description: React.ReactElement<any>|string,
-    content?: React.ReactElement<any>|string,
+    title: React.ReactElement<any> | string,
+    description: React.ReactElement<any> | string,
+    content?: React.ReactElement<any> | string,
     code: string,
 } & React.Props<any>) => {
     // ...

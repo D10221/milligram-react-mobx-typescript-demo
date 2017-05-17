@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // flags: debug/production
 const {
@@ -34,6 +35,9 @@ try {
 }
 const outputFilenameTemplate = '[name].bundle.js';
 
+const resourcesPath = path.join(locations.cwd, 'resources/**/*');
+console.log(`resourcesPath: ${resourcesPath}`);
+
 module.exports = (env) => {
     return [{
         stats: {
@@ -54,8 +58,8 @@ module.exports = (env) => {
         module: {
             rules: [
                 {
-                    test: /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
-                    loader: 'url-loader?limit=100000'
+                    test: /\.(png|woff|woff2|eot|ttf|svg|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                    use: ['url-loader']
                 },
                 {
                     test: /\.css$/,
@@ -102,6 +106,9 @@ module.exports = (env) => {
                     inject: "body"
                 }
             ),
+            new CopyWebpackPlugin([                
+                { from: resourcesPath,},
+            ])
         ]
             .concat(isDevBuild ? [
                 // Plugins that apply in development builds only          

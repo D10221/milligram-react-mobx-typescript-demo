@@ -9,7 +9,7 @@ import { isWindowAlive } from "./util/is-window-alive";
 import { toggleDevTools } from "./util/toggle-dev-tools";
 import { orDefault } from "./util/or-default";
 import { windowConfig } from "./util/window-config";
-import { requireJson } from "./util/require-json";
+// import { requireJson } from "./util/require-json";
 import { isDarwin } from "./util/platform";
 // Initial State
 const hasFlag = (flag: string) => typeof flag === "string" && process.argv.indexOf(flag) !== -1;
@@ -35,8 +35,18 @@ let mainWindow: Electron.BrowserWindow;
 let tray: Electron.Tray;
 const mainState = Persist("main");
 const debug = createDebug("app:main");
-const pkg = requireJson("package");
+const pkg = require(path.join(__dirname, "../", "package.json"));
 const { displayName, description } = pkg;
+
+if (app.makeSingleInstance((_commandLine: any[], _workingDirectory: string) => {
+    // someone tried to run a second instance, we should focus our window
+    if (isWindowAlive(mainWindow)) {
+        mainWindow.focus();
+    }
+    return true;
+})) {
+    app.quit();
+}
 
 const createTray = async () => {
 
