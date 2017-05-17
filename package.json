@@ -3,10 +3,10 @@
   "displayName": "Milligram Demo",
   "version": "1.0.0",
   "description": "Milligram, React, Typescript, Electron ...demo",
-  "main": "main.js",
+  "main": "built/main.js",
   "private": true,
   "scripts": {
-    "postinstall": "goofoffline 'https://fonts.googleapis.com/css?family=Roboto'",
+    "postinstall": "goofoffline outDir=\"src/fonts\" \"https://fonts.googleapis.com/css?family=Roboto\"",
     "link": "npm link electron",
     "test": "mocha test.js",
     "build": "tsc -p .",
@@ -16,8 +16,9 @@
     "start": "electron .",
     "bundle:vendor": "webpack --config webpack/vendor.webpack.config.js",
     "bundle": "webpack --config webpack/webpack.config.js",
-    "bundle:all": "npm run bundle:vendor && npm run bundle",
-    "build+bundle": "npm run build && npm run bundle"
+    "bundle:all": "npm run bundle:vendor && npm run bundle",    
+    "build+bundle": "npm run build && npm run bundle",
+    "build+bundle+vendor": "npm run build && npm run bundle:all"
   },
   "keywords": [
     "miligram",
