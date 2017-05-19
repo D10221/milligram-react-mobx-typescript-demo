@@ -2,7 +2,7 @@ import * as React from "react";
 import { observer } from "mobx-react";
 
 // Styled elements
-import { PopOverList, } from "../elements/popover-list";
+import { PopOverList, } from "milligrami/lib/popover-list";
 import { PopOverFty as PopOverFty, } from "./popover-fty";
 
 import { PopOverItemLinkFty } from "./popover-item-link-fty";

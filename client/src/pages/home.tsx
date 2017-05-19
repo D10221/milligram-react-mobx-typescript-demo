@@ -1,8 +1,8 @@
 import * as React from "react";
 
 // Elements
-import { Blockquote } from "../elements/blockquote";
-import { ContainerSection, } from "../elements/container-section";
+import { Blockquote } from "milligrami/lib/blockquote";
+import { ContainerSection, } from "milligrami/lib/container-section";
 
 export const Home = () => {
     return (

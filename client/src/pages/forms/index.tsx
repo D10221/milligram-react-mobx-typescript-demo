@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Page as Generic } from "../page";
-import { FloatRight } from "../../elements/float-right";
-import { LabelInline } from "../../elements/label-inline";
-import { ButtonInputPrimary } from "../../elements/button-input-primary";
+import { FloatRight } from "milligrami/lib/float-right";
+import { LabelInline } from "milligrami/lib/label-inline";
+import { ButtonInputPrimary } from "milligrami/lib/button-input-primary";
 
 const code = require("raw-loader!./code.html");
 export const Page = () => (

@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Container, } from "../../elements/container";
-import { Title3 } from "../../elements/headers";
-import { Codes as Code } from "../../elements/codes";
-import { Description } from "../../elements/description";
-import { ButtonLinkDownload as Download } from "../../elements/button-link-download";
+import { Container, } from "milligrami/lib/container";
+import { Title3 } from "milligrami/lib/headers";
+import { Codes as Code } from "milligrami/lib/codes";
+import { Description } from "milligrami/lib/description";
+import { ButtonLinkDownload as Download } from "milligrami/lib/button-link-download";
 
 const installHtml = require("raw-loader!./install-html.html");
 const tree = require("raw-loader!./tree.md");

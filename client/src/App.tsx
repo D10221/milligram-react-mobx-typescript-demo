@@ -1,8 +1,8 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 
-import { Main, } from "./elements/main";
-import { ContainerSection, } from "./elements/container-section";
+import { Main, } from "milligrami/lib/main";
+import { ContainerSection, } from "milligrami/lib/container-section";
 
 // Components:
 import { NavMain } from "./components/nav-main";

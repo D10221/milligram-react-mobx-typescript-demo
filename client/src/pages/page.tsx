@@ -1,11 +1,11 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 
-import { Container, } from "../elements/container";
-import { Title3 } from "../elements/headers";
-import { Row } from "../elements/row";
-import { Column } from "../elements/column";
-import { Description } from "../elements/description";
+import { Container, } from "milligrami/lib/container";
+import { Title3 } from "milligrami/lib/headers";
+import { Row } from "milligrami/lib/row";
+import { Column } from "milligrami/lib/column";
+import { Description } from "milligrami/lib/description";
 
 export const Page = observer((props: {
     title: React.ReactElement<any> | string,

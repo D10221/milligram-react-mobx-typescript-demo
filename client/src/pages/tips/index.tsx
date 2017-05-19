@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Container, } from "../../elements/container";
-import { Title3 } from "../../elements/headers";
-import { Codes as Code } from "../../elements/codes";
-import { Description } from "../../elements/description";
-import { Row } from "../../elements/row";
-import { Column } from "../../elements/column";
+import { Container, } from "milligrami/lib/container";
+import { Title3 } from "milligrami/lib/headers";
+import { Codes as Code } from "milligrami/lib/codes";
+import { Description } from "milligrami/lib/description";
+import { Row } from "milligrami/lib/row";
+import { Column } from "milligrami/lib/column";
 
-import { ButtonLinkFty } from "../../elements/button-link-fty";
+import { ButtonLinkFty } from "milligrami/lib/button-link-fty";
 
 /**
  * css extension is only relevant at design time

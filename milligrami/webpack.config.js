@@ -4,20 +4,25 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-// flags: debug/production
-const {
-    isDevBuild
-} = require("./webpack.env");
-if (!isDevBuild) {
-    throw new Error("Not Implemented: production build");
-}
+const isDevBuild = ! (process.env.NODE_ENV === "production");
+console.log(`isDevBuild: ${isDevBuild}`);
+// Locations: 
 
-// locations
-const locations = require("./webpack.locations");
+const sourceDir = path.resolve(__dirname, "./src");
+const outDir = path.resolve(__dirname, 'built');
+// const context = sourceDir;
+// const manifest = path.resolve(outDir, "vendor-manifest.json");
+// const main = [path.resolve(sourceDir, 'main.ts')];
+const index = [path.resolve(sourceDir, 'index.ts')];
+// const vendor = [path.resolve(sourceDir, "vendor.js")];
+const tsConfig = "./tsconfig.json";
+// const htmlWebpackPluginTemplate = path.resolve(sourceDir, "index.html");
+// const resources = path.resolve(__dirname, 'resources/**/*');
+const outputFilenameTemplate = '[name].bundle.js';
 
 // ts-loader: config:
 const tsLoaderOptions = {
-    configFileName: locations.tsConfig
+    configFileName: tsConfig
 }
 
 // Will Trhow if Not exists
@@ -28,7 +33,6 @@ try {
     console.error(e.message);
     process.exit(-1);
 }
-const outputFilenameTemplate = '[name].bundle.js';
 
 module.exports = (env) => {
     return [{
@@ -37,14 +41,14 @@ module.exports = (env) => {
         },
         // devtool: '#source-map',
         entry: {
-            index: locations.index,
+            index
         },
         resolve: {
             modules: ['node_modules'],
             extensions: ['.js', '.jsx', '.ts', '.tsx'],
         },
         output: {
-            path: locations.outDir,
+            path: outDir,
             filename: outputFilenameTemplate
         },
         module: {
@@ -86,28 +90,27 @@ module.exports = (env) => {
         },
         plugins: [
             // ...
-            // new webpack.optimize.CommonsChunkPlugin('vendor'),
-            //Typically you'd have plenty of other plugins here as well
-            new webpack.DllReferencePlugin({
-                context: locations.sourceDir,
-                manifest: locations.manifest
-            }),
-            new HtmlWebpackPlugin(
-                {
-                    template: locations.htmlWebpackPluginTemplate,
-                    inject: "body"
-                }
-            ),
-            new CopyWebpackPlugin([
-                { from: locations.resources, },
-            ])
+            // new webpack.optimize.CommonsChunkPlugin('vendor'),            
+            // new webpack.DllReferencePlugin({
+            //     context: sourceDir,
+            //     manifest: manifest
+            // }),
+            // new HtmlWebpackPlugin(
+            //     {
+            //         template: htmlWebpackPluginTemplate,
+            //         inject: "body"
+            //     }
+            // ),
+            // new CopyWebpackPlugin([
+            //     { from: resources, },
+            // ])
         ]
             .concat(isDevBuild ? [
                 // Plugins that apply in development builds only          
                 new webpack.SourceMapDevToolPlugin({
                     filename: '[file].map', // Remove this line if you prefer inline source maps
                     moduleFilenameTemplate: path.relative(
-                        locations.outDir,
+                        outDir,
                         '[resourcePath]'), // Point sourcemap entries to the original file locations on disk
                     // columns: false, // false: is faster (500ms), When false column mappings in SourceMaps are ignored and a faster SourceMap implementation is used
                     // module: false, // true: is faster, When false loaders do not generate SourceMaps and the transformed code is used as source instead
@@ -129,7 +132,7 @@ module.exports = (env) => {
                         comments: false
                     }),
                     // ... 
-                    new ExtractTextPlugin('site.css')
+                    // new ExtractTextPlugin('site.css')
                 ]),
     }]
 };

@@ -2,7 +2,7 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import { AllStores } from "../stores/all-stores";
 
-import { ContainerSection, } from "../elements/container-section";
+import { ContainerSection, } from "milligrami/lib/container-section";
 import { FooterSticky } from "./footer-sticky";
 export const Footer = observer((props: { stores: AllStores }) => {
     if (!props.stores) {

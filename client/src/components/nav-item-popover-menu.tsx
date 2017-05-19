@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 
 // Elements:
 import { PopOverFty, } from "./popover-fty";
-import { PopOverList } from "../elements/popover-list";
+import { PopOverList } from "milligrami/lib/popover-list";
 import { PopOverItemLinkFty } from "./popover-item-link-fty";
 
 export interface NavItemPopoverMenuLink {

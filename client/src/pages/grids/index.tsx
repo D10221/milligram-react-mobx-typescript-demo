@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Page as Generic } from "../page";
-import { Container } from "../../elements/container";
-import { Column } from "../../elements/column";
-import { Row } from "../../elements/row";
+import { Container } from "milligrami/lib/container";
+import { Column } from "milligrami/lib/column";
+import { Row } from "milligrami/lib/row";
 const code = require("raw-loader!./code.html");
 
 const ColumnDemo = (props: React.HTMLProps<HTMLDivElement>) => (

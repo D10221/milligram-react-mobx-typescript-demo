@@ -2,8 +2,8 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import { AllStores } from "../stores/all-stores";
 
-import { ContainerSection, } from "../elements/container-section";
-import { Title5 } from "../elements/headers";
+import { ContainerSection, } from "milligrami/lib/container-section";
+import { Title5 } from "milligrami/lib/headers";
 export const Contributing = observer(
     (props: { stores: AllStores }) => {
         if (!props.stores) {

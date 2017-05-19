@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Page as Generic } from "../page";
-import { Row } from "../../elements/row";
-import { Column } from "../../elements/column";
+import { Row } from "milligrami/lib/row";
+import { Column } from "milligrami/lib/column";
 const code = require("raw-loader!./code.html");
 export const Page = () => (
     <Generic

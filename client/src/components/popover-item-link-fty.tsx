@@ -1,6 +1,6 @@
 import * as React from "react";
-import { PopoverLink } from "../elements//popover-link";
-import { PopoverListItem } from "../elements/popover-list-item";
+import { PopoverLink } from "milligrami/lib//popover-link";
+import { PopoverListItem } from "milligrami/lib/popover-list-item";
 
 export const PopOverItemLinkFty = (menuId: string, toggleOpen: (menuId: string) => void) =>
     (props: { href: string, title: string, target?: string }) => {

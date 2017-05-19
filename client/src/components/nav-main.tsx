@@ -2,14 +2,14 @@ import * as React from "react";
 import { observer } from "mobx-react";
 
 // Elements
-import { ContainerSection, } from "../elements/container-section";
-import { Title1, } from "../elements/headers";
+import { ContainerSection, } from "milligrami/lib/container-section";
+import { Title1, } from "milligrami";
 
 import {
     Nav,
     NavTitle,
     NavigationList,
-} from "../elements/navigation";
+} from "milligrami/lib/navigation";
 
 import { DocMenu } from "./menu-documentation";
 import { SupportMenu } from "./menu-support";
