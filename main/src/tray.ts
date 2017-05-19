@@ -1,6 +1,6 @@
 import * as electron from "electron";
-import { getPath } from "./util/local-path";
-import { isDarwin } from "./util/platform";
+import { getPath } from "./local-path";
+import { isDarwin } from "./platform";
 
 export interface TrayOptions {
     icon?: string;

@@ -16,14 +16,9 @@ if (!isDevBuild) {
 const locations = require("./webpack.locations");
 
 // ts-loader: config:
-const tsLoaderOptions = isDevBuild ? {
-    // dev
-    configFileName: "./tsconfig.json"
-} : {
-        // prod     
-        configFileName: "./tsconfig.prod.json"
-    };
-console.log("ts-loader-options", JSON.stringify(tsLoaderOptions, null, 2));
+const tsLoaderOptions = {
+    configFileName: locations.tsConfig
+}
 
 // Will Trhow if Not exists
 try {
@@ -34,9 +29,6 @@ try {
     process.exit(-1);
 }
 const outputFilenameTemplate = '[name].bundle.js';
-
-const resourcesPath = path.join(locations.cwd, 'resources/**/*');
-console.log(`resourcesPath: ${resourcesPath}`);
 
 module.exports = (env) => {
     return [{
@@ -102,12 +94,12 @@ module.exports = (env) => {
             }),
             new HtmlWebpackPlugin(
                 {
-                    template: "./src/index.html",
+                    template: locations.htmlWebpackPluginTemplate,
                     inject: "body"
                 }
             ),
-            new CopyWebpackPlugin([                
-                { from: resourcesPath,},
+            new CopyWebpackPlugin([
+                { from: locations.resources, },
             ])
         ]
             .concat(isDevBuild ? [

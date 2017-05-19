@@ -1,4 +1,3 @@
-require("./resources");
 require("./index.css");
 
 import * as React from "react";
