@@ -16,5 +16,5 @@ __export(require("./navigation"));
 __export(require("./popover-link"));
 __export(require("./popover-list-item"));
 __export(require("./popover-list"));
-__export(require("./Main"));
+__export(require("./main"));
 //# sourceMappingURL=index.js.map

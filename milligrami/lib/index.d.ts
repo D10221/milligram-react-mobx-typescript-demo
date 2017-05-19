@@ -8,4 +8,4 @@ export * from "./navigation";
 export * from "./popover-link";
 export * from "./popover-list-item";
 export * from "./popover-list";
-export * from "./Main";
+export * from "./main";
