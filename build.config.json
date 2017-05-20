@@ -23,11 +23,18 @@
             ]
         },
         {
+            "name":"electron-window-state",
+            "dir": "./packages/electron-window-state",
+            "scripts":[
+                "npm run build"
+            ]
+        },
+        {
             "name": "main",
             "dir": "./packages/main",
             "scripts": [
                 "npm link ../electron-json-storage-async",
-                "npm link ../electron-window-statec",
+                "npm link ../electron-window-state",
                 "npm run build"
             ]
         }

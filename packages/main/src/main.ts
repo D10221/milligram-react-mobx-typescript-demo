@@ -10,7 +10,7 @@ import { orDefault } from "./or-default";
 import { windowConfig } from "./window-config";
 // import { requireJson } from "./require-json";
 import { isDarwin } from "./platform";
-import { WindowStateManager, isWindowAlive, subscribe } from "electron-window-state";
+import { WindowStateManager, isWindowAlive, subscribe, Subscription } from "electron-window-state";
 // Initial State
 const hasFlag = (flag: string) => typeof flag === "string" && process.argv.indexOf(flag) !== -1;
 const openDevTools = process.env.OPEN_DEV_TOOLS || hasFlag("--dev-tools");
@@ -79,7 +79,7 @@ const createTray = async () => {
 
     return _tray;
 };
-
+let subscription: Subscription;
 function createWindow() {
 
     if (windowConfig.titleBarStyle && windowConfig.frame) {
@@ -99,7 +99,9 @@ function createWindow() {
             slashes: true
         })
     );
-    const subscription = // it does also restore, TODO:
+
+    if (subscription) { subscription.unsubscribe(); }
+    subscription = // it does also restore, TODO:
         subscribe(windowState)(mainWindow);
 
     // Emitted when the window is closed.
@@ -107,9 +109,9 @@ function createWindow() {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
+        e.preventDefault();
         subscription.unsubscribe();
         mainWindow = null;
-        e.preventDefault();
     });
 
     mainWindow.on("ready-to-show", () => {

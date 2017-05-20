@@ -3,6 +3,11 @@ export interface StateData {
     devToolsOpened: boolean;
     bounds: Electron.Rectangle;
 }
+
+export interface Subscription {
+    disposed: boolean;
+    unsubscribe: () => void ;
+}
 export interface IWindowStateManager {
     set(window: Electron.BrowserWindow): Promise<void>;
     get(): Promise<StateData>;
