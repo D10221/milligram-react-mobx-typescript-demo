@@ -13,19 +13,12 @@
   "scripts": {
     "release": "build",
     "download:font": "goofoffline outDir=\"src/fonts\" \"https://fonts.googleapis.com/css?family=Roboto\"",
-    "link": "npm link electron",
     "test": "mocha test.js",
-    "build": "npm run build:main && npm run bundle",
-    "build:main": "tsc -p main/.",
-    "build:main+bundle:client": "npm run build:main && npm run bundle:client",
+    "build": "node build/",        
     "format": "tsfmt -r",
     "clean": "rimraf ./built",
-    "rebuild": "npm run clean && npm run build && npm run bundle",
-    "start": "electron .",
-    "bundle:vendor": "webpack --config client/vendor.webpack.config.js",
-    "bundle:client": "webpack --config client/webpack.config.js",
-    "bundle": "npm run bundle:vendor && npm run bundle:client",
-    "re:build": "npm run clean && npm run build",
+    "rebuild": "node built/ --clean",
+    "start": "electron .",    
     "png-to-icns": "nicns --in esources/icon.png --out icon.icns"
   },
   "keywords": [

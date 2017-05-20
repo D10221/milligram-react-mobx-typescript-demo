@@ -1,13 +1,7 @@
 import * as  fs from "fs";
 import * as path from "path";
 import * as shell from "shelljs";
-
-const root = [process.argv.indexOf("--root")]
-    .filter(i => i > 1)
-    .map(i => process.argv[i + 1])
-    .filter(x => x)
-    .map(p => path.isAbsolute(p) ? p : path.resolve(process.cwd(), p))
-[0] || process.cwd();
+import { BuildConfig } from "./interfaces";
 
 const getFlag = (x: string, defaultValue?: string) => {
     const i = process.argv.indexOf(x);
@@ -16,28 +10,11 @@ const getFlag = (x: string, defaultValue?: string) => {
     return !value || value.trim() === "" ? defaultValue : value;
 };
 
-const projects = [
-    {
-        name: "milligrami",
-        dir: "packages/milligrami",
-        scripts: ["npm run build"]
-    },
-    {
-        name: "client",
-        dir: "packages/client",
-        scripts: [
-            "npm link ../milligrami",
-            "npm run build"
-        ]
-    },
-    {
-        name: "main",
-        dir: "packages/main",
-        scripts: [
-            "npm run build"
-        ]
-    }
-];
+const cwd = process.cwd();
+const root = getFlag("--root") || cwd;
+const config: BuildConfig = JSON.parse(
+    fs.readFileSync(path.join(root, getFlag("--config") || "build.config.json"), "utf-8")
+);
 
 /**
  * as name,name,name,name
@@ -45,22 +22,24 @@ const projects = [
 const cleans = (getFlag("--clean", "*") || "").split(",");
 
 shell.cd(root);
-for (const project of projects) {
+
+for (const pkg of config.packages) {
     try {
+        console.log(`Package: ${pkg.name}`);
 
-        if (!fs.existsSync(project.dir)) {
-            throw new Error("Project dir: " + project.dir + "doens't exists");
+        const pkgDir = path.isAbsolute(pkg.dir) ? pkg.dir : path.resolve(root, pkg.dir);
+        if (!fs.existsSync(pkgDir)) {
+            throw new Error(`Package dir: ${pkg.dir} doens't exists, cwd: ${pkgDir}`);
         }
+        shell.cd(pkgDir);
 
-        shell.cd(project.dir);
-
-        const clean = cleans[0] === "*" || cleans.find(x => x === project.name);
+        const clean = cleans[0] === "*" || cleans.find(x => x === pkg.name);
         if (clean) {
-            console.log("clean: " + project.name);
+            console.log("clean: " + pkg.name);
             shell.exec("npm run clean");
         }
 
-        for (const script of project.scripts) {
+        for (const script of pkg.scripts) {
             shell.exec(script);
         }
     } catch (e) {

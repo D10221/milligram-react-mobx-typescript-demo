@@ -1,0 +1,34 @@
+{
+    "packages": [
+        {
+            "name": "milligrami",
+            "dir": "./packages/milligrami",
+            "scripts": [
+                "npm run build"
+            ]
+        },
+        {
+            "name": "client",
+            "dir": "./packages/client",
+            "scripts": [
+                "npm link ../milligrami",
+                "npm run build"
+            ]
+        },
+        {
+            "name": "electron-json-storage-async",
+            "dir": "./packages/electron-json-storage-async",
+            "scripts": [
+                "npm run build"
+            ]
+        },
+        {
+            "name": "main",
+            "dir": "./packages/main",
+            "scripts": [
+                "npm link ../electron-json-storage-async",
+                "npm run build"
+            ]
+        }
+    ]
+}

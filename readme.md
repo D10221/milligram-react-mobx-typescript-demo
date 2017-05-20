@@ -5,7 +5,17 @@
     ...and Electron;
 
 ### Notes:
-.. breaking it 
+
+build: 
+
+    npm run build
+
+Make mac icon:
+    
+    nicns --in resources/icon.png --out icon.icns
+
+
+
 
 
 
