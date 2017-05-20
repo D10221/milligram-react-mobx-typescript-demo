@@ -23,7 +23,17 @@ const cleans = (getFlag("--clean", "*") || "").split(",");
 
 shell.cd(root);
 
+const packages = config.packages.map(x => x.name);
+const selection = process.argv.filter(arg => {
+    return packages.indexOf(arg) !== -1;
+});
+
 for (const pkg of config.packages) {
+    if (selection.length > 0) {
+        if (selection.indexOf(pkg.name) === -1) {
+            continue;
+        }
+    }
     try {
         console.log(`Package: ${pkg.name}`);
 
