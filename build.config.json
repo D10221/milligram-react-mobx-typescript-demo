@@ -27,6 +27,7 @@
             "dir": "./packages/main",
             "scripts": [
                 "npm link ../electron-json-storage-async",
+                "npm link ../electron-window-statec",
                 "npm run build"
             ]
         }

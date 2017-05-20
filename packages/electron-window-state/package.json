@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "main": "test.js",
+  "main": "built/index.js",
+  "typings": "built/index.d.ts",
   "scripts": {
     "test": "mocha ./test.js",
     "build": "tsc -p .",

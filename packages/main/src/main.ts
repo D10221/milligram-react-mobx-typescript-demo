@@ -10,7 +10,7 @@ import { orDefault } from "./or-default";
 import { windowConfig } from "./window-config";
 // import { requireJson } from "./require-json";
 import { isDarwin } from "./platform";
-import { WindowState, isWindowAlive, subscribe } from "electron-window-state";
+import { WindowStateManager, isWindowAlive, subscribe } from "electron-window-state";
 // Initial State
 const hasFlag = (flag: string) => typeof flag === "string" && process.argv.indexOf(flag) !== -1;
 const openDevTools = process.env.OPEN_DEV_TOOLS || hasFlag("--dev-tools");
@@ -24,7 +24,7 @@ const isFirstRun = () => {
 let dontQuit = isDarwin;
 const canQuit = () => !dontQuit;
 
-const windowState = WindowState("main-window");
+const windowState = WindowStateManager("main-window");
 const app = electron.app;
 let mainWindow: Electron.BrowserWindow;
 let tray: Electron.Tray;
@@ -99,6 +99,8 @@ function createWindow() {
             slashes: true
         })
     );
+    const subscription = // it does also restore, TODO:
+        subscribe(windowState)(mainWindow);
 
     // Emitted when the window is closed.
     mainWindow.on("closed", (e: Event) => {
@@ -117,8 +119,6 @@ function createWindow() {
         }
         createWindowCount++;
     });
-
-    const _subscription = subscribe(windowState)(mainWindow);
 
     // Open the DevTools. on Start
     if (openDevTools && isFirstRun()) {
