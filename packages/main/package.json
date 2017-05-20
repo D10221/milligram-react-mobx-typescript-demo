@@ -1,0 +1,10 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "mocha ./test.js",
+    "build": "tsc -p ./",
+    "clean": "rimraf ./lib ./dist ./built",
+    "rebuild": "npm run clean && npm run build"
+  }  
+}

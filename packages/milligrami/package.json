@@ -1,0 +1,20 @@
+{
+  "name": "milligrami",
+  "version": "1.0.0",
+  "description": "Milligram React wrapper",
+  "main": "lib/index.js",
+  "private": true,  
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "test": "mocha ./test.js",
+    "build": "tsc -p ./",
+    "clean": "rimraf ./lib ./dist ./built",
+    "rebuild": "npm run clean && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^2.0.0-rc.4"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "build",
+  "version": "1.0.0",
+  "description": "",
+  "main": "built/index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p .",
+    "clean": "rimraf ./built",
+    "rebuild": "npm run clean && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

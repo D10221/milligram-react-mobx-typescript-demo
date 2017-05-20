@@ -1,0 +1,17 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {    
+    "link": "npm link ../milligrami",
+    "test": "mocha ./test.js",
+    "build": "webpack --config ./webpack.config.js",
+    "clean": "rimraf ./lib ./dist ./built",
+    "rebuild": "npm run clean && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
