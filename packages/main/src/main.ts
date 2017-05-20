@@ -21,11 +21,6 @@ const isFirstRun = () => {
     return createWindowCount === 0;
 };
 
-/**
- * On OS X it is common for applications and their menu bar
- * to stay active until the user quits explicitly with Cmd + Q
- * default value is MAC, then overwritten on 1st 'set'
- */
 let dontQuit = isDarwin;
 const canQuit = () => !dontQuit;
 

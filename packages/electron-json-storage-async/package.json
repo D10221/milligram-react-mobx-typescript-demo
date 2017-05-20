@@ -1,0 +1,16 @@
+{
+  "name": "electron-json-storage-async",
+  "version": "1.0.0",
+  "description": "",
+  "main": "built/index.js",
+  "typings": "built/index.d.ts",
+  "private": true,
+  "scripts": {
+    "test": "mocha ./test.js",
+    "build": "tsc -p .",
+    "clean": "rimraf ./built"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
