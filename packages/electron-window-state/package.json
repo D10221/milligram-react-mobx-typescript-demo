@@ -1,0 +1,15 @@
+{
+  "name": "electron-window-state",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "test.js",
+  "scripts": {
+    "test": "mocha ./test.js",
+    "build": "tsc -p .",
+    "clean": "rimraf ./built"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

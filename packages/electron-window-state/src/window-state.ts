@@ -1,19 +1,10 @@
 import * as util from "util";
 import { isWindowAlive } from "./is-window-alive";
 import { Store } from "electron-json-storage-async";
+import { StateData, IWindowStateManager } from "./interfaces";
 
-// import * as createDebug from "debug";
-// const debug = createDebug(require("../package.json").name + ":" + "window-state");
-// const logError = (e: Error) => { debug(e); };
 const storage = Store<any>("main-window");
-export type BrowserWindow = Electron.BrowserWindow;
-export interface StateData {
-    fullScreen: boolean;
-    devToolsOpened: boolean;
-    bounds: Electron.Rectangle;
-}
-
-export const WindowState = (windowName: string, onError?: (e: Error) => void) => {
+export const WindowStateManager = (windowName: string, onError?: (e: Error) => void): IWindowStateManager => {
 
     let currentState: StateData = {} as any;
 
@@ -27,7 +18,7 @@ export const WindowState = (windowName: string, onError?: (e: Error) => void) =>
         return storage.set(storeKey, currentState);
     };
 
-    const update = (window: BrowserWindow, key?: keyof StateData) => {
+    const update = (window: Electron.BrowserWindow, key?: keyof StateData) => {
         switch (key) {
             case "devToolsOpened": {
                 currentState.devToolsOpened = window.webContents.isDevToolsOpened();
@@ -46,13 +37,13 @@ export const WindowState = (windowName: string, onError?: (e: Error) => void) =>
             }
         }
 
-        saveState();
+        return saveState();
     };
 
-    const set = (window: BrowserWindow) => {
+    const set = (window: Electron.BrowserWindow) => {
 
         if (!isWindowAlive(window)) {
-            return;
+            return Promise.resolve();
         }
 
         const newState: StateData = {} as any;
@@ -61,14 +52,14 @@ export const WindowState = (windowName: string, onError?: (e: Error) => void) =>
         if (!newState.fullScreen) {
             currentState.bounds = window.getBounds();
         }
-        saveState();
+        return saveState();
     };
 
     const get = (): Promise<StateData> => {
         return storage.get(storeKey);
     };
 
-    const restore = (window: BrowserWindow) => {
+    const restore = (window: Electron.BrowserWindow) => {
         return get().then(state => {
             if (state && (state.bounds || !util.isNullOrUndefined(state.fullScreen))) {
                 if (!state.fullScreen) {
@@ -85,7 +76,7 @@ export const WindowState = (windowName: string, onError?: (e: Error) => void) =>
 
     const reset = () => {
         currentState = {} as any;
-        saveState();
+        return saveState();
     };
 
     return { set, get, restore, save: saveState, reset, update };

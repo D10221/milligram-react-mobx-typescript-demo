@@ -4,13 +4,13 @@ import * as url from "url";
 import * as createDebug from "debug";
 import { create as _createTray } from "./tray";
 import { Store } from "electron-json-storage-async";
-import { isWindowAlive } from "./is-window-alive";
+
 import { toggleDevTools } from "./toggle-dev-tools";
 import { orDefault } from "./or-default";
 import { windowConfig } from "./window-config";
 // import { requireJson } from "./require-json";
 import { isDarwin } from "./platform";
-import { WindowState } from "./window-state";
+import { WindowState, isWindowAlive, subscribe } from "electron-window-state";
 // Initial State
 const hasFlag = (flag: string) => typeof flag === "string" && process.argv.indexOf(flag) !== -1;
 const openDevTools = process.env.OPEN_DEV_TOOLS || hasFlag("--dev-tools");
@@ -105,6 +105,7 @@ function createWindow() {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
+        subscription.unsubscribe();
         mainWindow = null;
         e.preventDefault();
     });
@@ -117,24 +118,7 @@ function createWindow() {
         createWindowCount++;
     });
 
-    mainWindow.on("resize", () => {
-        windowState.set(mainWindow);
-    });
-
-    mainWindow.on("move", () => {
-        windowState.set(mainWindow);
-    });
-
-    mainWindow.webContents.on("devtools-opened", () => {
-        windowState.update(mainWindow, "devToolsOpened");
-    });
-
-    mainWindow.webContents.on("devtools-closed", () => {
-        windowState.update(mainWindow, "devToolsOpened");
-    });
-
-    // Restore Last State
-    windowState.restore(mainWindow);
+    const _subscription = subscribe(windowState)(mainWindow);
 
     // Open the DevTools. on Start
     if (openDevTools && isFirstRun()) {
