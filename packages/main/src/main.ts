@@ -3,14 +3,14 @@ import * as path from "path";
 import * as url from "url";
 import * as createDebug from "debug";
 import { create as _createTray } from "./tray";
-import { WindowStatePersistence } from "./window-state-persistence";
-import { Persist } from "./persists";
+import { Store } from "electron-json-storage-async";
 import { isWindowAlive } from "./is-window-alive";
 import { toggleDevTools } from "./toggle-dev-tools";
 import { orDefault } from "./or-default";
 import { windowConfig } from "./window-config";
 // import { requireJson } from "./require-json";
 import { isDarwin } from "./platform";
+import { WindowState } from "./window-state";
 // Initial State
 const hasFlag = (flag: string) => typeof flag === "string" && process.argv.indexOf(flag) !== -1;
 const openDevTools = process.env.OPEN_DEV_TOOLS || hasFlag("--dev-tools");
@@ -24,11 +24,11 @@ const isFirstRun = () => {
 let dontQuit = isDarwin;
 const canQuit = () => !dontQuit;
 
-const windowState = WindowStatePersistence("main-window");
+const windowState = WindowState("main-window");
 const app = electron.app;
 let mainWindow: Electron.BrowserWindow;
 let tray: Electron.Tray;
-const mainState = Persist("main");
+const mainState = Store<any>("main");
 const debug = createDebug("app:main");
 const pkg = require(path.join(__dirname, "../", "package.json"));
 const { displayName, description } = pkg;
@@ -46,7 +46,7 @@ if (app.makeSingleInstance((_commandLine: any[], _workingDirectory: string) => {
 const createTray = async () => {
 
     dontQuit = orDefault(
-        (await (mainState.get<boolean>("dont-quit"))),
+        (await mainState.get<boolean>("dont-quit")),
         dontQuit
     );
 

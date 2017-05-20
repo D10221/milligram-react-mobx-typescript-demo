@@ -1,6 +1,11 @@
 import * as util from "util";
 import { isWindowAlive } from "./is-window-alive";
-import * as storage from "./storage";
+import { Store } from "electron-json-storage-async";
+
+// import * as createDebug from "debug";
+// const debug = createDebug(require("../package.json").name + ":" + "window-state");
+// const logError = (e: Error) => { debug(e); };
+const storage = Store<any>("main-window");
 export type BrowserWindow = Electron.BrowserWindow;
 export interface StateData {
     fullScreen: boolean;
@@ -8,7 +13,7 @@ export interface StateData {
     bounds: Electron.Rectangle;
 }
 
-export const WindowStatePersistence = (windowName: string, onError?: (e: Error) => void) => {
+export const WindowState = (windowName: string, onError?: (e: Error) => void) => {
 
     let currentState: StateData = {} as any;
 
@@ -19,7 +24,7 @@ export const WindowStatePersistence = (windowName: string, onError?: (e: Error) 
     });
 
     const saveState = () => {
-        return storage.setItem(storeKey, currentState, onError);
+        return storage.set(storeKey, currentState);
     };
 
     const update = (window: BrowserWindow, key?: keyof StateData) => {
@@ -60,7 +65,7 @@ export const WindowStatePersistence = (windowName: string, onError?: (e: Error) 
     };
 
     const get = (): Promise<StateData> => {
-        return storage.getItem<StateData>(storeKey);
+        return storage.get(storeKey);
     };
 
     const restore = (window: BrowserWindow) => {
