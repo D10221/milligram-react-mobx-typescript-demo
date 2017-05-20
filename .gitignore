@@ -8,4 +8,5 @@ audio/**
 fonts/*
 archive.zip
 update.zip
-dist/
+**/dist/*
+**/lib/*
