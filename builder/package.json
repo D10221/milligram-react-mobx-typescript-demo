@@ -1,7 +1,7 @@
 {
-  "name": "build",
+  "name": "builder",
   "version": "1.0.0",
-  "description": "",
+  "description": "builds",
   "main": "built/index.js",
   "private": true,
   "scripts": {
@@ -12,5 +12,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }

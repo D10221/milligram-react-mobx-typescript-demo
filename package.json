@@ -14,7 +14,7 @@
     "release": "build",
     "download:font": "goofoffline outDir=\"src/fonts\" \"https://fonts.googleapis.com/css?family=Roboto\"",
     "test": "mocha test.js",
-    "build": "node build/",        
+    "build": "node builder/",        
     "format": "tsfmt -r",
     "clean": "rimraf ./built",
     "rebuild": "node built/ --clean",
@@ -29,7 +29,7 @@
     "typescript"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/debug": "0.0.29",
     "@types/electron": "^1.4.37",
