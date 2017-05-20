@@ -7,7 +7,9 @@
   "scripts": {    
     "link": "npm link ../milligrami",
     "test": "mocha ./test.js",
-    "build": "webpack --config ./webpack.config.js",
+    "build:vendor": "webpack --config ./vendor.webpack.config.js",
+    "build:client": "webpack --config ./webpack.config.js",
+    "build": "npm run build:vendor && npm run build:client",
     "clean": "rimraf ./lib ./dist ./built",
     "rebuild": "npm run clean && npm run build"
   },

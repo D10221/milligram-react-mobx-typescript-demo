@@ -6,7 +6,7 @@ console.log(`isDevBuild: ${isDevBuild}`);
 
 // locations
 const sourceDir = path.resolve(__dirname, "./src");
-const outDir = path.resolve(__dirname, '../built');
+const outDir = path.resolve(__dirname, '../../built');
 const context = sourceDir;
 const manifest = path.resolve(outDir, "vendor-manifest.json");
 // const main = [path.resolve(sourceDir, 'main.ts')];
