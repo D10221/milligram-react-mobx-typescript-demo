@@ -10,10 +10,29 @@ const getFlag = (x: string, defaultValue?: string) => {
     return !value || value.trim() === "" ? defaultValue : value;
 };
 
-const cwd = process.cwd();
-const root = getFlag("--root") || cwd;
+const log = (result: shell.ExecOutputReturnValue) => {
+    if (result.stderr) {
+        console.error(result.stderr);
+    }
+    if (result.stdout) {
+        console.log(result.stdout);
+    }
+};
+
+const clean  = (input: string)=> {
+    return input.replace(/\/\/.*/, "");
+        //.split(/\r?\n/)
+        //.filter(line=> //.test(line)).join();
+}
+
+
+const root = path.resolve(process.cwd(), getFlag("--root") || process.cwd());
+console.log(`root: ${root}`);
+
 const config: BuildConfig = JSON.parse(
-    fs.readFileSync(path.join(root, getFlag("--config") || "build.config.json"), "utf-8")
+    clean(
+        fs.readFileSync(path.join(root, getFlag("--config") || "build.config.json"), "utf-8")
+    )
 );
 
 /**
@@ -29,12 +48,14 @@ const selection = process.argv.filter(arg => {
 });
 
 for (const pkg of config.packages) {
-    if (selection.length > 0) {
-        if (selection.indexOf(pkg.name) === -1) {
-            continue;
-        }
-    }
     try {
+
+        if (selection.length > 0) {
+            if (selection.indexOf(pkg.name) === -1) {
+                continue;
+            }
+        }
+
         console.log(`Package: ${pkg.name}`);
 
         const pkgDir = path.isAbsolute(pkg.dir) ? pkg.dir : path.resolve(root, pkg.dir);
@@ -46,11 +67,11 @@ for (const pkg of config.packages) {
         const clean = cleans[0] === "*" || cleans.find(x => x === pkg.name);
         if (clean) {
             console.log("clean: " + pkg.name);
-            shell.exec("npm run clean");
+            log(shell.exec("npm run clean"));
         }
 
         for (const script of pkg.scripts) {
-            shell.exec(script);
+            log(shell.exec(script));
         }
     } catch (e) {
         console.log(e);
@@ -58,6 +79,12 @@ for (const pkg of config.packages) {
     } finally {
         shell.cd(root);
     }
+}
+
+const linked = config.packages.filter(x => x.linked === true);
+for (let link of linked) {
+    console.log("link up..");
+    log(shell.exec(`npm link ${link.name}`));
 }
 
 console.log("done");

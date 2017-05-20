@@ -10,3 +10,4 @@ archive.zip
 update.zip
 **/dist/*
 **/lib/*
+built.log

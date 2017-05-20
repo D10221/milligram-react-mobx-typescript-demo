@@ -3,6 +3,8 @@
         {
             "name": "milligrami",
             "dir": "./packages/milligrami",
+            // push up ../../node_modules
+            "linked": true,
             "scripts": [
                 "npm run build"
             ]
@@ -18,6 +20,7 @@
         {
             "name": "electron-json-storage-async",
             "dir": "./packages/electron-json-storage-async",
+            "linked": true,
             "scripts": [
                 "npm run build"
             ]
@@ -25,6 +28,7 @@
         {
             "name":"electron-window-state",
             "dir": "./packages/electron-window-state",
+            "linked": true,
             "scripts":[
                 "npm run build"
             ]

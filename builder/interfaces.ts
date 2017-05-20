@@ -3,6 +3,7 @@ export interface BuildConfig {
         {
             name: string,
             dir: string,
+            linked?: boolean,
             scripts: string[],
         }
     ];
