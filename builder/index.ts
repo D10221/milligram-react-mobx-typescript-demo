@@ -19,12 +19,11 @@ const log = (result: shell.ExecOutputReturnValue) => {
     }
 };
 
-const clean  = (input: string)=> {
+const clean = (input: string) => {
     return input.replace(/\/\/.*/, "");
-        //.split(/\r?\n/)
-        //.filter(line=> //.test(line)).join();
-}
-
+    // .split(/\r?\n/)
+    // .filter(line=> //.test(line)).join();
+};
 
 const root = path.resolve(process.cwd(), getFlag("--root") || process.cwd());
 console.log(`root: ${root}`);
@@ -64,8 +63,7 @@ for (const pkg of config.packages) {
         }
         shell.cd(pkgDir);
 
-        const clean = cleans[0] === "*" || cleans.find(x => x === pkg.name);
-        if (clean) {
+        if (cleans[0] === "*" || cleans.find(x => x === pkg.name)) {
             console.log("clean: " + pkg.name);
             log(shell.exec("npm run clean"));
         }
@@ -82,7 +80,7 @@ for (const pkg of config.packages) {
 }
 
 const linked = config.packages.filter(x => x.linked === true);
-for (let link of linked) {
+for (const link of linked) {
     console.log("link up..");
     log(shell.exec(`npm link ${link.name}`));
 }
