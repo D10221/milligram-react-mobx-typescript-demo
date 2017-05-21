@@ -1,18 +1,26 @@
 import * as fs from "fs";
 import { tryGet } from "./try-get";
 import { getPath } from "./local-path";
-import { getProcessArgs } from "./process-args";
+import { flagValue } from "./process-args";
 import { orDefault } from "./or-default";
 import { isDarwin } from "./platform";
 
-export const windowConfig = tryGet<Electron.BrowserWindowOptions>(
+import { hasFlag } from "./process-args";
+export interface WindowConfig extends Electron.BrowserWindowOptions {
+    maximize?: boolean;
+    openDevTools?: boolean;
+}
+
+export const windowConfig = tryGet<WindowConfig>(
     () => JSON.parse(
         fs.readFileSync(
-            getPath(getProcessArgs("--config") || "window.config.json"),
+            getPath(flagValue("--config") || "window.config.json"),
             "utf-8")),
         /* or */ {}
 );
 
+windowConfig.maximize = hasFlag("--maximize");
+windowConfig.openDevTools = process.env.OPEN_DEV_TOOLS || hasFlag("--dev-tools");
 windowConfig.width = orDefault(windowConfig.width, 600);
 windowConfig.height = orDefault(windowConfig.height, 600);
 windowConfig.autoHideMenuBar = orDefault(windowConfig.autoHideMenuBar, true);

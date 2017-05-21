@@ -1,4 +1,4 @@
-export const getProcessArgs = (key: string) => {
+export const flagValue = (key: string) => {
     const index = process
         .argv.indexOf(key);
     if (index === -1) {
@@ -6,3 +6,6 @@ export const getProcessArgs = (key: string) => {
     }
     return process.argv[index + 1];
 };
+
+export const hasFlag = (flag: string) =>
+    process.argv.indexOf(flag) !== -1;
