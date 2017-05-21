@@ -7,7 +7,7 @@ import { WindowConfig, windowConfig } from "./window-config";
 import { CreateDebug } from "../common/create-debug";
 import { isWindowAlive } from "electron-window-state";
 import { toggleDevTools as _toggleDevTools } from "./toggle-dev-tools";
-import { getAppPath } from "../common/get-app-path";
+import { resolvePath } from "../common/app-path";
 const debug = CreateDebug("create-window");
 
 let isFirstRun = true;
@@ -32,11 +32,11 @@ export const CreateWindow = (configuration?: WindowConfig, windowState?: IWindow
     // relative paths are not a problem
     // but once built/packaged
     // doesn't reolve by it self
-    config.index = getAppPath(config.index);
+    config.index = resolvePath(config.index);
 
     // resolve path: asar vs fs
     if (typeof config.icon === "string") {
-        config.icon = getAppPath(config.icon);
+        config.icon = resolvePath(config.icon);
     }
 
     windowState = windowState || WindowStateManager("main-window");

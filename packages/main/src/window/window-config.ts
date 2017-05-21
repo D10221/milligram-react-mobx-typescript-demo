@@ -1,7 +1,7 @@
 import * as util from "util";
 import * as fs from "fs";
 import * as path from "path";
-import { getAppPath } from "../common/get-app-path";
+import { resolvePath } from "../common/app-path";
 import { hasFlag, flagValue } from "../common/process-args";
 import { isDarwin, isWindows } from "../common/platform";
 import { getPackage } from "../common/package";
@@ -14,7 +14,7 @@ export interface WindowConfig extends Electron.BrowserWindowOptions {
 const getWindowConfig = (_path: string) => util.isString(_path) ?
     JSON.parse(
         fs.readFileSync(
-            getAppPath(_path),
+            resolvePath(_path),
             "utf-8")) : {};
 
 export const windowConfig: WindowConfig = {};

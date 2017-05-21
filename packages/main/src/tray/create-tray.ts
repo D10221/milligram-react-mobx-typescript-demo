@@ -4,7 +4,7 @@ import { Store } from "electron-json-storage-async";
 import { MainWindow } from "../window/create-window";
 
 import { getPackage } from "../common/package";
-import { getAppPath } from "../common/get-app-path";
+import { resolvePath } from "../common/app-path";
 import { isDarwin } from "../common/platform";
 import { orDefault } from "../common/or-default";
 
@@ -34,7 +34,7 @@ export const CreateTray = async (options: TrayOptions) => {
         trayState.set("dont-quit", dontQuit);
     };
 
-    const icon = getAppPath(options.icon);
+    const icon = resolvePath(options.icon);
     let tray: Electron.Tray;
 
     // ...
