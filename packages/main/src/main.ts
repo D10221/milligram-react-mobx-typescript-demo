@@ -1,7 +1,17 @@
 import * as electron from "electron";
+
+/**
+ * It doesn work: yet....
+ */
+process.on("uncaughtException", (error: Error) => {
+    console.error(error);
+    if (mainWindow) {
+        mainWindow.sendError(error);
+    }
+});
+
 import { CreateTray } from "./tray/create-tray";
 import { Tray } from "./tray/interfaces";
-
 import { CreateWindow } from "./window/create-window";
 
 const app = electron.app;
@@ -25,7 +35,12 @@ const getTray = async () => {
 };
 
 const onReady = async () => {
-    mainWindow.create();
+    try { // WARNING: not catching wrong index|icon
+        mainWindow.create();
+    } catch (e) {
+        console.error(e);
+        app.quit();
+    }
     await getTray();
 };
 

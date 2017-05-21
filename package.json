@@ -19,7 +19,8 @@
     "clean": "rimraf ./built",
     "rebuild": "node built/ --clean",
     "start": "electron .",
-    "png-to-icns": "nicns --in esources/icon.png --out icon.icns"
+    "png-to-icns": "nicns --in esources/icon.png --out icon.icns",
+    "pack": "node_modules/.bin/build"
   },
   "keywords": [
     "miligram",
@@ -63,8 +64,11 @@
   "dependencies": {
     "debug": "^2.6.6",
     "electron-json-storage": "^3.0.5",
+    "electron-json-storage-async": "file:packages/electron-json-storage-async",
+    "electron-window-state": "file:packages\\electron-window-state",
     "milligram": "^1.3.0",
     "milligram-themes-clone": "git+https://github.com/D10221/milligram-themes.git#_dev_000_",
+    "milligrami": "file:packages/milligrami",
     "mobx": "^3.1.9",
     "mobx-react": "^4.1.8",
     "mobx-react-router": "^4.0.1",
@@ -78,7 +82,8 @@
       "built",
       "node_modules",
       "resources",
-      "main.js"
+      "main.js",
+      "package.json"
     ],
     "mac": {},
     "dmg": {
@@ -107,8 +112,8 @@
   },
   "homepage": "https://github.com/D10221/milligram-react-mobx-typescript-demo#readme",
   "window": {
-    "index": "./built/index.html",
-    "icon": "./resources/favicon.ico",
-    "trayIcon": "./resources/icon-16x16.png"
+    "index": "built/index.html",
+    "icon": "resources/favicon.ico",
+    "trayIcon": "resources/icon-16x16.png"
   }
 }

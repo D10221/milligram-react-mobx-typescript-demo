@@ -1,7 +1,9 @@
 import * as  fs from "fs";
 import * as path from "path";
 import * as shell from "shelljs";
-import { BuildConfig } from "./interfaces";
+import { BuildConfig, Package } from "./interfaces";
+
+const hasFlag = (arg: string) => process.argv.indexOf(arg) !== -1;
 
 const getFlag = (x: string, defaultValue?: string) => {
     const i = process.argv.indexOf(x);
@@ -23,6 +25,20 @@ const clean = (input: string) => {
     return input.replace(/\/\/.*/, "");
     // .split(/\r?\n/)
     // .filter(line=> //.test(line)).join();
+};
+
+const savePackage = (root: string) => {
+    const packageJsonPath = path.join(root, "package.json");
+    return (pkg: Package) => {
+        const packageJson = require(packageJsonPath);
+        packageJson.dependencies[pkg.name] = `file:${pkg.dir}`;
+        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+    };
+};
+const installLink = (root: string) => (pkg: Package) => {
+    shell.exec(`npm install ${pkg.dir} --save`, {
+        cwd: root,
+    });
 };
 
 const root = path.resolve(process.cwd(), getFlag("--root") || process.cwd());
@@ -80,9 +96,17 @@ for (const pkg of config.packages) {
 }
 
 const linked = config.packages.filter(x => x.linked === true);
+const save = savePackage(root);
+const install = installLink(root);
 for (const link of linked) {
-    console.log("link up..");
+    console.log(`linking up ${link.name} ...`);
     log(shell.exec(`npm link ${link.name}`));
+    if (hasFlag("--save-link")) {
+        save(link);
+    }
+    if (hasFlag("--install-link")) {
+        install(link);
+    }
 }
 
 console.log("done");

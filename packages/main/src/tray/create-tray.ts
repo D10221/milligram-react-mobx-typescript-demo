@@ -4,7 +4,7 @@ import { Store } from "electron-json-storage-async";
 import { MainWindow } from "../window/create-window";
 
 import { getPackage } from "../common/package";
-import { getPath } from "../common/local-path";
+import { getAppPath } from "../common/get-app-path";
 import { isDarwin } from "../common/platform";
 import { orDefault } from "../common/or-default";
 
@@ -26,14 +26,15 @@ export const CreateTray = async (options: TrayOptions) => {
         const pkg = getPackage();
         options.label = options.label || pkg.displayName;
         options.toolTip = options.toolTip || pkg.description;
-        options.icon = options.icon || pkg.window ? pkg.window.trayIcon : null;
+        options.icon = options.icon ||
+            pkg.window && pkg.window.trayIcon ? pkg.window.trayIcon : null;
     }
     const toggleDontQuit = () => {
         dontQuit = !dontQuit;
         trayState.set("dont-quit", dontQuit);
     };
 
-    const icon = getPath(options.icon);
+    const icon = getAppPath(options.icon);
     let tray: Electron.Tray;
 
     // ...

@@ -7,6 +7,7 @@ import { WindowConfig, windowConfig } from "./window-config";
 import { CreateDebug } from "../common/create-debug";
 import { isWindowAlive } from "electron-window-state";
 import { toggleDevTools as _toggleDevTools } from "./toggle-dev-tools";
+import { getAppPath } from "../common/get-app-path";
 const debug = CreateDebug("create-window");
 
 let isFirstRun = true;
@@ -18,9 +19,26 @@ export interface MainWindow {
     toggleDevTools(): void;
 }
 
-export const CreateWindow = (config?: WindowConfig, windowState?: IWindowStateManager) => {
+export const CreateWindow = (configuration?: WindowConfig, windowState?: IWindowStateManager) => {
     // dependencies
-    config = config || windowConfig;
+    const config: WindowConfig = {};
+    Object.assign(
+        config,
+        windowConfig,
+        configuration);
+
+    // WARNING: resolve path: asar vs fs
+    // when running on electron-prebuilt
+    // relative paths are not a problem
+    // but once built/packaged
+    // doesn't reolve by it self
+    config.index = getAppPath(config.index);
+
+    // resolve path: asar vs fs
+    if (typeof config.icon === "string") {
+        config.icon = getAppPath(config.icon);
+    }
+
     windowState = windowState || WindowStateManager("main-window");
 
     // tiny validation
@@ -62,6 +80,12 @@ export const CreateWindow = (config?: WindowConfig, windowState?: IWindowStateMa
         // Subscribe
         window.on("closed", onClose);
         window.on("ready-to-show", onReadyToShow);
+        window.on("unresponsive", (...args: any[]) => {
+            console.log(args);
+        });
+        window.on("did-fail-load'", (...args: any[]) => {
+            console.log(args);
+        });
 
         // load the index.html of the app.
         // from current directory
@@ -106,8 +130,19 @@ export const CreateWindow = (config?: WindowConfig, windowState?: IWindowStateMa
         }
         create();
     };
+
+    const sendError = (error: Error) => {
+        if (isWindowAlive(window)) {
+            window.webContents.send("error:main", {
+                stack: error.stack,
+                message: error.message,
+                name: error.name,
+            });
+        }
+    };
     // ...
     return {
+        sendError,
         create,
         dispose,
         reload,
