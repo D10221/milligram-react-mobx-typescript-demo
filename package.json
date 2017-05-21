@@ -14,11 +14,11 @@
     "release": "build",
     "download:font": "goofoffline outDir=\"src/fonts\" \"https://fonts.googleapis.com/css?family=Roboto\"",
     "test": "mocha test.js",
-    "build": "node builder/",        
+    "build": "node builder/",
     "format": "tsfmt -r",
     "clean": "rimraf ./built",
     "rebuild": "node built/ --clean",
-    "start": "electron .",    
+    "start": "electron .",
     "png-to-icns": "nicns --in esources/icon.png --out icon.icns"
   },
   "keywords": [
@@ -105,5 +105,10 @@
   "bugs": {
     "url": "https://github.com/D10221/milligram-react-mobx-typescript-demo/issues"
   },
-  "homepage": "https://github.com/D10221/milligram-react-mobx-typescript-demo#readme"
+  "homepage": "https://github.com/D10221/milligram-react-mobx-typescript-demo#readme",
+  "window": {
+    "index": "./built/index.html",
+    "icon": "./resources/favicon.ico",
+    "trayIcon": "./resources/icon-16x16.png"
+  }
 }

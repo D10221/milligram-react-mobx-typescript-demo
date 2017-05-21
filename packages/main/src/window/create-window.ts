@@ -1,10 +1,10 @@
 
 import * as url from "url";
-import * as path from "path";
+// import * as path from "path";
 import * as electron from "electron";
 import { WindowStateManager, Subscription, subscribe, IWindowStateManager } from "electron-window-state";
 import { WindowConfig, windowConfig } from "./window-config";
-import { CreateDebug } from "./create-debug";
+import { CreateDebug } from "../common/create-debug";
 import { isWindowAlive } from "electron-window-state";
 import { toggleDevTools as _toggleDevTools } from "./toggle-dev-tools";
 const debug = CreateDebug("create-window");
@@ -70,7 +70,7 @@ export const CreateWindow = (config?: WindowConfig, windowState?: IWindowStateMa
         // TODO: option/parameter
         window.loadURL(
             url.format({
-                pathname: path.resolve(__dirname, "index.html"),
+                pathname: config.index,
                 protocol: "file:",
                 slashes: true
             })

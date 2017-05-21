@@ -1,52 +1,32 @@
 import * as electron from "electron";
-import * as path from "path";
-import { create as _createTray } from "./tray";
-import { Store } from "electron-json-storage-async";
-import { orDefault } from "./or-default";
+import { CreateTray } from "./tray/create-tray";
+import { Tray } from "./tray/interfaces";
 
-import { isDarwin } from "./platform";
-import { CreateWindow } from "./create-window";
+import { CreateWindow } from "./window/create-window";
 
 const app = electron.app;
-
-let tray: Electron.Tray;
-const mainState = Store<any>("main");
-const pkg = require(path.join(__dirname, "../", "package.json"));
-const { displayName, description } = pkg;
-
-const mainWindow = CreateWindow();
+const mainWindow = CreateWindow({
+    index: "./built/index.html",
+    icon: "./resources/favicon.ico",
+});
 
 if (app.makeSingleInstance((_commandLine: any[], _workingDirectory: string) => mainWindow.focus())) {
     app.quit();
 }
 
-let dontQuit = isDarwin;
-const canQuit = () => !dontQuit;
-const toggleDontQuit = () => {
-    dontQuit = !dontQuit;
-    mainState.set("dont-quit", dontQuit);
-};
-
-const createTray = async () => {
-
-    dontQuit = orDefault(
-        (await mainState.get<boolean>("dont-quit")),
-        dontQuit
-    );
-
-    const _tray = _createTray({ dontQuit, label: displayName, toolTip: description });
-    _tray.on("reload", mainWindow.reload);
-    _tray.on("dev-tools", mainWindow.toggleDevTools);
-    _tray.on("dont-quit", toggleDontQuit);
-    _tray.on("focus", mainWindow.focus);
-    return _tray;
+let _tray: Tray;
+const getTray = async () => {
+    if (_tray) { return _tray; }
+    return (_tray = await CreateTray({
+        // label: displayName,
+        // toolTip: description,
+        // icon: "resources/icon-16x16.png",
+    }).then(f => f(mainWindow)));
 };
 
 const onReady = async () => {
     mainWindow.create();
-    if (!tray) {
-        tray = await createTray();
-    }
+    await getTray();
 };
 
 // This method will be called when Electron has finished
@@ -54,8 +34,8 @@ const onReady = async () => {
 // Some APIs can only be used after this event occurs.
 app.on("ready", onReady);
 
-const onAllWindowClosed = () => {
-    if (canQuit()) {
+const onAllWindowClosed = async () => {
+    if ((await getTray()).canQuit()) {
         app.quit();
     }
 };
