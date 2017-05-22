@@ -1,5 +1,7 @@
 const shell = require("shelljs");
-const pkgs = process.argv.slice(2).map(
+const argv = process.argv.slice(2);
+const save = argv.indexOf("--save");
+const pkgs = argv.filter(x => !x.startsWith("-")).map(
     a => {
         return {
             name: a, type: "@types/" + a
@@ -7,5 +9,5 @@ const pkgs = process.argv.slice(2).map(
     }
 )
 shell.exec(
-  `npm install --save-dev ${pkgs.map(a=> a.type).join(' ')} && npm install --save ${pkgs.map(x=>x.name).join(" ")}`
+    `npm install ${save ? "--save-dev" : ""} ${pkgs.map(a => a.type).join(' ')} && npm install --save ${pkgs.map(x => x.name).join(" ")}`
 );
