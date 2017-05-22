@@ -30,9 +30,19 @@ schema from [http://json.schemastore.org/package](http://json.schemastore.org/pa
 
 see: [https://bcherny.github.io/json-schema-to-typescript-browser/](https://bcherny.github.io/json-schema-to-typescript-browser/)  
 
+Until it's fixed    
 
+before pack:
+    On Windows: // electron-builder doesn't follow the simlinks
+        cwd: [root@project]  
+        npm install packages/electron-window-state  
+        npm install packages/electron-json-storage-async
+    
+    if electron-window-state not there
+        
+        cp -R packages/electron-window-state node_modules/electron-window-state
 
+    then on dev cycle , do link it again
 
-
-
-
+        $root@project:/ npm link packages/electron-window-state
+        $root@project:/ npm link packages/electron-json-storage-async
