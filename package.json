@@ -17,7 +17,7 @@
     "build": "node builder/",
     "format": "tsfmt -r",
     "clean": "rimraf ./built",
-    "rebuild": "node built/ --clean",
+    "rebuild": "rimraf ./built && node builder/ --clean",
     "start": "electron .",
     "png-to-icns": "nicns --in esources/icon.png --out icon.icns",
     "pack": "node_modules/.bin/build"

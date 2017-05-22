@@ -13,7 +13,7 @@
             "name": "client",
             "dir": "./packages/client",
             "scripts": [
-                "npm link ../milligrami",
+                // "npm link ../milligrami",
                 "npm run build"
             ]
         },
@@ -37,8 +37,8 @@
             "name": "main",
             "dir": "./packages/main",
             "scripts": [
-                "npm link ../electron-json-storage-async",
-                "npm link ../electron-window-state",
+                // "npm link ../electron-json-storage-async",
+                // "npm link ../electron-window-state",
                 "npm run build"
             ]
         }

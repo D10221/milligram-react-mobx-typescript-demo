@@ -19,12 +19,11 @@ const log = (result: shell.ExecOutputReturnValue) => {
     if (result.stdout) {
         console.log(result.stdout);
     }
+    return result;
 };
 
-const clean = (input: string) => {
-    return input.replace(/\/\/.*/, "");
-    // .split(/\r?\n/)
-    // .filter(line=> //.test(line)).join();
+const cleanComments = (input: string) => {
+    return input.replace(/\/\/\s+?.*/mg, "");
 };
 
 const savePackage = (root: string) => {
@@ -35,6 +34,7 @@ const savePackage = (root: string) => {
         fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
     };
 };
+
 const installLink = (root: string) => (pkg: Package) => {
     shell.exec(`npm install ${pkg.dir} --save`, {
         cwd: root,
@@ -45,8 +45,11 @@ const root = path.resolve(process.cwd(), getFlag("--root") || process.cwd());
 console.log(`root: ${root}`);
 
 const config: BuildConfig = JSON.parse(
-    clean(
-        fs.readFileSync(path.join(root, getFlag("--config") || "build.config.json"), "utf-8")
+    cleanComments(
+        fs.readFileSync(
+            path.join(root, getFlag("--config") || "build.config.json"),
+            "utf-8"
+        )
     )
 );
 
@@ -57,20 +60,26 @@ const cleans = (getFlag("--clean", "*") || "").split(",");
 
 shell.cd(root);
 
-const packages = config.packages.map(x => x.name);
+const packageNames = config.packages.map(x => x.name);
+
+/**
+ * look for package names in args...
+ */
 const selection = process.argv.filter(arg => {
-    return packages.indexOf(arg) !== -1;
+    return packageNames.indexOf(arg) !== -1;
 });
 
 for (const pkg of config.packages) {
     try {
 
+        // filter out non selected
         if (selection.length > 0) {
             if (selection.indexOf(pkg.name) === -1) {
                 continue;
             }
         }
 
+        //
         console.log(`Package: ${pkg.name}`);
 
         const pkgDir = path.isAbsolute(pkg.dir) ? pkg.dir : path.resolve(root, pkg.dir);
@@ -85,8 +94,12 @@ for (const pkg of config.packages) {
         }
 
         for (const script of pkg.scripts) {
-            log(shell.exec(script));
+            const result = log(shell.exec(script));
+            if (result.code !== 0) {
+                throw new Error("Build failed.");
+            }
         }
+
     } catch (e) {
         console.log(e);
         process.exit(-1);
@@ -99,12 +112,16 @@ const linked = config.packages.filter(x => x.linked === true);
 const save = savePackage(root);
 const install = installLink(root);
 for (const link of linked) {
-    console.log(`linking up ${link.name} ...`);
-    log(shell.exec(`npm link ${link.name}`));
+    if (hasFlag("--link")) {
+        console.log(`linking up ${link.name} ...`);
+        log(shell.exec(`npm link ${link.name}`));
+    }
     if (hasFlag("--save-link")) {
+        console.log(`savelink: ${link.name} ...`);
         save(link);
     }
     if (hasFlag("--install-link")) {
+        console.log(`install link: ${link.name} ...`);
         install(link);
     }
 }
