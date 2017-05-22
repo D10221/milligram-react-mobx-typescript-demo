@@ -65,7 +65,7 @@
     "debug": "^2.6.6",
     "electron-json-storage": "^3.0.5",
     "electron-json-storage-async": "file:packages/electron-json-storage-async",
-    "electron-window-state": "file:packages\\electron-window-state",
+    "electron-window-state": "file:packages/electron-window-state",
     "milligram": "^1.3.0",
     "milligram-themes-clone": "git+https://github.com/D10221/milligram-themes.git#_dev_000_",
     "milligrami": "file:packages/milligrami",
