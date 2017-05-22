@@ -2,22 +2,20 @@ import * as  fs from "fs";
 import * as path from "path";
 import * as shell from "shelljs";
 import { BuildConfig, Package } from "./interfaces";
+import { getPackage } from "./package";
+import { root } from "./root";
+import { getFlag, hasFlag } from "./flags";
+import { getCurrentLogger } from "./logger";
 
-const hasFlag = (arg: string) => process.argv.indexOf(arg) !== -1;
-
-const getFlag = (x: string, defaultValue?: string) => {
-    const i = process.argv.indexOf(x);
-    if (i === -1) { return null; }
-    const value = process.argv[i + 1];
-    return !value || value.trim() === "" ? defaultValue : value;
-};
+const logger = getCurrentLogger(null, null, ["file"]);
+const logLevel = getFlag("--loglevel") || "info";
 
 const log = (result: shell.ExecOutputReturnValue) => {
     if (result.stderr) {
-        console.error(result.stderr);
+        logger(logLevel, result.stderr);
     }
     if (result.stdout) {
-        console.log(result.stdout);
+        logger(logLevel, result.stdout);
     }
     return result;
 };
@@ -27,22 +25,18 @@ const cleanComments = (input: string) => {
 };
 
 const savePackage = (root: string) => {
-    const packageJsonPath = path.join(root, "package.json");
     return (pkg: Package) => {
-        const packageJson = require(packageJsonPath);
-        packageJson.dependencies[pkg.name] = `file:${pkg.dir}`;
-        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+        const packageJson = getPackage(root);
+        packageJson.package.dependencies[pkg.name] = `file:${pkg.dir}`;
+        fs.writeFileSync(packageJson.path, JSON.stringify(packageJson, null, 2));
     };
 };
 
-const installLink = (root: string) => (pkg: Package) => {
-    shell.exec(`npm install ${pkg.dir} --save`, {
+const installLink = (root: string) => (pkg: Package, save?: boolean) => {
+    return shell.exec(`npm install ${pkg.dir} ${save ? "--save" : ""}`, {
         cwd: root,
     });
 };
-
-const root = path.resolve(process.cwd(), getFlag("--root") || process.cwd());
-console.log(`root: ${root}`);
 
 const config: BuildConfig = JSON.parse(
     cleanComments(
