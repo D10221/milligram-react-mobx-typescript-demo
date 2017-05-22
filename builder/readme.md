@@ -12,3 +12,12 @@ local build scripts:
     node builder/ --clean
 
 *run clean before build*
+
+    node builder/ --link
+
+*link target project into top level modules*
+
+    node builder/ --link-save
+
+*save link target into top level package.json*
+
