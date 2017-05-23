@@ -1,4 +1,4 @@
 import * as path from "path";
-import { getFlag } from "./flags";
-export const root = path.resolve(process.cwd(), getFlag("--root") || process.cwd());
+import { current as query } from "./args";
+export const root = path.resolve(process.cwd(), query.value.getFlagAsString("--root", process.cwd()));
 console.log(`root: ${root}`);
