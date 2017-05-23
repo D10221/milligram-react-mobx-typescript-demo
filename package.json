@@ -14,10 +14,10 @@
     "release": "build",
     "download:font": "goofoffline outDir=\"src/fonts\" \"https://fonts.googleapis.com/css?family=Roboto\"",
     "test": "mocha test.js",
-    "build": "node builder/",
+    "build": "node npm-builder/",
     "format": "tsfmt -r",
     "clean": "rimraf ./built",
-    "rebuild": "rimraf ./built && node builder/ --clean",
+    "rebuild": "rimraf ./built && node npm-builder/ --clean",
     "start": "electron .",
     "png-to-icns": "nicns --in esources/icon.png --out icon.icns",
     "pack": "node_modules/.bin/build"

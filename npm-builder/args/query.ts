@@ -13,7 +13,7 @@ export interface ArgDescription {
 }
 export const Query = (options?: { expected?: ArgDescription[], argv?: string[] }): ArgsQuery => {
     options = options || {};
-    const list = parse(options.argv || process.argv);
+    const list = parse(options.argv || process.argv.slice(2));
 
     if (options.expected) {
 

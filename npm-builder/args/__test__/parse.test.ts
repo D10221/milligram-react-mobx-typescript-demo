@@ -5,7 +5,7 @@ import {
     // KeyValue,
 } from "../parse";
 
-describe("args", () => {
+describe("args: parse", () => {
 
     it("works", () => {
         assert.equal(parse(["--x", "1"]).filter(x => x.key === "x")[0].value, 1);

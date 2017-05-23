@@ -1,6 +1,6 @@
 export interface Package {
     name: string;
     dir: string;
-    linked?: boolean;
+    // linked?: boolean;
     scripts: string;
 }

@@ -1,7 +1,7 @@
 import * as shell from "shelljs";
-import { Package } from "./interfaces";
+import { Package } from "./Package";
 import { ArgsQuery } from "../args";
-import { BuildConfig } from "../config/interfaces";
+import { BuildConfig } from "../config/BuildConfig";
 
 const getList = (args: ArgsQuery, config: BuildConfig) => {
     const _list = args.GetFlagAsList("clean");
@@ -16,7 +16,7 @@ export const clean = (args: ArgsQuery, config: BuildConfig) => {
         const name = list.find(x => x === pkg.name);
         if (name) {
             console.log("clean: " + pkg.name);
-            if (shell.exec("npm run clean").code !== 1) {
+            if (shell.exec("npm run clean").code !== 0) {
                 throw new Error("Can't clean " + pkg.name);
             }
         }

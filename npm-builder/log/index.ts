@@ -7,7 +7,7 @@ let _logger: winston.LogMethod;
 /**
  * current
  */
-export const getCurrentLogger = (name?: string | null, level?: string|null, transports?: TransportType[]) => {
+export const getCurrentLogger = (name?: string | null, level?: string | null, transports?: TransportType[]) => {
     if (_logger) { return _logger; }
     _logger = getLogger(name, level, transports);
     return _logger;

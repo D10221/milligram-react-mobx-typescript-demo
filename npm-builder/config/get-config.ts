@@ -2,7 +2,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { BuildConfig } from "./interfaces";
+import { BuildConfig } from "./BuildConfig";
 import { ArgsQuery } from "../args/query";
 
 const cleanComments = (input: string) => {

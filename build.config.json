@@ -5,16 +5,16 @@
             "dir": "./packages/milligrami",
             // push up ../../node_modules
             "linked": true,
+            // scrips names 
             "scripts": [
-                "npm run build"
+                // "build", "install", "clean", "bundle"
             ]
         },
         {
             "name": "client",
             "dir": "./packages/client",
             "scripts": [
-                // "npm link ../milligrami",
-                "npm run build"
+                // "build", "install", "clean", "bundle"
             ]
         },
         {
@@ -22,7 +22,7 @@
             "dir": "./packages/electron-json-storage-async",
             "linked": true,
             "scripts": [
-                "npm run build"
+               // "build", "install", "clean", "bundle"
             ]
         },
         {
@@ -30,16 +30,14 @@
             "dir": "./packages/electron-window-state",
             "linked": true,
             "scripts":[
-                "npm run build"
+                // "build", "install", "clean", "bundle"
             ]
         },
         {
             "name": "main",
             "dir": "./packages/main",
             "scripts": [
-                // "npm link ../electron-json-storage-async",
-                // "npm link ../electron-window-state",
-                "npm run build"
+                // "build", "install", "clean", "bundle"
             ]
         }
     ]
