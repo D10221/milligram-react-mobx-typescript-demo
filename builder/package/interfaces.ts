@@ -4,6 +4,3 @@ export interface Package {
     linked?: boolean;
     scripts: string;
 }
-export interface BuildConfig {
-    packages: Package[];
-}

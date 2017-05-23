@@ -11,7 +11,7 @@ export interface ArgDescription {
     required?: boolean;
     type?: KeyValueTypeKeys;
 }
-export const Query = (options?: { expected?: ArgDescription[], argv?: string[] }) => {
+export const Query = (options?: { expected?: ArgDescription[], argv?: string[] }): ArgsQuery => {
     options = options || {};
     const list = parse(options.argv || process.argv);
 
@@ -102,3 +102,17 @@ export const Query = (options?: { expected?: ArgDescription[], argv?: string[] }
         getParamAsList,
     };
 };
+
+export interface ArgsQuery {
+    list: KeyValue[];
+    values: any;
+    hasFlag(key: string): boolean;
+    getFlagAsString(key: string, defaultValue?: string): string;
+    getFlagAsNumber(key: string, defaultValue?: number): number;
+    GetFlagAsBool(key: string, defaultValue?: boolean): boolean;
+    GetFlagAsList(key: string, defaultValue?: string[]): string[];
+    getParamAsString(): string;
+    getParamAsBool(): boolean;
+    getParamAsNumber(): number;
+    getParamAsList(): string[];
+}
