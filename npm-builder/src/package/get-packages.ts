@@ -8,8 +8,8 @@ const ignore = [/node_modules/];
 const scan = (root: string) => {
     const packages: string[] = [];
     const dirx = (_path: string) => {
-        for (let file of fs.readdirSync(_path)) {
-            let _f = path.join(_path, file)
+        for (const file of fs.readdirSync(_path)) {
+            const _f = path.join(_path, file);
             if (fs.lstatSync(_f).isDirectory()) {
                 if (ignore.find(x => x.test(_f))) {
                     continue;
@@ -17,18 +17,18 @@ const scan = (root: string) => {
                 dirx(_f);
                 continue;
             }
-            // ... 
+            // ...
             if (file === packageJson) {
                 packages.push(_f);
             }
         }
-    }
+    };
     dirx(root);
     return packages;
-}
+};
 
 /**
- * 
+ *
  * @param root 'root -> cwd/packages?'
  */
 export const getPackages = (root: string): Package[] => {
@@ -38,6 +38,6 @@ export const getPackages = (root: string): Package[] => {
         const pkg = JSON.parse(fs.readFileSync(file, "utf-8"));
         pkg.path = file;
         return pkg;
-    })    
+    });
     return packages;
-}
+};

@@ -1,7 +1,7 @@
 import { NpmPackage } from "./npm-package";
-export type Package = NpmPackage & { 
+export type Package = NpmPackage & {
     /**
      * Added here
      */
-    path?: string 
-}
+    path?: string ;
+};

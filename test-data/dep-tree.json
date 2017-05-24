@@ -1,0 +1,46 @@
+[
+  {
+    "name": "client",
+    "dependencies": [
+      {
+        "name": "milligrami",
+        "dependencies": []
+      }
+    ]
+  },
+  {
+    "name": "electron-json-storage-async",
+    "dependencies": []
+  },
+  {
+    "name": "electron-window-state",
+    "dependencies": [
+      {
+        "name": "electron-json-storage-async",
+        "dependencies": []
+      }
+    ]
+  },
+  {
+    "name": "main",
+    "dependencies": [
+      {
+        "name": "electron-json-storage-async",
+        "dependencies": []
+      },
+      {
+        "name": "electron-window-state",
+        "dependencies": [
+          {
+            "name": "electron-json-storage-async",
+            "dependencies": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "milligrami",
+    "dependencies": []
+  }
+]

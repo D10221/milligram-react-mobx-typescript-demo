@@ -5,9 +5,9 @@ import { Package } from "./Package";
 import { ArgsQuery } from "../args";
 import { localPackages } from "./local-packages";
 import { packageDir } from "./package-dir";
-    
+
 export const getSelection = (args: ArgsQuery,  root: string): Package[] => {
-    
+
     const list = args.getParamAsList();
     const selection = !list.length ? localPackages
         : localPackages.filter(p => list.indexOf(p.name as string) !== -1);
@@ -15,7 +15,7 @@ export const getSelection = (args: ArgsQuery,  root: string): Package[] => {
     if (!selection.length) {
         throw new Error("Package Selection Empty");
     }
-    
+
 
     for (const pkg of selection) {
         const dir = packageDir(pkg);
