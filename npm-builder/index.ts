@@ -29,6 +29,7 @@ for (const pkg of selection) {
         build(pkg);
         // TODO: after:build runScripts(pkg);
         savePackage(pkg);
+        // install to root package
         install(pkg);
     } catch (e) {
         console.log(e);
