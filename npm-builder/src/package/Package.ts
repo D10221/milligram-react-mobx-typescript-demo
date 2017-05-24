@@ -1,6 +1,7 @@
-export interface Package {
-    name: string;
-    dir: string;
-    // linked?: boolean;
-    scripts: string;
+import { NpmPackage } from "./npm-package";
+export type Package = NpmPackage & { 
+    /**
+     * Added here
+     */
+    path?: string 
 }

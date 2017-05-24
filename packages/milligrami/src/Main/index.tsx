@@ -1,9 +1,8 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-export const Main = observer(
+export const Main =
     (props: React.HTMLProps<HTMLElement>) => {
         return (
             <main className="wrapper" {...props}></main>
         );
     }
-);
+    ;

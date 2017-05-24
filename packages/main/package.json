@@ -6,5 +6,9 @@
     "build": "tsc -p ./",
     "clean": "rimraf ./lib ./dist ./built",
     "rebuild": "npm run clean && npm run build"
-  }  
+  },
+  "dependencies": {
+    "electron-json-storage-async": "file:../electron-json-storage-async",
+    "electron-window-state": "file:../electron-window-state"
+  }
 }

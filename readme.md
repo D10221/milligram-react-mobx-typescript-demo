@@ -6,19 +6,6 @@
 
 ### Notes:
 
-build: 
-
-    npm run build
-
-*it builds packages and bundles app, @see /builder*
-
-release:
-
-    npm run release
-
-*creates platform packages and releases to github*
-
-
 Make mac icon:
     
     nicns --in resources/icon.png --out icon.icns
@@ -30,19 +17,27 @@ schema from [http://json.schemastore.org/package](http://json.schemastore.org/pa
 
 see: [https://bcherny.github.io/json-schema-to-typescript-browser/](https://bcherny.github.io/json-schema-to-typescript-browser/)  
 
-Until it's fixed    
 
-before pack:
-    On Windows: // electron-builder doesn't follow the simlinks
-        cwd: [root@project]  
-        npm install packages/electron-window-state  
-        npm install packages/electron-json-storage-async
-    
-    if electron-window-state not there
-        
-        cp -R packages/electron-window-state node_modules/electron-window-state
+### build:   
+*it's complicated... :)**  
 
-    then on dev cycle , do link it again
+the idea it to try work packages ala monorepo but thinking on 'ejecting them'  
+to their respective repos, perhaps/eventually.  
+as in incubating them ...   
+because of that:  
+'dependecies' must be track per sub-project and not in root-project
+and kept as self contained as possible  
+so at the time of 'ejection' we should simply remove .npmrc
+an copy them to a 'new' repo, then 'npm install'
 
-        $root@project:/ npm link packages/electron-window-state
-        $root@project:/ npm link packages/electron-json-storage-async
+see "this/npm-builder"  
+jsut runs npm build on all packages/[project]
+
+*Notice:* .npmrc per project  
+where prefix is '../../node_modules' pointing to root project
+where 'link = true'  
+root project also prefixed to same location 
+
+... see scripts/collect-packages.js  
+collects all dependecies (ignores version ... currently)   
+so we can 'npm install from root project"

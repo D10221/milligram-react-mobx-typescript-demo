@@ -1,16 +1,16 @@
 import * as shell from "shelljs";
 import { Package } from "./Package";
 import { ArgsQuery } from "../args";
-import { BuildConfig } from "../config/BuildConfig";
+import { localPackages } from "./local-packages";
 
-const getList = (args: ArgsQuery, config: BuildConfig) => {
+const getList = (args: ArgsQuery,  ) => {
     const _list = args.GetFlagAsList("clean");
-    return _list.length > 0 ? _list : config.packages.map(x => x.name);
+    return _list.length > 0 ? _list : localPackages.map(x => x.name);
 };
 
-export const clean = (args: ArgsQuery, config: BuildConfig) => {
+export const clean = (args: ArgsQuery,  ) => {
 
-    const list = !args.hasFlag("clean") ? [] : getList(args, config);
+    const list = getList(args);
 
     return (pkg: Package) => {
         const name = list.find(x => x === pkg.name);

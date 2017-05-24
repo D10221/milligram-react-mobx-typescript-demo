@@ -20,7 +20,9 @@
     "rebuild": "rimraf ./built && node npm-builder/ --clean",
     "start": "electron .",
     "png-to-icns": "nicns --in esources/icon.png --out icon.icns",
-    "pack": "node_modules/.bin/build"
+    "pack": "node_modules/.bin/build",
+    "collect:dependencies": "node ./npm-builder/scripts/collect-dependencies.js",
+    "collect:packages": "node ./npm-builder/scripts/collect-packages.js"
   },
   "keywords": [
     "miligram",
@@ -33,8 +35,6 @@
   "license": "MIT",
   "devDependencies": {
     "@types/debug": "0.0.29",
-    "@types/electron": "^1.4.37",
-    "@types/electron-json-storage": "0.0.19",
     "@types/mocha": "^2.2.41",
     "@types/react": "^15.0.24",
     "@types/react-dom": "^15.5.0",
@@ -44,40 +44,31 @@
     "babel-cli": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "copy-webpack-plugin": "^4.0.1",
-    "css-loader": "^0.28.1",
+    "css-loader": "^0.28.2",
     "electron": "^1.6.8",
-    "electron-builder": "^17.8.0",
-    "file-loader": "^0.11.1",
     "html-webpack-plugin": "^2.28.0",
-    "mocha": "^3.3.0",
     "raw-loader": "^0.5.1",
-    "rimraf": "^2.6.1",
-    "shelljs": "^0.7.7",
-    "style-loader": "^0.17.0",
-    "ts-loader": "^2.0.3",
-    "tslint": "^5.2.0",
-    "typescript": "^2.3.2",
-    "typescript-formatter": "^5.2.0",
+    "style-loader": "^0.18.1",
+    "ts-loader": "^2.1.0",
     "url-loader": "^0.5.8",
-    "webpack": "^2.5.1"
+    "webpack": "^2.6.0",
+    "yargs": "^8.0.1"
   },
   "dependencies": {
-    "debug": "^2.6.6",
+    "debug": "^2.6.8",
     "electron-json-storage": "^3.0.5",
-    "electron-json-storage-async": "file:packages/electron-json-storage-async",
-    "electron-window-state": "file:packages/electron-window-state",
     "milligram": "^1.3.0",
-    "milligram-themes-clone": "git+https://github.com/D10221/milligram-themes.git#_dev_000_",
-    "milligrami": "file:packages/milligrami",
-    "mobx": "^3.1.9",
+    "mobx": "^3.1.10",
     "mobx-react": "^4.1.8",
     "mobx-react-router": "^4.0.1",
+    "mocha": "^3.4.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router": "^4.1.1",
-    "winston": "^2.3.1",
-    "winston-daily-rotate-file": "^1.4.6"
+    "shelljs": "^0.7.7",
+    "winston": "^2.3.1"
   },
   "build": {
     "appId": "milligramo",
@@ -118,5 +109,12 @@
     "index": "built/index.html",
     "icon": "resources/favicon.ico",
     "trayIcon": "resources/icon-16x16.png"
+  },
+  "local": {
+    "client": "file:packages/client",
+    "electron-json-storage-async": "file:packages/electron-json-storage-async",
+    "electron-window-state": "file:packages/electron-window-state",
+    "main": "file:packages/main",
+    "milligrami": "file:packages/milligrami"
   }
 }
