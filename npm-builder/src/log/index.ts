@@ -1,14 +1,12 @@
 import * as winston from "winston";
+import { CLILoggingLevel as LogLevel } from "winston";
 import { TransportType } from "./types";
 import { getLogger } from "./get-logger";
 
 let _logger: winston.LogMethod;
 
-/**
- * current
- */
-export const getCurrentLogger = (name?: string | null, level?: string | null, transports?: TransportType[]) => {
+export const getCurrentLogger = (level?: LogLevel, transports?: TransportType[]) => {
     if (_logger) { return _logger; }
-    _logger = getLogger(name, level, transports);
+    _logger = getLogger(level, transports);
     return _logger;
 };
