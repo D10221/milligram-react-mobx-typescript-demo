@@ -1,8 +1,8 @@
 import * as shell from "shelljs";
 import { Package } from "./Package";
-import { TaxContext } from "./Task";
+import { TaskContext } from "../task";
 
-export const Clean = (context: TaxContext) => {
+export const Clean = (context: TaskContext) => {
     const { enabled, isSelectedForPackage } = context;
     const run = (pkg: Package) => {
         if (!enabled) return "disabled";

@@ -1,12 +1,12 @@
 import * as shell from "shelljs";
 import { Package } from "./Package";
-import { TaxContext } from "./Task";
 import { isNullOrUndefined as isNull } from "util";
+import { TaskContext } from "../task";
 
 /**
  * Script NAMES
  */
-export const RunScripts = (config: TaxContext) => {
+export const RunScripts = (config: TaskContext) => {
     const { enabled, args } = config;
 
     const selection = args.GetFlagAsList("runScripts");
