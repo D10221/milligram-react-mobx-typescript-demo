@@ -17,22 +17,20 @@ console.log(`Packages: ${localPackages.map(x => x.name).join(", ")}`);
 const selection = packageSelection(args, localPackages);
 console.log(`Package Selection: ${selection.map(x => x.name).join(", ")}`);
 
-const tasks: Task[] = [
-    createTask(createContext("clean", args, selection)),
-    createTask(createContext("build", args, selection)),
-];
+const tasks: Task[] = args.GetFlagAsList("task")
+    .map(taskName => createTask(createContext(taskName, args, selection)), );
 
 shell.cd(root);
- const log: string[] = [];
+const log: string[] = [];
 const walker = Walker(localPackages,
     // ...
     (pkg) => {
         try {
-            shell.cd(packageDir(pkg));           
+            shell.cd(packageDir(pkg));
             for (const task of tasks) {
                 const result = task.run(pkg);
                 log.push(`Package: ${pkg.name}, Task: ${task.name} -> ${result}`);
-            }            
+            }
             return true;
         } catch (e) {
             console.log(e);

@@ -5,12 +5,10 @@ export const createContext = (
     taskName: string,
     args: ArgsQuery,
     packageSelection: Package[]): TaskContext => {
-    // ...
-    const enabled = args.hasFlag(taskName);
+    // ...    
         
     return {
-        taskName,
-        enabled,
+        taskName,        
         args,
         packageSelection,        
     };

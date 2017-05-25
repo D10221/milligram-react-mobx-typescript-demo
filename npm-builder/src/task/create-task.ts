@@ -1,14 +1,14 @@
 import * as shell from "shelljs";
 import { Package } from "../package/Package";
 import { TaskContext } from "../task";
-import { ContextQuery } from "./context-query";
+import { createQuery } from "./create-query";
 
 export const createTask = (context: TaskContext) => {
 
-    const query = ContextQuery(context);
+    const query = createQuery(context);
 
-    if (context.enabled) console.log(
-        query.enabledPakagesDesc()
+    if (query.isEnabled()) console.log(
+        query.taskEnabledsDesc()
     );
 
     const run = (pkg: Package) => {
