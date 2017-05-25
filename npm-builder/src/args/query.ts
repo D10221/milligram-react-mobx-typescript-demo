@@ -42,9 +42,10 @@ export const Query = (options?: { expected?: ArgDescription[], argv?: string[] }
     };
 
     const getFlagAsString = (key: string, defaultValue?: string): string => {
-        const found = (list.find(x => x.key === key) || {});
-        return !isNull(found) &&
-            typeof found.value === "string" ? found.value : defaultValue || "";
+        const found = (list.find(x => x.key === key));
+        if (isNull(found)) return defaultValue || "";
+        if (Array.isArray(found.value)) return found.value.map(x => `${x}`).join(" ");
+        return `${found.value}`;
     };
 
     const getFlagAsNumber = (key: string, defaultValue?: number): number => {
