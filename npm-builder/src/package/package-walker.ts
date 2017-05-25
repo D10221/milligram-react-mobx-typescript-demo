@@ -2,7 +2,7 @@ import * as util from "util";
 import { Package } from "./Package";
 const isNull = util.isNullOrUndefined;
 /**
- * Walk and run a task on package local dependecies then the package, 
+ * Walk and run a task on package local dependecies then the package,
  * @param pkgs 'all packages'
  * @param task 'what to run', can be empty
  * @param filter 'optional all-packages-input filter'
@@ -23,7 +23,7 @@ export const Walker = (
 
     const step = (pkg: Package) => {
         if (isNull(pkg) || isCopleted(pkg)) return true;
-        const deps = Object.keys(pkg.dependencies||{}).filter(isLocal);
+        const deps = Object.keys(pkg.dependencies || {}).filter(isLocal);
         for (const dep of deps) {
             step(find(dep));
         }

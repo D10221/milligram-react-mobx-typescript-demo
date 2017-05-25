@@ -7,9 +7,10 @@ import { Walker } from "./package/package-walker";
 import { localPackages } from "./package/local-packages";
 import { packageDir } from "./package/package-dir";
 
-import { Task, createContext, createTask } from "./task";
+import { Task, createTask } from "./task";
 import { isNullOrUndefined } from "util";
 
+console.log(process.argv.slice(2).join(" "));
 
 const args = ArgsQuery.value;
 
@@ -18,7 +19,13 @@ const selection = packageSelection(args, localPackages);
 console.log(`Package Selection: ${selection.map(x => x.name).join(", ")}`);
 
 const tasks: Task[] = args.GetFlagAsList("task")
-    .map(taskName => createTask(createContext(taskName, args, selection)), );
+    .map(taskName => createTask({
+        taskName,
+        packageSelection: selection,
+        packages: localPackages,
+        tasks: args.GetFlagAsList("task"),
+        filterList: args.GetFlagAsList(taskName)
+    }), );
 
 shell.cd(root);
 const log: string[] = [];
@@ -43,7 +50,7 @@ const walker = Walker(localPackages,
 
 const result = walker.walk();
 console.log(
-    log.length ?     log.join("\n") : "No Task run"
+    log.length ? log.join("\n") : "No Task run"
 );
 console.log(result.completed.map(x => `completed: ${x.name}`).join("\n"));
 process.exit(result.ok ? 1 : -1);

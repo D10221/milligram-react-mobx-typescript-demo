@@ -2,7 +2,6 @@ import { parse, KeyValue, KeyValueTypeKeys } from "./parse";
 import { reduce } from "./reduce";
 import { isNullOrUndefined as isNull } from "util";
 
-
 const isType = (type: KeyValueTypeKeys, x?: KeyValue) => {
     return x && typeof x.value === type;
 };

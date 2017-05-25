@@ -7,9 +7,9 @@ describe("Package Walker", () => {
 
     it("Works", () => {
         const packages: Package[] = [
-            { name: "1", dependencies: { "2": "?" }},
+            { name: "1", dependencies: { 2: "?" }},
             { name: "2" },
-            { name: "3", dependencies: { "1": "?" } },
+            { name: "3", dependencies: { 1: "?" } },
         ];
 
         const byName = (a: Package, b: Package): number => {
@@ -26,11 +26,10 @@ describe("Package Walker", () => {
     it("Stops", () => {
 
         const packages = [
-            { name: "1", dependencies: { "2": "?" }},
+            { name: "1", dependencies: { 2: "?" }},
             { name: "2" },
-            { name: "3", dependencies: { "1": "?" } },
+            { name: "3", dependencies: { 1: "?" } },
         ];
-
 
         const byName = (a: Package, b: Package): number => {
             return a.name > b.name ? 1 : a.name === b.name ? 0 : -1;

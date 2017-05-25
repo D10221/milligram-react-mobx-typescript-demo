@@ -28,7 +28,7 @@ const convert = (x: string) => {
         (isBoolean(x) ? x.toLowerCase() === "true" : x);
 };
 
-const isFlag = (x: string) => /\-.*/.test(x);
+const isFlag = (x: string) => /^\-.*/.test(x);
 
 export const parse = (args: string[]) => {
 

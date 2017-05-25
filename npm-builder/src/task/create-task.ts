@@ -1,32 +1,33 @@
 import * as shell from "shelljs";
 import { Package } from "../package/Package";
 import { TaskContext } from "../task";
-import { createQuery } from "./create-query";
+import { contextQuery } from "./context-query";
 
 export const createTask = (context: TaskContext) => {
 
-    const query = createQuery(context);
+    const query = contextQuery(context);
 
-    if (query.isEnabled()) console.log(
+    const isEnabled = query.isEnabled();
+
+    if (isEnabled) console.log(
         query.taskEnabledsDesc()
     );
 
     const run = (pkg: Package) => {
 
-        if (!query.isEnabled(pkg)) return "disabled";
+        if (!isEnabled) return "disabled";
 
-        let ok = "completed";
+        const isDepedency =  query.isDependency(pkg);
+
         if (!query.isSelectedForPackage(pkg)) {
-            if (query.ignoreDependencies(pkg) ||
-                !query.isDependency(pkg)) return "unselected";
-            ok = "dependency";
+            return "unselected" + (isDepedency ? " [dependency]" : "");
         }
 
         if (shell.exec(`npm run ${context.taskName}`).code !== 0) {
             throw new Error(`Can't ${context.taskName} ${pkg.name}`);
         }
 
-        return ok;
+        return "completed" + (isDepedency ? " [dependency]" : "");
     };
 
     return { name: context.taskName, run };
