@@ -22,17 +22,25 @@ export const createQuery = (context: TaskContext): ContextQuery => {
                 .find(x => x === pkg.name)
         );
     }
-
+  
     const taskEnabledsDesc = (_pkg?: Package) => {
         return `${context.taskName}: ${any ? "any" : list.join(",")}`;
     }
 
+    /**
+     * redundant when created by name   ,
+     * TODO: use as filter remove other filters   
+     */
     const isEnabled = (_pkg: Package) => {
         return context.args.GetFlagAsList("task").indexOf(context.taskName) !== -1;
     }
 
     const ignoreDependencies = (_pkg?: Package) => {
-        return context.taskName !== "build";
+        if(context.taskName === "build"){
+            return false;
+        }
+        //TODO:
+        return true;
     }
 
     return {

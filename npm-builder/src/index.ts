@@ -42,6 +42,8 @@ const walker = Walker(localPackages,
     pkg => !isNullOrUndefined(selection.find(x => x.name === pkg.name)));
 
 const result = walker.walk();
-console.log(log.join("\n"));
+console.log(
+    log.length ?     log.join("\n") : "No Task run"
+);
 console.log(result.completed.map(x => `completed: ${x.name}`).join("\n"));
 process.exit(result.ok ? 1 : -1);
