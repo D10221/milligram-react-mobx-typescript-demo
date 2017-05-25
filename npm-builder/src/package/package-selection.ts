@@ -3,7 +3,7 @@ import * as util from "util";
 import { Package } from "./Package";
 import { ArgsQuery } from "../args";
 
-export const getSelection = (args: ArgsQuery, packages: Package[]): Package[] => {
+export const packageSelection = (args: ArgsQuery, packages: Package[]): Package[] => {
 
     const list = args.getParamAsList();
     if (!list.length) return packages;
