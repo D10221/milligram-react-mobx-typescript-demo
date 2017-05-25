@@ -2,7 +2,7 @@
   "name": "npm-builder",
   "version": "1.0.0",
   "description": "npm builder scripts",
-  "main": "built/index.js",
+  "main": "index.js",
   "private": true,
   "scripts": {
     "test": "mocha ./test.js",

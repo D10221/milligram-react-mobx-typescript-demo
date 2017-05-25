@@ -1,25 +1,42 @@
 import * as util from "util";
 import { Package } from "./Package";
 const isNull = util.isNullOrUndefined;
-export const walker = (pkgs: Package[]) => {
+export const Walker = (
+    pkgs: Package[],
+    task: (pkg: Package) => boolean,
+    filter?: (x: Package) => boolean) => {
+
+    filter = filter || (() => true);
+
     const localNames = pkgs.map(x => x.name);
     const isLocal = (name: string) => localNames.indexOf(name) !== -1;
-    const built: Package[] = [];
-    const getPackage = (name: string) => pkgs.find(x => x.name === name);
-    const isBuilt = (pkg: Package) => built.map(x => x.name).indexOf(pkg.name) !== -1;
-    const walk = (pkg: Package) => {
-        if (isNull(pkg) || isBuilt(pkg)) return;
+    const find = (name: string) => pkgs.find(x => x.name === name);
+
+    const completed: Package[] = [];
+    const isCopleted = (pkg: Package) => completed.map(x => x.name).indexOf(pkg.name) !== -1;
+
+    const step = (pkg: Package) => {
+        if (isNull(pkg) || isCopleted(pkg)) return true;
         const deps = Object.keys(pkg.dependencies).filter(isLocal);
         for (const dep of deps) {
-            walk(getPackage(dep));
+            step(find(dep));
         }
-        built.push(pkg);
-    };
-    const build = () => {
-        for (const pkg of pkgs) {
-            walk(pkg);
+        if (!task(pkg)) {
+            return false;
         }
-        return built;
+        completed.push(pkg);
+        return true;
     };
-    return { build };
+
+    const walk = () => {
+        let ok = false;
+        for (const pkg of pkgs.filter(filter)) {
+            ok = step(pkg);
+            if (!ok) break;
+        }
+        return {
+            ok, completed
+        };
+    };
+    return { walk };
 };

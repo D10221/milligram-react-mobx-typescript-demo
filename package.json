@@ -22,7 +22,7 @@
     "png-to-icns": "nicns --in esources/icon.png --out icon.icns",
     "pack": "node_modules/.bin/build",
     "collect:dependencies": "node ./npm-builder/scripts/collect-dependencies.js",
-    "collect:packages": "node ./npm-builder/scripts/collect-packages.js"
+    "collect:packages": "node ./npm-builder/scripts/collect-packages.js"    
   },
   "keywords": [
     "miligram",

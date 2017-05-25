@@ -1,6 +1,7 @@
 import { parse, KeyValue, KeyValueTypeKeys } from "./parse";
 import { reduce } from "./reduce";
-import * as util from "util";
+import { isNullOrUndefined as isNull } from "util";
+
 
 const isType = (type: KeyValueTypeKeys, x?: KeyValue) => {
     return x && typeof x.value === type;
@@ -37,18 +38,18 @@ export const Query = (options?: { expected?: ArgDescription[], argv?: string[] }
     const values: any = () => _values ? _values : (_values = reduce(list));
 
     const hasFlag = (key: string): boolean => {
-        return !util.isNullOrUndefined(Object.getOwnPropertyNames(values()).find(x => x === key));
+        return !isNull(Object.getOwnPropertyNames(values()).find(x => x === key));
     };
 
     const getFlagAsString = (key: string, defaultValue?: string): string => {
         const found = (list.find(x => x.key === key) || {});
-        return !util.isNullOrUndefined(found) &&
+        return !isNull(found) &&
             typeof found.value === "string" ? found.value : defaultValue || "";
     };
 
     const getFlagAsNumber = (key: string, defaultValue?: number): number => {
         const found = (list.find(x => x.key === key) || {});
-        return !util.isNullOrUndefined(found) &&
+        return !isNull(found) &&
             typeof found.value === "number" ? found.value : defaultValue || Number.NaN;
     };
 
@@ -58,14 +59,21 @@ export const Query = (options?: { expected?: ArgDescription[], argv?: string[] }
      */
     const GetFlagAsBool = (key: string, defaultValue?: boolean): boolean => {
         const found = (list.find(x => x.key === key) || {});
-        return !util.isNullOrUndefined(found) &&
+        return !isNull(found) &&
             typeof found.value === "boolean" ? found.value : defaultValue || false;
     };
 
     const GetFlagAsList = (key: string, defaultValue?: string[]): string[] => {
         const found = (list.find(x => x.key === key) || {});
-        return !util.isNullOrUndefined(found) &&
-            Array.isArray(found.value) ? found.value : defaultValue || [];
+        if (isNull(found)) return defaultValue || [];
+
+        if (typeof found.value === "string") {
+            return [found.value];
+        }
+        if (Array.isArray(found.value)) {
+            return found.value;
+        }
+        return defaultValue || [];
     };
 
     const getParamAsString = (): string => {
@@ -84,8 +92,12 @@ export const Query = (options?: { expected?: ArgDescription[], argv?: string[] }
     };
 
     const getParamAsList = (): string[] => {
-        const value = (list.find(x => x.key === "_") || {}).value;
-        return Array.isArray(value) ? value : [];
+        const found = list.find(x => x.key === "_");
+        if (isNull(found)) {
+            return [];
+        }
+        if (Array.isArray(found.value)) return found.value;
+        return [`${found.value}`];
     };
 
     return {
