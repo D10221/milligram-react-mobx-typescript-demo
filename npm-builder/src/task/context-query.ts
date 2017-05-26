@@ -3,12 +3,28 @@ import { isNullOrUndefined as isNull } from "util";
 import { Package } from "../package/Package";
 
 const _switch = /^(?:\$|\+).*/;
+
+export const flatDeps = (packages: Package[]) => {
+    const deps = packages.map(x => Object.keys(x.dependencies || {}));
+    if (!deps.length) return [];
+    return deps.reduce((c, n) => c.concat(n));
+};
+
 export const contextQuery = (context: TaskContext) => {
+
+    /**
+     * Context tasks names
+     */
+    const taskNames = (): string => {
+        return context.tasks && context.tasks.length ?
+            context.tasks.reduce((a, b) => a + ", " + +b) : "<empty>";
+    };
+
     if (isNull(context.taskName) || context.taskName.trim() === "") {
         throw new Error("Bad Task Name");
     }
     if (!context.tasks.length || context.tasks.reduce((a, b) => a + b).trim() === "") {
-        throw new Error("No Task Found");
+        throw new Error(`this Task: '${context.taskName}' not Found in Tasks: ${taskNames()}`);
     }
     const findPackageByName = (name: string) => {
         return context.packages.find(p => p.name === name);
@@ -47,8 +63,14 @@ export const contextQuery = (context: TaskContext) => {
         }
     }
 
+    /**
+     * no current use for disabled
+     * ...when tasks are created from command line flags/switches
+     */
     const isEnabled = () => {
-        return context.tasks.indexOf(context.taskName) !== -1;
+        return !context.disabled &&
+            // this doesn't happen currently
+            taskNames().indexOf(context.taskName) !== -1;
     };
 
     const findInFilterList = (pkg: Package) => {
@@ -62,14 +84,12 @@ export const contextQuery = (context: TaskContext) => {
         return anyPackage || !isNull(findInFilterList(pkg));
     };
 
+    /**
+     * pkg is Dependencie in our Packages
+     */
     const isDependency = (pkg: Package) => {
-        return !isNull(
-            context.packageSelection
-                .map(x => Object.keys(x.dependencies || {})).reduce((c, n) => {
-                    return c.concat(n);
-                })
-                .find(x => x === pkg.name)
-        );
+        const deps = flatDeps(context.packages);
+        return !isNull(deps.find(x => x === pkg.name));
     };
 
     const taskEnabledsDesc = () => {
@@ -90,5 +110,7 @@ export const contextQuery = (context: TaskContext) => {
         findPackageByName,
         findInPackageSelectionByName,
         findInFilterList,
+        taskNames,
+        // flatDeps,
     };
 };
