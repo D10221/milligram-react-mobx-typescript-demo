@@ -2,9 +2,14 @@ import { TaskContext } from "./TaskContext";
 import { isNullOrUndefined as isNull } from "util";
 import { Package } from "../package/Package";
 
-const dependecyMark = /^\$deps$/;
+const _switch = /^(?:\$|\+).*/;
 export const contextQuery = (context: TaskContext) => {
-
+    if (isNull(context.taskName) || context.taskName.trim() === "") {
+        throw new Error("Bad Task Name");
+    }
+    if (!context.tasks.length || context.tasks.reduce((a, b) => a + b).trim() === "") {
+        throw new Error("No Task Found");
+    }
     const findPackageByName = (name: string) => {
         return context.packages.find(p => p.name === name);
     };
@@ -12,11 +17,9 @@ export const contextQuery = (context: TaskContext) => {
         return context.packageSelection.find(p => p.name === name);
     };
 
-    const filterList = context.filterList.filter(x => !dependecyMark.test(x));
-
+    const filterList = context.packageFilterList.filter(x => !_switch.test(x));
+    const switches = context.packageFilterList.filter(x => _switch.test(x));
     const anyPackage = !filterList.length;
-
-    const _ignoreDeps = isNull(filterList.find(x => dependecyMark.test(x)));
 
     if (!anyPackage) {
         {
@@ -52,7 +55,7 @@ export const contextQuery = (context: TaskContext) => {
         return filterList.find(x => x === pkg.name);
     };
 
-    const isSelectedForPackage = (pkg: Package) => {
+    const isTaskSelectedForPackage = (pkg: Package) => {
         if (isDependency(pkg)) {
             return !ignoreDependency(); // || !isNull(findInFilterList(pkg));
         }
@@ -62,7 +65,7 @@ export const contextQuery = (context: TaskContext) => {
     const isDependency = (pkg: Package) => {
         return !isNull(
             context.packageSelection
-                .map(x => Object.keys(x.dependencies)).reduce((c, n) => {
+                .map(x => Object.keys(x.dependencies || {})).reduce((c, n) => {
                     return c.concat(n);
                 })
                 .find(x => x === pkg.name)
@@ -71,19 +74,21 @@ export const contextQuery = (context: TaskContext) => {
 
     const taskEnabledsDesc = () => {
         return `${context.taskName}: ${anyPackage ? "any" : filterList.join(",")}` +
-            `${_ignoreDeps ? "" : " + deps"}`;
+            `${ignoreDependency() ? "" : " + deps"}`;
     };
 
     const ignoreDependency = () => {
-        return _ignoreDeps;
+        return switches.length > 0 && switches.indexOf("+") === -1;
     };
 
     return {
         isEnabled,
-        isSelectedForPackage,
+        isTaskSelectedForPackage,
         isDependency,
         taskEnabledsDesc,
         ignoreDependency,
-        findPackageByName
+        findPackageByName,
+        findInPackageSelectionByName,
+        findInFilterList,
     };
 };

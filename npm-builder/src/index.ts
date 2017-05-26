@@ -24,7 +24,7 @@ const tasks: Task[] = args.GetFlagAsList("task")
         packageSelection: selection,
         packages: localPackages,
         tasks: args.GetFlagAsList("task"),
-        filterList: args.GetFlagAsList(taskName)
+        packageFilterList: args.GetFlagAsList(taskName)
     }), );
 
 shell.cd(root);

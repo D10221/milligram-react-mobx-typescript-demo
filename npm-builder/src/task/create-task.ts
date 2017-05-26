@@ -3,31 +3,38 @@ import { Package } from "../package/Package";
 import { TaskContext } from "../task";
 import { contextQuery } from "./context-query";
 
-export const createTask = (context: TaskContext) => {
+export type Exec = (cmd: string) => { code: number };
+
+export const createTask = (context: TaskContext, exec?: Exec) => {
+    exec = exec || shell.exec;
 
     const query = contextQuery(context);
 
     const isEnabled = query.isEnabled();
 
-    if (isEnabled) console.log(
-        query.taskEnabledsDesc()
-    );
+    // if (isEnabled) console.log(query.taskEnabledsDesc());
+    const error: Error = null;
+    const code: any = null;
+    const ret = {
+        name: context.taskName,
+        label: query.taskEnabledsDesc(),
+        state: !isEnabled ? "disabled" : "enabled",
+        isDepedency: false,
+        code,
+        error
+    };
 
     const run = (pkg: Package) => {
+        ret.isDepedency = query.isDependency(pkg);
+        ret.state = !query.isTaskSelectedForPackage(pkg) ? "uselected" : ret.state;
+        if (!isEnabled) return ret;
 
-        if (!isEnabled) return "disabled";
-
-        const isDepedency =  query.isDependency(pkg);
-
-        if (!query.isSelectedForPackage(pkg)) {
-            return "unselected" + (isDepedency ? " [dependency]" : "");
+        ret.code = exec(`npm run ${context.taskName}`).code;
+        if (ret.code !== 0) {
+            ret.error = new Error(`Can't ${context.taskName} ${pkg.name}`);
         }
-
-        if (shell.exec(`npm run ${context.taskName}`).code !== 0) {
-            throw new Error(`Can't ${context.taskName} ${pkg.name}`);
-        }
-
-        return "completed" + (isDepedency ? " [dependency]" : "");
+        ret.state = "completed";
+        return ret;
     };
 
     return { name: context.taskName, run };
