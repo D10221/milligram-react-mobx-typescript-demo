@@ -1,65 +1,71 @@
 import { contextQuery } from "../context-query";
-import { TaskContext } from "../TaskContext";
-import { Package } from "../../package/Package";
 import * as assert from "assert";
 import { isNull } from "util";
 
 describe("context query", () => {
     it("finds", () => {
-        const packages: Package[] = [
-            { name: "a", dependencies: { c: "" }, version: "0.0.0" },
-            { name: "b", dependencies: { c: "" } },
-            { name: "c", dependencies: { b: "" } }];
-        const packageSelection = packages.slice(1, 2);
-        const packageFilterList = ["b"];
-        const tasks = ["xtest"];
-        const ctx: TaskContext = {
-            packages,
-            packageSelection,
-            taskName: "testTask",
-            packageFilterList,
-            tasks
-        };
-        const query = contextQuery(ctx);
 
+        const query = contextQuery(
+            {
+                // all packages
+                packages: [
+                    { name: "a", dependencies: { c: "" }, version: "0.0.0" },
+                    { name: "b", dependencies: { c: "" } },
+                    { name: "c", dependencies: { b: "" } }],
+                // selcted packages: any if !length
+                packageSelection: [{ name: "a" }, { name: "b" }],
+                // required
+                taskName: "t",
+                // task package filter
+                taskPackageFilter: ["b"],
+                tasks: ["t"]
+            }
+        );
         assert.equal(query.findPackageByName("a").version, "0.0.0");
         assert.ok(!isNull(query.findInPackageSelectionByName("a")));
-        assert.ok(!isNull(query.findInFilterList(packages[1])));
+        assert.ok(!isNull(query.findInFilterList({ name: "b" })));
     });
     it("?", () => {
-        const packages = [{ name: "x" }];
-        const ctx: TaskContext = {
-            packages,
-            packageSelection: packages,
+        const query = contextQuery({
+            packages: [{ name: "x" }],
+            packageSelection: [{ name: "x" }],
             taskName: "x",
-            packageFilterList: [], // any
+            taskPackageFilter: [], // any
             tasks: ["x"]
-        };
-        const query = contextQuery(ctx);
+        });
         assert.ok(query.isEnabled());
-        assert.ok(!query.isDependency(packages[0]));
-        assert.ok(query.isTaskSelectedForPackage(packages[0]));
+        assert.ok(!query.isDependency([{ name: "x" }]));
+        assert.ok(query.isTaskSelectedForPackage({ name: "x" }));
     });
     it("??", () => {
 
         const q = contextQuery({
-            packages: [{ name: "x" }, { name: "b", dependencies: {} }],
-            packageSelection: [{ name: "x" }],
-            taskName: "x",
-            packageFilterList: [], // any
-            tasks: ["t"]
+            packages: [{ name: "a" }, { name: "b", dependencies: { x: "1" } }],
+            packageSelection: [], // any
+            taskName: "t2",
+            taskPackageFilter: [], // any
+            tasks: ["t", "t1"]
         });
         assert.ok(!q.isEnabled());
         assert.ok(q.isDependency({ name: "x" }));
         assert.ok(!q.isTaskSelectedForPackage({ name: "x" }));
         assert.ok(q.ignoreDependency());
     });
+    it("throws no package not found in packages", () => {
+        assert.throws(() => contextQuery({
+            packages: [],
+            packageSelection: [],
+            taskName: "t",
+            taskPackageFilter: ["x"],
+            tasks: ["t"]
+        }));
+    });
     it("throws no task found", () => {
         assert.throws(() => contextQuery({
             packages: [],
             packageSelection: [],
             taskName: "",
-            packageFilterList: [],
+            taskPackageFilter: [],
             tasks: []
         }));
     });
@@ -68,7 +74,7 @@ describe("context query", () => {
             packages: [],
             packageSelection: [],
             taskName: "",
-            packageFilterList: [],
+            taskPackageFilter: [],
             tasks: ["x"]
         }));
     });
@@ -77,7 +83,7 @@ describe("context query", () => {
             packages: [{ name: "x" }, { name: "b", dependencies: { x: "x" } }],
             packageSelection: [{ name: "x" }],
             taskName: "x",
-            packageFilterList: ["+"], // any + deps
+            taskPackageFilter: ["+"], // any + deps
             tasks: ["t"]
         });
         assert.ok(!q.ignoreDependency());
@@ -87,7 +93,7 @@ describe("context query", () => {
             packages: [{ name: "x" }, { name: "b", dependencies: { x: "x" } }],
             packageSelection: [{ name: "x" }],
             taskName: "x",
-            packageFilterList: ["x", "+"], // any + deps
+            taskPackageFilter: ["x", "+"], // any + deps
             tasks: ["t"]
         });
         assert.ok(!q.ignoreDependency() && q.isTaskSelectedForPackage({ name: "x" }));

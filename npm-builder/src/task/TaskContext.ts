@@ -4,5 +4,5 @@ export interface TaskContext {
     packageSelection: Package[];
     packages: Package[];
     tasks: string[];
-    packageFilterList: string[];
+    taskPackageFilter: string[];
 }

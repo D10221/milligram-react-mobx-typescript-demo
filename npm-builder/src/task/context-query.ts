@@ -17,8 +17,8 @@ export const contextQuery = (context: TaskContext) => {
         return context.packageSelection.find(p => p.name === name);
     };
 
-    const filterList = context.packageFilterList.filter(x => !_switch.test(x));
-    const switches = context.packageFilterList.filter(x => _switch.test(x));
+    const filterList = context.taskPackageFilter.filter(x => !_switch.test(x));
+    const switches = context.taskPackageFilter.filter(x => _switch.test(x));
     const anyPackage = !filterList.length;
 
     if (!anyPackage) {

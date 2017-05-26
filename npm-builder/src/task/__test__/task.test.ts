@@ -13,7 +13,7 @@ describe("task", () => {
             packages: [],
             packageSelection: [],
             taskName: "x",
-            packageFilterList: [], // any + deps
+            taskPackageFilter: [], // any + deps
             tasks: []
         }, exec);
         assert.deepEqual(task.run({ name: "x" }).state, { state: "disabled" }.state);
@@ -25,7 +25,7 @@ describe("task", () => {
             packages: [{ name: "x" }, { name: "b", dependencies: { x: "x" } }],
             packageSelection: [{ name: "x" }],
             taskName: "t",
-            packageFilterList: ["x", "+"], // any + deps
+            taskPackageFilter: ["x", "+"], // any + deps
             tasks: ["t"]
         }, exec);
         assert.equal(task.run({ name: "x" }).state, "completed");
