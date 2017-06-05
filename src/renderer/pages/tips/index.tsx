@@ -5,14 +5,7 @@ import { Codes as Code } from "milligrami/lib/codes";
 import { Description } from "milligrami/lib/description";
 import { Row } from "milligrami/lib/row";
 import { Column } from "milligrami/lib/column";
-
 import { ButtonLinkFty } from "milligrami/lib/button-link-fty";
-
-/**
- * css extension is only relevant at design time
- * will be imported as plain-text
- */
-const css = require("raw-loader!./code.css");
 
 const SubHeader = (props: { text?: string } & React.HTMLProps<HTMLElement>) => (
     <p><strong>{props.text || props.children}</strong></p>
@@ -21,7 +14,6 @@ const HeadingFont = (props: React.HTMLProps<HTMLSpanElement>) => (
     // import style: TODO
     <span className="heading-font-size" {...props} />
 );
-
 
 const OUTLINE = "outline";
 const CLEAR = "clear";
@@ -71,7 +63,28 @@ export const Page = () => (
                     </li>
                 </ul>>
             </Row>
-            <Code >{css}</Code>
+            <Code >{`
+/* Mobile First Media Queries */
+
+/* Base style
+    { ... }
+*/
+
+/* Larger than mobile screen */
+@media (min-width: 40.0rem) {
+    /*... */
+}
+
+/* Larger than tablet screen */
+@media (min-width: 80.0rem) {
+    /*... */
+}
+
+/* Larger than desktop screen */
+@media (min-width: 120.0rem) {
+     /*... */
+}
+                `}</Code>
             <SubHeader>Embed Font</SubHeader>
             <p><strong>Milligram</strong> uses the <code>font-family</code>
                 <a href="https://www.google.com/fonts/specimen/Roboto"

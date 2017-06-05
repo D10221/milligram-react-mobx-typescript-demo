@@ -1,3 +1,4 @@
+export const code = `
 <!--HTML-->
 
 <!-- Default Button -->
@@ -21,3 +22,4 @@
 <ButtonInputClear type="submit" value="Clear Input Button" />
 <br />
 <ButtonInputOutline type="submit" value="Outlined Input Button" />
+`;

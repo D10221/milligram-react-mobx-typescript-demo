@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Page as Generic } from "../page";
-const code = require("raw-loader!./code.html");
+import {code} from "./code";
 import { ButtonClear } from "milligrami/lib/button-clear";
 import { ButtonLink } from "milligrami/lib/button-link";
 import { ButtonOutline } from "milligrami/lib/button-outline";

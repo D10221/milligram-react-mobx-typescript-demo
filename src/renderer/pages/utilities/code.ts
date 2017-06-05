@@ -1,3 +1,4 @@
+export const code = `
 <!-- Functional Classes -->
 
 <!-- Clear any float  -->
@@ -7,4 +8,5 @@
     <div class="float-left"></div>
     <div class="float-right"></div>
 
-</div>
+</div>`;
+

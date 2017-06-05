@@ -1,3 +1,4 @@
+export const code = `
 <table>
   <thead>
     <tr>
@@ -26,3 +27,4 @@
 <!-- Prior to the creation of CSS, HTML <table> elements were often used as a method for page layout. -->
 <!-- This usage has been discouraged since HTML4,-->
 <!-- and the <table> element should not be used for layout purposes.-->
+`;

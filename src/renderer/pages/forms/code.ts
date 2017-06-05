@@ -1,3 +1,4 @@
+export const code = `
 <form>
   <fieldset>
     <label for="nameField">Name</label>
@@ -19,4 +20,4 @@
   </fieldset>
 </form>
 
-<!-- Always wrap checkbox and radio inputs in a label and use a <span class="label-inline"> inside of it -->
+<!-- Always wrap checkbox and radio inputs in a label and use a <span class="label-inline"> inside of it -->`;

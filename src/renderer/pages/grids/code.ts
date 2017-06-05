@@ -1,3 +1,4 @@
+export const code = `
 <!-- .container is main centered wrapper -->
 <div class="container">
 
@@ -15,4 +16,4 @@
 
 </div>
 
-<!-- Every .column added inside a .row will automatically receive an equal amount of the available area. -->
+<!-- Every .column added inside a .row will automatically receive an equal amount of the available area. -->`;

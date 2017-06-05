@@ -5,8 +5,6 @@ import { Codes as Code } from "milligrami/lib/codes";
 import { Description } from "milligrami/lib/description";
 import { ButtonLinkDownload as Download } from "milligrami/lib/button-link-download";
 
-const installHtml = require("raw-loader!./install-html.html");
-const tree = require("raw-loader!./tree.md");
 const SubHeader = (props: { text?: string } & React.HTMLProps<HTMLElement>) => (
     <p><strong>{props.text || props.children}</strong></p>
 );
@@ -39,14 +37,34 @@ export const Page = () => (
             <p>Once downloaded,
                 extract the compressed folder to see the main file in the uncompressed and minified version.</p>
         </Container>
-        <Code >{tree}</Code>
+        <Code >{`
+milligram/
+├── examples/
+│   └── index.html
+├── dist/
+│   ├── milligram.css
+│   └── milligram.min.css
+├── license
+└── readme.md
+            `}</Code>
         <SubHeader>Usage</SubHeader>
         <p>First, use any method mentioned above to download Milligram. Then, just add these tags in the head. Milligram
             is also available via
             <a href="https://cdnjs.com/libraries/milligram"
                 title="Milligram is also available via CDN"
                 target="_blank"> CDN</a>.</p>
-        <Code>{installHtml}</Code>
+        <Code>{`
+            <!-- Google Fonts -->
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+
+<!-- CSS Reset -->
+<link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+
+<!-- Milligram CSS minified -->
+<link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+<!-- You should properly set the path from the main file. -->
+            `}</Code>
         <SubHeader>CLI</SubHeader>
         <p>A CLI for getting started with Milligram. It offers a super simple boilerplate project with Milligram.</p>
         <Code>

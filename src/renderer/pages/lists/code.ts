@@ -1,3 +1,4 @@
+export const code = `
 <!-- Unordered list -->
 <ul>
   <li>Unordered list item 1</li>
@@ -15,4 +16,4 @@
   <dt>Description list item 1</dt>
   <dd>Description list item 1.1</dd>
 </dl>
-<!-- Easily change any <dl>, <ul> or an <ol> to get clear lists, number lists or outline circles. -->
+<!-- Easily change any <dl>, <ul> or an <ol> to get clear lists, number lists or outline circles. -->`;

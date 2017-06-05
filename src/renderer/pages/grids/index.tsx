@@ -3,7 +3,7 @@ import { Page as Generic } from "../page";
 import { Container } from "milligrami/lib/container";
 import { Column } from "milligrami/lib/column";
 import { Row } from "milligrami/lib/row";
-const code = require("raw-loader!./code.html");
+import {code} from "./code";
 
 const ColumnDemo = (props: React.HTMLProps<HTMLDivElement>) => (
     <div className="column-demo" {...props} />

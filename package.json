@@ -17,7 +17,7 @@
     "build": "node ./scripts/build.js",
     "format": "tsfmt -r",
     "clean": "rimraf ./built",
-    "rebuild": "rimraf ./built && node run build",
+    "rebuild": "rimraf ./built && npm run build",
     "start": "electron .",
     "png-to-icns": "nicns --in esources/icon.png --out icon.icns",
     "pack": "node_modules/.bin/build"

@@ -1,5 +1,5 @@
 import * as React from "react";
-const code = require("raw-loader!./code.html");
+import {code} from "./code";
 import { Page as Generic } from "../page";
 
 export const Page = () => (

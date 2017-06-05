@@ -4,7 +4,7 @@ import { FloatRight } from "milligrami/lib/float-right";
 import { LabelInline } from "milligrami/lib/label-inline";
 import { ButtonInputPrimary } from "milligrami/lib/button-input-primary";
 
-const code = require("raw-loader!./code.html");
+import {code} from "./code";
 export const Page = () => (
     <Generic
         title="Forms"
@@ -43,4 +43,3 @@ help to make this much easier with design focused on the user experience.
         </form>
     </Generic>
 );
-

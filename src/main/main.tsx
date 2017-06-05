@@ -6,9 +6,10 @@ import * as path from "path";
 let win: Electron.BrowserWindow;
 app.on("ready", () => {
     win = new BrowserWindow({
+        autoHideMenuBar: true,
         show: false,
-        width: 400,
-        height: 400,
+        width: 600,
+        height: 800,
         icon: path.join(
             __dirname,
             "../../",

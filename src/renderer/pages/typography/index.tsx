@@ -1,7 +1,6 @@
 import * as React from "react";
 import { styles } from "../../styles";
 import { Page as Generic } from "../page";
-const code = require("raw-loader!./code.html") as string;
 
 const HeadingFont = (props: React.HTMLProps<HTMLSpanElement>) => (
     <span style={styles.headingFontSize} {...props} />
@@ -26,7 +25,28 @@ export const Page = () => {
     // ...
     return (
         <Generic title="Typography"
-            code={code}
+            code={`
+
+<!-- Base font-size and line-height -->
+<p>The base type is 1.6rem (16px) over 1.6 line height (24px)</p>= '\n\n'
+<!-- Other elements to text markup -->
+<a>Anchor</a>
+<em>Emphasis</em>
+<small>Small</small>
+<strong>Strong</strong>
+<u>Underline</u>
+<!-- Default Headings -->
+<h1>Heading</h1>
+<h2>Heading</h2>
+<h3>Heading</h3>
+<h4>Heading</h4>
+<h5>Heading</h5>
+<h6>Heading</h6>
+<!-- The base font-size is set at 62.5%\n
+for having the convenience of sizing rems\n
+in a way that is similar to using px.\n
+So basically 1.6rem = 16px. -->\n
+            `}
             description={<MyDescription />} >
             <h1>Heading<HeadingFont> <code>h1</code> 4.6rem (46px)</HeadingFont></h1>
             <h2>Heading<HeadingFont> <code>h2</code> 3.6rem (36px)</HeadingFont></h2>
@@ -37,4 +57,3 @@ export const Page = () => {
         </Generic>
     );
 };
-

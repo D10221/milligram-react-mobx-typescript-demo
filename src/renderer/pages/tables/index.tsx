@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Page as Generic } from "../page";
-const code = require("raw-loader!./code.html");
+import {code} from "./code";
 
 export const Page = () => (
     <Generic title="Tables"
