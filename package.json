@@ -97,12 +97,5 @@
     "index": "built/index.html",
     "icon": "resources/favicon.ico",
     "trayIcon": "resources/icon-16x16.png"
-  },
-  "local": {
-    "client": "file:packages/client",
-    "electron-json-storage-async": "file:packages/electron-json-storage-async",
-    "electron-window-state": "file:packages/electron-window-state",
-    "main": "file:packages/main",
-    "milligrami": "file:packages/milligrami"
   }
 }
