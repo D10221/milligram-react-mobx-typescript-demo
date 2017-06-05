@@ -34,7 +34,8 @@
             false
         ],
         "arrow-parens": false,
-        "no-var-requires": false
+        "no-var-requires": false,
+        "curly": false
     },
     "rulesDirectory": []
 }

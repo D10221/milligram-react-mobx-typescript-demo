@@ -1,0 +1,7 @@
+{
+    "DisplayName": "Milligramo",
+    "scripts":[ "index.js"],
+    "styles": ["index.css"],
+    "outDir": "built",
+    "fileName": "index.html"
+}

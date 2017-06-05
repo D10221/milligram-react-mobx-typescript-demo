@@ -8,25 +8,19 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/D10221/milligram-react-mobx-typescript-demo"
+    "url": "git+https://github.com/D10221/milligram-react-mobx-typescript-demo.git"
   },
   "scripts": {
     "release": "build",
-    "postinstall": "goofoffline outDir=\"src/fonts\" \"https://fonts.googleapis.com/css?family=Roboto\"",
-    "link": "npm link electron",
+    "download:font": "rimraf ./fonts && goofoffline outDir=\"./fonts\" \"https://fonts.googleapis.com/css?family=Roboto\"",
     "test": "mocha test.js",
-    "build": "npm run build:main && npm run bundle",
-    "build:main": "tsc -p . ",
-    "build:main+bundle:client": "tsc -p . && npm run bundle:client",
+    "build": "node ./scripts/build.js",
     "format": "tsfmt -r",
     "clean": "rimraf ./built",
-    "rebuild": "npm run clean && npm run build && npm run bundle",
+    "rebuild": "rimraf ./built && npm run build",
     "start": "electron .",
-    "bundle:vendor": "webpack --config webpack/vendor.webpack.config.js",
-    "bundle:client": "webpack --config webpack/webpack.config.js",
-    "bundle": "npm run bundle:vendor && npm run bundle:client",
-    "re:build": "npm run clean && npm run build",
-    "png-to-icns": "nicns --in esources/icon.png --out icon.icns"
+    "png-to-icns": "nicns --in esources/icon.png --out icon.icns",
+    "pack": "node_modules/.bin/build"
   },
   "keywords": [
     "miligram",
@@ -36,43 +30,51 @@
     "typescript"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/debug": "0.0.29",
-    "@types/electron": "^1.4.37",
     "@types/electron-json-storage": "0.0.19",
     "@types/mocha": "^2.2.41",
-    "@types/react": "^15.0.24",
+    "@types/react": "^15.0.25",
     "@types/react-dom": "^15.5.0",
     "@types/react-router": "^4.0.9",
+    "@types/shelljs": "^0.7.1",
+    "@types/winston": "^2.3.2",
+    "babel-cli": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "copy-webpack-plugin": "^4.0.1",
-    "css-loader": "^0.28.1",
-    "electron": "^1.6.8",
-    "electron-builder": "^17.8.0",
-    "file-loader": "^0.11.1",
+    "css-loader": "^0.28.3",
+    "electron": "^1.6.10",
+    "google-fonts-offline": "^0.1.2",
     "html-webpack-plugin": "^2.28.0",
-    "mocha": "^3.3.0",
+    "node-sass": "^4.5.3",
     "raw-loader": "^0.5.1",
-    "rimraf": "^2.6.1",
-    "style-loader": "^0.17.0",
-    "ts-loader": "^2.0.3",
-    "tslint": "^5.2.0",
-    "typescript": "^2.3.2",
-    "typescript-formatter": "^5.2.0",
+    "schema-utils": "^0.3.0",
+    "style-loader": "^0.18.1",
+    "ts-loader": "^2.1.0",
     "url-loader": "^0.5.8",
-    "webpack": "^2.5.1"
+    "webpack": "^2.6.1",
+    "yargs": "^8.0.1"
   },
   "dependencies": {
-    "debug": "^2.6.6",
+    "argos": "git+https://github.com/D10221/argos.git",
+    "debug": "^2.6.8",
     "electron-json-storage": "^3.0.5",
     "milligram": "^1.3.0",
-    "milligram-themes-clone": "git+https://github.com/D10221/milligram-themes.git#_dev_000_",
-    "mobx": "^3.1.9",
+    "milligrami": "github:d10221/milligrami",
+    "mobx": "^3.1.10",
     "mobx-react": "^4.1.8",
     "mobx-react-router": "^4.0.1",
+    "mocha": "^3.4.1",
+    "npm-builder": "git+https://github.com/D10221/npm-builder.git",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-router": "^4.1.1"
+    "react-router": "^4.1.1",
+    "shelljs": "^0.7.7",
+    "typescript": "^2.3.3",
+    "winston": "^2.3.1"
   },
   "build": {
     "appId": "milligramo",
@@ -80,7 +82,8 @@
       "built",
       "node_modules",
       "resources",
-      "main.js"
+      "main.js",
+      "package.json"
     ],
     "mac": {},
     "dmg": {
@@ -103,5 +106,21 @@
         "deb"
       ]
     }
+  },
+  "bugs": {
+    "url": "https://github.com/D10221/milligram-react-mobx-typescript-demo/issues"
+  },
+  "homepage": "https://github.com/D10221/milligram-react-mobx-typescript-demo#readme",
+  "window": {
+    "index": "built/index.html",
+    "icon": "resources/favicon.ico",
+    "trayIcon": "resources/icon-16x16.png"
+  },
+  "local": {
+    "client": "file:packages/client",
+    "electron-json-storage-async": "file:packages/electron-json-storage-async",
+    "electron-window-state": "file:packages/electron-window-state",
+    "main": "file:packages/main",
+    "milligrami": "file:packages/milligrami"
   }
 }
