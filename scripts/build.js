@@ -2,7 +2,7 @@
 const shell = require("shelljs");
 process.exit(
     shell.exec(
-    "rimraf ./built && tsc -p . && node-sass ./src/ -o ./built/"
+    "rimraf ./built && tsc -p . && node-sass ./src/ -o ./built/ && node ./scripts/index-page --run src/main/index.json"
     ).code
 )
 // 

@@ -12,7 +12,7 @@
   },
   "scripts": {
     "release": "build",
-    "download:font": "goofoffline outDir=\"src/fonts\" \"https://fonts.googleapis.com/css?family=Roboto\"",
+    "download:font": "rimraf ./fonts && goofoffline outDir=\"./fonts\" \"https://fonts.googleapis.com/css?family=Roboto\"",
     "test": "mocha test.js",
     "build": "node ./scripts/build.js",
     "format": "tsfmt -r",
@@ -47,6 +47,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.3",
     "electron": "^1.6.10",
+    "google-fonts-offline": "^0.1.2",
     "html-webpack-plugin": "^2.28.0",
     "node-sass": "^4.5.3",
     "raw-loader": "^0.5.1",

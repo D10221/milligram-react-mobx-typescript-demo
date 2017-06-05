@@ -1,6 +1,6 @@
 {
     "DisplayName": "Milligramo",
-    "scripts":[ "window.js"],
+    "scripts":[ "index.js"],
     "styles": ["index.css"],
     "outDir": "built",
     "fileName": "index.html"
