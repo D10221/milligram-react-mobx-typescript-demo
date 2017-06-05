@@ -48,7 +48,7 @@
   "dependencies": {
     "debug": "^2.6.8",
     "milligram": "^1.3.0",
-    "milligrami": "github:d10221/milligrami",
+    "milligrami": "0.0.4-0",
     "mobx": "^3.1.10",
     "mobx-react": "^4.1.8",
     "mobx-react-router": "^4.0.1",
